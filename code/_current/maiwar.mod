@@ -223,15 +223,16 @@ maximize pres_disc_val 'present discounted value of utilities'
   {s in PathTimes}:
     sum{t in LookForward} BETA ^ (t - LInf) * utility[t, s]
       + BETA ^ (LSup - LInf) * tail_val[s];
-#subject to accum_kap_eq 'accumulation of kapital'
-#  {r in Regions, j in Sectors, t in LookForward, s in PathTimes}:
-#    kap[r, j, t + 1, s]
-#      = (1 - DELTA[j]) * kap[r, j, t, s] + inv_sec[r, j, t, s];
+subject to accum_kap_eq 'accumulation of kapital'
+  {r in Regions, j in Sectors, t in LookForward, s in PathTimes}:
+    kap[r, j, t + 1, s]
+      = (1 - DELTA[j]) * kap[r, j, t, s] + inv_sec[r, j, t, s];
 subject to market_clearing_eq 'market clearing for each sector and time'
   {i in Sectors, t in LookForward, s in PathTimes}:
-    sum{r in Regions}(con[r, i, t, s] + sum{j in Sectors}(inv[r, i, j, t, s])
-      + adj_cost_kap[r, i, t, s])
-      <= sum{r in Regions} E_shk[r, i, t] * output[r, i , t, s];
+    sum{r in Regions}(
+      con[r, i, t, s] + sum{j in Sectors}(inv[r, i, j, t, s])
+      + adj_cost_kap[r, i, t, s] - E_shk[r, i, t] * output[r, i , t, s]
+      ) <= 0;
 subject to jacobi_identities 'Intertemporal constraints on investment'
   {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes,
     ii in Sectors: 1 < ord(j) and i <> j}:
@@ -252,7 +253,7 @@ for {r in Regions, i in Sectors}{
 }
 
 option solver conopt;
-option solver baron;
+#option solver baron;
 #option baron_options trace;
 option show_stats 1;
 #-----------display some parameter values:
