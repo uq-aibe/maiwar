@@ -78,11 +78,11 @@ param LAB 'observed labour' {Regions, Sectors, PathTimes} default 1e+0
   in (OInf, OSup); # Conopt suggest rescaling if not in this range
 param KAP 'observed kapital' {Regions, Sectors, PathTimes} default 1e+0 
   in (OInf, OSup); # Conopt suggest rescaling if not in this range
-param OUTPUT 'observed output' {Regions, Sectors, PathTimes} default 1e+0 
+param E_OUTPUT 'observed Exp. output' {Regions, Sectors, PathTimes} default 1e+0 
   in (OInf, OSup); # Conopt suggest rescaling if not in this range
 param ADJ_COST_KAP 'observed adjustment costs of kapital'
-  {Regions, Sectors, PathTimes} default 1e+0 
-  in (OInf, OSup); # Conopt suggest rescaling if not in this range
+  {Regions, Sectors, PathTimes} default 0 
+  in [0, OSup); # Conopt suggest rescaling if not in this range
 param MKT_CLR 'observed output' {Sectors, PathTimes} default 0 
   in (-1e-4, 1e-4); 
 /*=============================================================================
@@ -172,9 +172,10 @@ var adj_cost_kap_Q 'quadratic adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
   = PHI_ADJ[i] * kap[r, i, t, s]
     * (kap[r, i, t + 1, s] / kap[r, i, t, s] - 1) ^ 2;
-var output_CD 'Cobb-Douglas output transformation'
+var E_output_CD 'Cobb-Douglas output transformation'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
-  = kap[r, i, t, s] ^ ALPHA[i] * lab[r, i, t, s] ^ (1 - ALPHA[i]);
+  = E_shk[r, i, t] 
+    * kap[r, i, t, s] ^ ALPHA[i] * lab[r, i, t, s] ^ (1 - ALPHA[i]);
 var utility_CD 'Cobb-Douglas instantaneous utility'
   {t in LookForward, s in PathTimes}
   = sum{r in Regions}
@@ -203,9 +204,9 @@ var tail_val_CD 'Cobb-Douglas continuation value from time LSup + LInf onwards'
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
-var output 'current intermediate variable for output'
+var E_output 'current intermediate variable for output'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
-    = output_CD[r, i, t, s];
+    = E_output_CD[r, i, t, s];
 var inv_sec 'current intermediate variable for aggregated investment'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
     = inv_sec_CD[r, j, t, s];
@@ -231,9 +232,9 @@ subject to market_clearing_eq 'market clearing for each sector and time'
   {i in Sectors, t in LookForward, s in PathTimes}:
     sum{r in Regions}(
       con[r, i, t, s] + sum{j in Sectors}(inv[r, i, j, t, s])
-      + adj_cost_kap[r, i, t, s] - E_shk[r, i, t] * output[r, i , t, s]
+      + adj_cost_kap[r, i, t, s] - E_output[r, i , t, s]
       ) <= 0;
-subject to jacobi_identities 'Intertemporal constraints on investment'
+subject to jacobi_id 'Intertemporal constraints on investment'
   {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes,
     ii in Sectors: 1 < ord(j) and i <> j}:
       inv[r, i, j, t, s]
@@ -246,8 +247,8 @@ The data
 =============================================================================*/
 update data Regions, Sectors;
 data;
-set Regions := Qld Aus;# RoW;
-set Sectors := Agrc Mnfc;# Srvc;
+set Regions := Qld RoA RoW;
+set Sectors := Agrc Mnfc Srvc;
 for {r in Regions, i in Sectors}{
 #  let B[r, i] := 1 / (card(Regions) * card(Sectors));
 }
@@ -274,22 +275,29 @@ for {s in PathTimes}{
     display s;
     for {r in Regions, i in Sectors}{
 #-----------save actual path values to parameter
-      let CON[r, i, s] := con[r, i, 1, s - 1];
-      let INV_SEC[r, i, s] := inv_sec[r, i, 1, s - 1];
-      let INV_SUM[r, i, s] := sum{j in Sectors} inv[r, i, j, 1, s - 1];
-      let LAB[r, i, s] := lab[r, i, 1, s - 1];
-      let KAP[r, i, s] := kap[r, i, 1, s - 1];
-      let OUTPUT[r, i, s] := output[r, i, 1, s - 1];
-      let ADJ_COST_KAP[r, i, s] := adj_cost_kap[r, i, 1, s - 1];
-      let MKT_CLR[i, s] := sum{rr in Regions}(OUTPUT[rr, i, s] - CON[rr, i, s]
-        - INV_SUM[rr, i, s] - ADJ_COST_KAP[rr, i, s]);
+      let CON[r, i, s - 1] := con[r, i, 0, s - 1];
+      let INV_SEC[r, i, s - 1] := inv_sec[r, i, 0, s - 1];
+      let INV_SUM[r, i, s - 1] := sum{j in Sectors} inv[r, i, j, 0, s - 1];
+      let LAB[r, i, s - 1] := lab[r, i, 0, s - 1];
+      let E_OUTPUT[r, i, s - 1] := E_output[r, i, 0, s - 1];
+      let ADJ_COST_KAP[r, i, s - 1] := adj_cost_kap[r, i, 0, s - 1];
 #-----------update kapital (CJ call this the simulation step)
+      let KAP[r, i, s] := kap[r, i, 1, s - 1];
       fix kap[r, i, LInf, s] := KAP[r, i, s];
     };
-    display s, OUTPUT, CON, INV_SUM, ADJ_COST_KAP,
+    for {i in Sectors}{
+      let MKT_CLR[i, s - 1] := sum{rr in Regions}(
+        E_OUTPUT[rr, i, s - 1] 
+        - CON[rr, i, s - 1]
+        - INV_SUM[rr, i, s - 1 ] 
+        - ADJ_COST_KAP[rr, i, s - 1]
+        );
+      };
+    display s, E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP,
     MKT_CLR, LAB, KAP
     ;
     objective pres_disc_val[s];
     solve;
   };
 };
+display _ampl_elapsed_time, _total_solve_time;
