@@ -13,7 +13,7 @@ Parameters for generating sets
 =============================================================================*/ 
 param TInf 'infimum of the set of times' default 0;
 param LInf 'start period/infimum of the look forward set', default 0;
-param LSup 'end period/supremum of the look forward set' > LInf, default 1e+1; 
+param LSup 'end period/supremum of the look forward set' > LInf, default 5e+1; 
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
   default 7 >= PInf; 
@@ -48,7 +48,7 @@ param DELTA 'rate of depreciation for kapital' {Sectors} default .025 >= 0;
 param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
 param GAMMA 'intertemporal elasticity of subst.' {Regions} default 5e-1 >= 0;
 param ETA 'Frisch elasticity of labour supply'{Regions} default 5e-1 >= 0;
-param EoS_KAP 'elasticity of substitution for kapital' default 0.1 > 0; 
+param EoS_KAP 'elasticity of substitution for kapital' default 1e-1 > 0; 
 param INV_MIN 'lower bound of investment' default 0 >= 0;
 #param kmin 'smallest capital' default 1e-1 >= 0;
 #param kmax 'largest capital' default 1e+1 >= 0;
@@ -117,7 +117,7 @@ param INV_FLW_RSUM {r in Regions, j in Sectors}
   = sum{i in Sectors} RAW_INV_FLW[r, i, j];
 param INV_SHR "the importance of i in j's kapital"
   {r in Regions, i in Sectors, j in Sectors}
-    = RAW_INV_FLW[r, i, j] / INV_FLW_RSUM[r, j];
+    = (RAW_INV_FLW[r, i, j] / INV_FLW_RSUM[r, j]) ^ EoS_KAP;
 param Pr_shk 'probability of SHK'
   {Regions, Sectors, t in LookForward} = (1 - PROB2) ^ t;
 param E_shk 'expected shock (exogenous)'
@@ -204,10 +204,10 @@ Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
 var E_output 'current intermediate variable for output'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
-    = E_output_CD[r, i, t, s] * 5e+1;
+    = E_output_CD[r, i, t, s] * 5e+0;
 var inv_sec 'current intermediate variable for aggregated investment'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
-    = inv_sec_CD[r, j, t, s];
+    = inv_sec_CES[r, j, t, s];
 var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
     = adj_cost_kap_Q[r, i, t, s];
@@ -232,14 +232,14 @@ subject to market_clearing_eq 'market clearing for each sector and time'
       con[r, i, t, s] + sum{j in Sectors}(inv[r, i, j, t, s])
       + adj_cost_kap[r, i, t, s] - E_output[r, i , t, s]
       ) <= 0;
-subject to jacobi_id 'Intertemporal constraints on investment'
-  {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes,
-    ii in Sectors: 1 < ord(j) and i <> j}:
-      inv[r, i, j, t, s]
-        = (inv[r, i, ii, t, s] / INV_SHR[r, i, ii])
-          / (inv[r, ii, ii, t, s] / INV_SHR[r, ii, ii])
-          * (inv[r, ii, j, t, s] / INV_SHR[r, ii, j])
-          * INV_SHR[r, i, j];
+#subject to jacobi_id 'Intertemporal constraints on investment'
+#  {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes,
+#    ii in Sectors: 1 < ord(j) and i <> j}:
+#      inv[r, i, j, t, s]
+#        = (inv[r, i, ii, t, s] / INV_SHR[r, i, ii])
+#          / (inv[r, ii, ii, t, s] / INV_SHR[r, ii, ii])
+#          * (inv[r, ii, j, t, s] / INV_SHR[r, ii, j])
+#          * INV_SHR[r, i, j];
 /*=============================================================================
 The_data
 =============================================================================*/
@@ -258,8 +258,11 @@ data;
 #set Regions := SEQ RoQ RoA;
 #set Sectors := Agrc Frst Mnfc Srvc;
 #-----------3x5 model
-set Regions := SEQ RoQ RoA;
-set Sectors := Agrc Frst Mnfc Srvc Trns;
+#set Regions := SEQ RoQ RoA;
+#set Sectors := Agrc Frst Mnfc Srvc Trns;
+#-----------3x6 model
+#set Regions := SEQ RoQ RoA;
+#set Sectors := Agrc Frst Mnfc Srvc Trns Utlt;
 ##-----------4x4
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := Agrc Frst Mnfc Srvc;# Trns Utlt;
@@ -267,8 +270,8 @@ set Sectors := Agrc Frst Mnfc Srvc Trns;
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := Agrc Frst Mnfc Srvc Utlt;
 ##-----------4x6
-#set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc Frst Mnfc Srvc Trns Utlt;
+set Regions := SEQ RoQ RoA RoW;
+set Sectors := Agrc Elct Frst Mnfc Srvc Trns Utlt;
 #-----------display some parameter values:
 display  CON_SHR, LAB_SHR, INV_SHR;
 /*=============================================================================
@@ -291,8 +294,8 @@ for {s in PathTimes}{
       & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
     write ("b" & InstanceName);
     solve;
+    #solution (InstanceName & ".sol");
     display _ampl_elapsed_time, _total_solve_time;
-    write ("g" & InstanceName);
   }
   else {
     #let LInf := s;
@@ -334,8 +337,8 @@ for {s in PathTimes}{
       & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
     write ("b" & InstanceName);
     solve;
+    #solution (InstanceName & ".sol");
     display s, _ampl_elapsed_time, _total_solve_time,
       E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, MKT_CLR, LAB, KAP;
-    write ("g" & InstanceName);
   };
 };
