@@ -1,2 +1,2 @@
 # maiwar
-Model of Australian Industry With Attention on Regions (MAIWAR)
+Model of Australian Industry With Attention to the Regions (MAIWAR)
