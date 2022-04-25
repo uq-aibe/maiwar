@@ -1,0 +1,34 @@
+#!/bin/bash
+#runTask.sh
+#this script will parse the input template, load the module and run AMPL
+
+WORKDIR="/scratch/user/uqpocall/.../NimrodRuns/RunA"
+
+cd $WORKDIR
+
+if [ ! -d $WORKDIR/CHK ]; then
+     mkdir $WORKDIR/CHK
+fi
+
+if [ -f CHK/${1}+${2}.chk ]; then
+  exit 0
+fi
+
+
+
+
+mkdir -p $WORKDIR/${1}
+./parser.sh ${1} > ${1}/ampl.mod
+#./parser.sh ${1} ${2} > ${1}+${2}/ampl.mod
+
+module load ampl
+cd ${1}+${2}
+
+ampl ampl.mod
+
+if [ $? -eq 0 ] then
+  touch $WORKDIR/CHK/${1}+${2}.chk
+else
+  echo "Trouble here with ${1}+${2}"
+fi
+

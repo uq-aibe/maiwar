@@ -1,0 +1,14 @@
+#Nimrod Plan File for Patrick
+
+parameter Method label "Methods" text select anyof "inv_sec_CES" "inv_sec_CD"
+
+task main
+        onerror ignore
+        redirect stdout to stdout.txt
+        redirect stderr to stderr.txt
+		exec "/scratch/user/uqpocall/.../runTask.sh"
+        copy stdout.txt /scratch/user/uqpocall/stdout-$jobindex.txt"
+        copy stderr.txt /scratch/user/uqpocall/stderr-$jobindex.txt"
+endtask
+
+

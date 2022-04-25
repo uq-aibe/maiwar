@@ -332,10 +332,9 @@ for {s in PathTimes}{
       kap[r, j, LInf, s] := KAP[r, j, s];
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("~/Documents/_uq-aibe/maiwar-solutions/"
-    #  & time() & "maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display _ampl_elapsed_time, _total_solve_time;
@@ -382,10 +381,9 @@ for {s in PathTimes}{
       
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("~/Documents/_uq-aibe/maiwar-solutions/"
-    #  & time() & "maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display s, _ampl_elapsed_time, _total_solve_time,
