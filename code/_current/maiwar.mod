@@ -222,9 +222,9 @@ var utility_SumPow_Q'utility: SumPow for consumption and quadratic for labour'
     REG_WGHT[r] * (con_sec_SumPow[r, t, s] - lab_sec_Q[r, t, s]);
 var tail_val_SumShr 'SumShr continuation value from time LSup + LInf onwards'
   {s in PathTimes}
-  = sum{r in Regions} sum{i in Sectors} CON_SHR[r, i]
-      * log(TAIL_CON_SHR * A[i] * kap[r, i, LSup + LInf, s] ^ ALPHA[i])
-        / (1 - BETA);
+  = sum{r in Regions} sum{i in Sectors}
+      (TAIL_CON_SHR * A[i] * kap[r, i, LSup + LInf, s] ^ ALPHA[i])
+        ^ CON_SHR[r, i] / (1 - BETA);
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
@@ -240,7 +240,7 @@ var adj_cost_kap 'current adjustment costs for kapital'
 var utility 'current intermediate variable for utility'
   {t in LookForward, s in PathTimes} = utility_logCD_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_SumShr[s]; 
+  {s in PathTimes} = tail_val_SumShr[s] * 1e-1; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/
@@ -293,20 +293,11 @@ data;
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := Agrc PbSc Frst Mnfc Srvc Trns Utlt;
 ##-----------10x8
-#set Regions := CWQ MIW DrD Ftz FNQ NWQ SEQ SWQ NrQ WBB;
-#set Sectors := Agrc PbSc Elct Frst Mnfc Srvc Trns WtSw;
-##-----------7x10
+set Regions := CWQ MIW DrD Ftz FNQ NWQ SEQ SWQ NrQ WBB;
+set Sectors := Agrc PbSc Elct Frst Mnfc Srvc Trns WtSw;
+##-----------7x16
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := F G H I J K L M N PbSc;
-##-----------3x10
-#set Regions := CnQ FNQ Mck;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := F G H I J K L M N PbSc;
-##-----------3x11
-set Regions := CnQ FNQ Mck;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-set Sectors := E F G H I J K L M N PbSc;
-##-----------8x16
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA RoW;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := A B C D E F G H I J K L M N PbSc P;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 ##-----------7x20
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
@@ -329,9 +320,9 @@ for {s in PathTimes}{
       kap[r, j, LInf, s] := KAP[r, j, s];
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
-      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    write ("b" & InstanceName);
+    #let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
+    #write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display _ampl_elapsed_time, _total_solve_time;
@@ -378,9 +369,9 @@ for {s in PathTimes}{
       
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
-      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    write ("b" & InstanceName);
+    #let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
+    #write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display s, _ampl_elapsed_time, _total_solve_time,
