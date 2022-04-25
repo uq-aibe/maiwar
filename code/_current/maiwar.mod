@@ -13,7 +13,7 @@ Parameters for generating sets
 =============================================================================*/ 
 param TInf 'infimum of the set of times' default 0;
 param LInf 'start period/infimum of the look forward set', default 0;
-param LSup 'end period/supremum of the look forward set' > LInf, default 2e+1;
+param LSup 'end period/supremum of the look forward set' > LInf, default 1e+1; 
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
   default 2 >= PInf; 
@@ -112,8 +112,6 @@ option randseed 12345;
 param CON_FLW_SUM {r in Regions} = sum{i in Sectors} RAW_CON_FLW[r, i];
 param CON_SHR 'consumption weights for each good in utility'
   {r in Regions, i in Sectors} = RAW_CON_FLW[r, i] / CON_FLW_SUM[r];
-param CON_SHR_CES 'consumption weights for each good in utility'
-  {r in Regions, i in Sectors} = RAW_CON_FLW[r, i] / CON_FLW_SUM[r] ^ EoS_KAP;
 #-----------labour
 param LAB_FLW_SUM {r in Regions} = sum{i in Sectors} RAW_LAB_FLW[r, i];
 param LAB_SHR 'labour weights for each sector in utility'
@@ -122,9 +120,6 @@ param LAB_SHR 'labour weights for each sector in utility'
 param INV_FLW_RSUM {r in Regions, j in Sectors} 
   = sum{i in Sectors} RAW_INV_FLW[r, i, j];
 param INV_SHR "the importance of i in j's kapital"
-  {r in Regions, i in Sectors, j in Sectors}
-    = (RAW_INV_FLW[r, i, j] / INV_FLW_RSUM[r, j]);
-param INV_SHR_CES "the importance of i in j's kapital"
   {r in Regions, i in Sectors, j in Sectors}
     = (RAW_INV_FLW[r, i, j] / INV_FLW_RSUM[r, j]) ^ EoS_KAP;
 param Pr_shk 'probability of SHK'
@@ -162,9 +157,6 @@ Potential intermediate variables (substituted out during pre-solving)
 var con_sec_CD 'Cobb-Douglas consumption aggregate (across sectors)'
   {r in Regions, t in LookForward, s in PathTimes}
   = prod{i in Sectors} con[r, i, t, s] ^ CON_SHR[r, i];
-var con_sec_CES 'Cobb-Douglas consumption aggregate (across sectors)'
-  {r in Regions, t in LookForward, s in PathTimes}
-  = (sum{i in Sectors} CON_SHR_CES[r, i] * con[r, i, t, s] ^ RHO) ^ RHO_INV;
 var con_sec_SumPow 'Sum of power consumption aggregate (across sectors)'
   {r in Regions, t in LookForward, s in PathTimes}
   = sum{i in Sectors}
@@ -174,8 +166,7 @@ var con_sec_SumShr 'Sum of fractional powers from consumption shares'
   = sum{i in Sectors} con[r, i, t, s] ^ CON_SHR[r, i];
 var inv_sec_CES 'Const. Elast. Subst. investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
-  = (sum{i in Sectors} INV_SHR_CES[r, i, j] * inv[r, i, j, t, s] ^ RHO)
-    ^ RHO_INV;
+  = (sum{i in Sectors} INV_SHR[r, i, j] * inv[r, i, j, t, s] ^ RHO) ^ RHO_INV;
 var inv_sec_CD 'Cobb-Douglas investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
   = prod{i in Sectors} (inv[r, i, j, t, s] ^ INV_SHR[r, i, j]);
@@ -200,11 +191,7 @@ var utility_CD 'Cobb-Douglas instantaneous utility'
   {t in LookForward, s in PathTimes}
   = sum{r in Regions}
     REG_WGHT[r] * (con_sec_CD[r, t, s] - lab_sec_CD[r, t, s]);
-var utility_logCD_Q 'log Cobb-Douglas and Quadratic instantaneous utility'
-  {t in LookForward, s in PathTimes}
-  = sum{r in Regions}
-    REG_WGHT[r] * (log(con_sec_CD[r, t, s]) - lab_sec_Q[r, t, s]);
-var utility_CES_Q 'Const. Elast. Subst. and Quadratic instantaneous utility'
+var utility_CD_Q 'Cobb-Douglas instantaneous utility'
   {t in LookForward, s in PathTimes}
   = sum{r in Regions}
     REG_WGHT[r] * (con_sec_CD[r, t, s] - lab_sec_Q[r, t, s]);
@@ -238,9 +225,9 @@ var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
     = adj_cost_kap_Q[r, i, t, s];
 var utility 'current intermediate variable for utility'
-  {t in LookForward, s in PathTimes} = utility_logCD_Q[t, s];
+  {t in LookForward, s in PathTimes} = utility_SumShr_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_SumShr[s] * 1e-1; 
+  {s in PathTimes} = tail_val_SumShr[s] * 6e-1; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/
@@ -255,10 +242,8 @@ subject to accum_kap_eq 'accumulation of kapital'
 subject to market_clearing_eq 'market clearing for each sector and time'
   {i in Sectors, t in LookForward, s in PathTimes}:
     sum{r in Regions}(
-      con[r, i, t, s]
-      + sum{j in Sectors}(inv[r, i, j, t, s])
-      + adj_cost_kap[r, i, t, s]
-      - E_output[r, i , t, s]
+      con[r, i, t, s] + sum{j in Sectors}(inv[r, i, j, t, s])
+      + adj_cost_kap[r, i, t, s] - E_output[r, i , t, s]
       ) <= 0;
 /*=============================================================================
 The_data
@@ -267,40 +252,37 @@ update data Regions, Sectors;
 data;
 #-----------2x2 model
 #set Regions := SEQ RoQ;
-#set Sectors := Agrc PbSc;
+#set Sectors := Agrc Frst;
 #-----------2x3 model
 #set Regions := SEQ RoQ;
-#set Sectors := Agrc PbSc Mnfc;
+#set Sectors := Agrc Frst Mnfc;
 #-----------2x4 model
 #set Regions := SEQ RoQ;
-#set Sectors := Agrc PbSc Mnfc Srvc;
+#set Sectors := Agrc Frst Mnfc Srvc;
 #-----------3x4 model
 #set Regions := SEQ RoQ RoA;
-#set Sectors := Agrc PbSc Mnfc Srvc;
+#set Sectors := Agrc Frst Mnfc Srvc;
 #-----------3x5 model
 #set Regions := SEQ RoQ RoA;
-#set Sectors := Agrc PbSc Mnfc Srvc Trns;
+#set Sectors := Agrc Frst Mnfc Srvc Trns;
 #-----------3x6 model
 #set Regions := SEQ RoQ RoA;
-#set Sectors := Agrc PbSc Mnfc Srvc Trns Utlt;
+#set Sectors := Agrc Frst Mnfc Srvc Trns Utlt;
 ##-----------4x4
 #set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc PbSc Mnfc Srvc;# Trns Utlt;
+#set Sectors := Agrc Frst Mnfc Srvc;# Trns Utlt;
 ##-----------4x5
 #set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc PbSc Mnfc Srvc Utlt;
+#set Sectors := Agrc Frst Mnfc Srvc Utlt;
 ##-----------4x6
 #set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc PbSc Frst Mnfc Srvc Trns Utlt;
+#set Sectors := Agrc Elct Frst Mnfc Srvc Trns Utlt;
 ##-----------10x8
-set Regions := CWQ MIW DrD Ftz FNQ NWQ SEQ SWQ NrQ WBB;
-set Sectors := Agrc PbSc Elct Frst Mnfc Srvc Trns WtSw;
-##-----------7x16
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
-##-----------7x20
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+#set Regions := CWQ MIW DrD Ftz FNQ NWQ SEQ SWQ NrQ WBB;
+#set Sectors := Agrc Elct Frst Mnfc OUtl Srvc Trns PbSc;
+##-----------10x20
+set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
+set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 #-----------display some parameter values:
 display  CON_SHR, LAB_SHR, INV_SHR;
 /*=============================================================================
@@ -320,9 +302,9 @@ for {s in PathTimes}{
       kap[r, j, LInf, s] := KAP[r, j, s];
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display _ampl_elapsed_time, _total_solve_time;
@@ -369,9 +351,9 @@ for {s in PathTimes}{
       
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s);
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display s, _ampl_elapsed_time, _total_solve_time,
