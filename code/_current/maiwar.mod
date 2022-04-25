@@ -13,7 +13,7 @@ Parameters for generating sets
 =============================================================================*/ 
 param TInf 'infimum of the set of times' default 0;
 param LInf 'start period/infimum of the look forward set', default 0;
-param LSup 'end period/supremum of the look forward set' > LInf, default 3e+1;
+param LSup 'end period/supremum of the look forward set' > LInf, default 2e+1;
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
   default 2 >= PInf; 
@@ -86,7 +86,7 @@ param ADJ_COST_KAP 'observed adjustment costs of kapital'
   {Regions, Sectors, PathTimes} default 0 in [0, OSup);
 param MKT_CLR 'observed output' {Sectors, PathTimes} default 0 in (-1e-4, 1e-4); 
 param JAC_ID 'observed jacobi identity' {Regions, Sectors, Sectors, PathTimes}
-  default 0 in (-1e-1, 1e-1);
+  default 0 in (-1e+1, 1e+1);
 /*=============================================================================
 Computed parameters
 =============================================================================*/
@@ -220,11 +220,11 @@ var utility_SumPow_Q'utility: SumPow for consumption and quadratic for labour'
   {t in LookForward, s in PathTimes}
   = sum{r in Regions}
     REG_WGHT[r] * (con_sec_SumPow[r, t, s] - lab_sec_Q[r, t, s]);
-var tail_val_logCD 'SumShr continuation value from time LSup + LInf onwards'
+var tail_val_SumShr 'SumShr continuation value from time LSup + LInf onwards'
   {s in PathTimes}
-  = sum{r in Regions} REG_WGHT[r] * (sum{i in Sectors} CON_SHR[r, i] * (
-      TAIL_CON_SHR * 5e+0 * ALPHA[i] * log( kap[r, i, LSup + LInf, s])
-      ) / (1 - BETA) - .4);
+  = sum{r in Regions} sum{i in Sectors} CON_SHR[r, i]
+      * log(TAIL_CON_SHR * A[i] * kap[r, i, LSup + LInf, s] ^ ALPHA[i])
+        / (1 - BETA);
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
@@ -240,7 +240,7 @@ var adj_cost_kap 'current adjustment costs for kapital'
 var utility 'current intermediate variable for utility'
   {t in LookForward, s in PathTimes} = utility_logCD_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_logCD[s] * 6e-2;# for LSup=2e+2, tail_param = 3.789; 
+  {s in PathTimes} = tail_val_SumShr[s]; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/
@@ -299,14 +299,11 @@ data;
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
 #set Sectors := F G H I J K L M N PbSc;
 ##-----------3x10
-set Regions := CnQ FNQ Mck;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-set Sectors := F G H I J K L M N PbSc;
-##-----------2x11
-#set Regions := CnQ FNQ;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := E F G H I J K L M N PbSc;
-##-----------3x11
 #set Regions := CnQ FNQ Mck;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
-#set Sectors := E F G H I J K L M N PbSc;
+#set Sectors := F G H I J K L M N PbSc;
+##-----------3x11
+set Regions := CnQ FNQ Mck;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
+set Sectors := E F G H I J K L M N PbSc;
 ##-----------8x16
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA RoW;# MIW DrD Ftz FNQ NWQ;# SWQ NrQ WBB;
 #set Sectors := A B C D E F G H I J K L M N PbSc P;
@@ -332,10 +329,9 @@ for {s in PathTimes}{
       kap[r, j, LInf, s] := KAP[r, j, s];
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("~/Documents/_uq-aibe/maiwar-solutions/"
-    #  & time() & "maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display _ampl_elapsed_time, _total_solve_time;
@@ -382,10 +378,9 @@ for {s in PathTimes}{
       
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
-    #let InstanceName := ("~/Documents/_uq-aibe/maiwar-solutions/"
-    #  & time() & "maiwar" & card(Regions) & "x" & card(Sectors)
-    #  & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
-    #write ("b" & InstanceName);
+    let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
+      & "x" & card(LookForward) & "x" & card(PathTimes) & "s" & s & "log");
+    write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
     display s, _ampl_elapsed_time, _total_solve_time,
