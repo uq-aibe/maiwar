@@ -67,7 +67,6 @@
     \item the state of CGE modelling in Australia\\
     \begin{itemize}
       \item CoPS, U Victoria (no uncertainty at all or proper dynamics)\\
-      \item Warwick McKibben (steady-state, no uncertainty either)\\
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -84,12 +83,24 @@
   Atalay has some good econometric estimates of elasticities
   \begin{itemize}
     \item elasticity of substitution for flows between sectors is about 0.1
+    \item previously most assumed Cobb-Douglas elasticity of 1.0
   \end{itemize}
   Conclusion: nonlinear effects matter
   \begin{itemize}
     \item {\color{patrickcolor3}
       does not bode well for multi-sectoral steady-state approx.}
     \item this includes Baqaee--Farhi, Atalay, CoPS, McKibben
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{A bit more detail on the current state of CGE modelling}
+%==============================================================================
+  \begin{itemize}
+      \item McKibben 1990s GCube (steady-state, no uncertainty either)
+      \item Malakellis 1990s CoPS (Hamiltonia no uncertainty)
+      \item Ha--Kompas 2017 Hamiltonian, no uncertainty, impressive.
+      \item Wende 2019, Treasury Intersectoral Model (TIM) steady-state, no uncertainty
   \end{itemize}
 \end{frame}
 \begin{frame}
@@ -137,8 +148,8 @@
     \item Flexible yet Fast: without steady-state approx
     \item Look-forward property: flow of state-action dependent rewards
   \[
-    V_{0}(\omega_{0}) = r_{0}(\omega_{0}, a_{0}) + \cdots
-    + r_{9}(\omega_{9}, a_{9}) + V_{10}(\omega_{10})
+    V_{t_0}(\omega_{t_0}) = r_{t_0}(\omega_{t_0}, a_{t_0}) + \cdots
+    + r_{t_7}(\omega_{t_7}, a_{t_7}) + V_{t_8}(\omega_{t_8})
   \]
     \item Uncertainty: easy way to improve on CoPS
     \item Investment/saving behaviour: Euler equations: CGE Dixon--Rimmer 2020

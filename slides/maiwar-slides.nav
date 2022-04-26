@@ -40,21 +40,23 @@
 \headcommand {\beamer@framepages {17}{17}}
 \headcommand {\slideentry {2}{0}{15}{18/18}{}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\beamer@sectionpages {4}{18}}
-\headcommand {\beamer@subsectionpages {4}{18}}
-\headcommand {\sectionentry {3}{``Global'' solution methods}{19}{``Global'' solution methods}{0}}
-\headcommand {\slideentry {3}{0}{1}{19/19}{}{0}}
+\headcommand {\slideentry {2}{0}{16}{19/19}{}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\slideentry {3}{0}{2}{20/20}{}{0}}
+\headcommand {\beamer@sectionpages {4}{19}}
+\headcommand {\beamer@subsectionpages {4}{19}}
+\headcommand {\sectionentry {3}{``Global'' solution methods}{20}{``Global'' solution methods}{0}}
+\headcommand {\slideentry {3}{0}{1}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\beamer@subsectionpages {19}{20}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{21}{Value functions}}
-\headcommand {\slideentry {3}{1}{1}{21/21}{Value functions}{0}}
+\headcommand {\slideentry {3}{0}{2}{21/21}{}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\slideentry {3}{1}{2}{22/22}{Value functions}{0}}
+\headcommand {\beamer@subsectionpages {20}{21}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{22}{Value functions}}
+\headcommand {\slideentry {3}{1}{1}{22/22}{Value functions}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\beamer@partpages {1}{22}}
-\headcommand {\beamer@subsectionpages {21}{22}}
-\headcommand {\beamer@sectionpages {19}{22}}
-\headcommand {\beamer@documentpages {22}}
-\headcommand {\gdef \inserttotalframenumber {22}}
+\headcommand {\slideentry {3}{1}{2}{23/23}{Value functions}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\beamer@partpages {1}{23}}
+\headcommand {\beamer@subsectionpages {22}{23}}
+\headcommand {\beamer@sectionpages {20}{23}}
+\headcommand {\beamer@documentpages {23}}
+\headcommand {\gdef \inserttotalframenumber {23}}
