@@ -94,30 +94,32 @@
 \end{frame}
 \begin{frame}
 %==============================================================================
-  \frametitle{A bit more detail on the current state of CGE modelling}
-%==============================================================================
-  \begin{itemize}
-      \item McKibben 1990s GCube (steady-state, no uncertainty either)
-      \item Malakellis 1990s CoPS (Hamiltonia no uncertainty)
-      \item Ha--Kompas 2017 Hamiltonian, no uncertainty, impressive.
-      \item Wende 2019, Treasury Intersectoral Model (TIM) steady-state, no uncertainty
-  \end{itemize}
-\end{frame}
-\begin{frame}
-%==============================================================================
   \frametitle{How we arrived at Maiwar: methodology}
 %==============================================================================
   How about ``global'' approximation e.g. Value Function Iteration?
-  Building on Scheidegger's machine-learning approach, we found
+
+  Building on Scheidegger's machine-learning approaches, we found
   \begin{itemize}
-    \item grid approach is at least 1 order of magnitude more accurate than 
-      steady/ergodic-state approximations, even for 1-good models.
+    \item for 1-sector model, grid approach is (at least) 1 order of magnitude 
+      more accurate than steady/ergodic-state approach
   \end{itemize}
-  But:
+  But, after a lot of hard work:
   \begin{itemize}
     \item trouble with grid approach: $10 ^ {12}$ points for 12 dimensions
     \item approximation is poor outside of grid
     \item VFI is also unstable (poorly suited to multi-sectoral flows)
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{A bit more detail on the current state of CGE modelling}
+%==============================================================================
+  \begin{itemize}
+      \item McKibbin 1990s GCube (steady-state, no uncertainty either)
+      \item Malakellis 1990s CoPS (Hamiltonian no uncertainty)
+      \item Ha--Kompas 2017 Hamiltoniann, no uncertainty, impressive.
+      \item Wende 2019, Treasury Intersectoral Model (TIM) steady-state,
+        no uncertainty
   \end{itemize}
 \end{frame}
 \begin{frame}
@@ -149,7 +151,7 @@
     \item Look-forward property: flow of state-action dependent rewards
   \[
     V_{t_0}(\omega_{t_0}) = r_{t_0}(\omega_{t_0}, a_{t_0}) + \cdots
-    + r_{t_7}(\omega_{t_7}, a_{t_7}) + V_{t_8}(\omega_{t_8})
+    + r_{t_9}(\omega_{t_9}, a_{t_9}) + V_{t_{10}}(\omega_{t_{10}})
   \]
     \item Uncertainty: easy way to improve on CoPS
     \item Investment/saving behaviour: Euler equations: CGE Dixon--Rimmer 2020
@@ -165,45 +167,74 @@
 %==============================================================================
   \frametitle{Cai--Judd's SCEQ: \small Simple (yet Powerful) Certainty Equivalent Method}
 %==============================================================================
-  E.g. Irreversible risk:  one-off, permanent shock to output.
+  E.g. Irreversible risk:  one-off, permanent $5\%$ productivity shock.
 
   Loosely resembles tipping points: each year, chance of ice-shelf \dots
 
-  Yields 28 paths to 2050:
-    \begin{itemize}
+  In this simple example there are 28 paths to 2050:
+    \begin{itemize}\small
     \item path where shock never happens
     \item path where shock happens in 2023;
     \item path where shock happens in 2024;
     \item \dots
-    \end{itemize}
-  Agent(s) make 10-year plans at each time $t$ along a path:\\
-  
-  Balance consumption today vs uncertain consumption tomorrow.
+    \end{itemize}\normalsize
+  Each path has 28 periods (PathTimes).
 
-  Once plan $t$ is made, time reveals state $\omega_{t+1}$ $\rightarrow$ new plan.
+  Agents make 10-year plans (LookForward) at each time and path.
+  
+  \small Goal: Balance consumption today vs uncertain consumption tomorrow.
+  On path $p$: once plan $t_0$ is made, time reveals state $\omega_{t_{1}}$
+ $\rightarrow$ new plan.
 
 \end{frame}
-
 \begin{frame}
+%==============================================================================
+  \frametitle{What do we (the modeller) do with all this info?}
+%==============================================================================
+  \begin{itemize}
+    
+    \item For each path $p$ and step $s$ along the path, take the plan that
+      starts at time $s$ and store the values for time $s$.
+    \begin{itemize}
+      \item For consumption store in a matrix $C_{s, p}$. The values of this
+        matrix are the solutions for each $r$ in Regions and $i$ in Sectors.
+
+      \item similarly for investment $\textup{INV}_{s, p}$, labour $L_{s, p}$,
+        kapital $K_{s, p}$, \etc.
+    \end{itemize}
+    \item \emph{We have generated an empirical distribution of solutions.}
+
+    \item Can now derive the sample means (paths), variances, \etc.
+
+    \item Check that the Euler equation holds for the sample mean.
+
+  \end{itemize}
+  
+\end{frame}
+\begin{frame}\thispagestyle{empty}
 %==============================================================================
   \frametitle{Our contribution: multi-sectoral flows}
 %==============================================================================
+  For each Region $r$, Sector $j$ and LookForward time $t$:
   \[
-    k_{t + 1, j} = (1 - \delta) k_{t, j} + s_{t, j}
+    k_{r, j, t + 1} = (1 - \delta) k_{r, j, t} + s_{r, j, t}
   \]
-  where $s_{tj}$ is a CES function of intermediate flows.
+  where $s_{r, j, t}$ is a CES function of intermediate Long--Plosser flows.
   \[
-    s_{t, j} = \left(\sum_{i} \sigma_{i, j} S_{t, i, j} ^ {\rho} \right)
+    s_{r, j, t} = \left(\sum_{i} \sigma_{i j} S_{r, i j, t} ^ {\rho} \right)
       ^ {\frac{1}{\rho}}
   \]
   From Atalay's model: $\rho = \frac{0.1 - 1}{0.1} = -9$.
 
-  Difficulty: 8 Regions, 20 Sectors, 10 LookForward: $8 * 20^2 * 10 = 32,000$ flows.
+  But: $20$ Sectors implies $400$ flows: $8 \times 400 \times 10 = 32,000$ in 
+  total.
 
-  Jacobi Equation:
+  Jacobi Equations, for $\mathbf{S}_{r, ij, t} = S_{r, ij, t} / \sigma_{r, ij}$:
     \[
-      S_{ij} / \sigma_{ij} = 
+      \mathbf{S}_{r, ij, t} = \mathbf{S}_{r, ik, t} \times \mathbf{S}_{r, kj, t}^{-1}
+      \times \mathbf{S}_{r, kj, t} .
     \]
+  Use main diagonal and one column of $S$: $39$ flows with total $3,120$.
 \end{frame}
 \begin{frame}
 %==============================================================================
