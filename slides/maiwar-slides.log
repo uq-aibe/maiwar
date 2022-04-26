@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  26 APR 2022 21:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  27 APR 2022 06:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1812,77 +1812,70 @@ LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <9> not available
 
  [9
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 189.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 189.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 189.
-LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 189.
-
-LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <7> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 189.
-
- [10
+] [10
 
 ] [11
 
-]
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <10.95> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 238.
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <8> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 238.
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <6> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 238.
-
-Overfull \vbox (3.85637pt too high) detected at line 238
- []
-
-[12
+] [12
 
 ] [13
 
-] [14
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 257.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 257.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 257.
+LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <10> not available
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 257.
+
+LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <7> not available
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 257.
+
+ [14
+
+] [15
 
 ]
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 277.
- [15
+[16
 
-] [16
+]
+LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <10.95> not available
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
+LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <8> not available
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
+LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <6> not available
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
 
-] [17
+Overfull \vbox (3.85637pt too high) detected at line 311
+ []
+
+[17
 
 ] [18
 
-] [19
+]
+LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 349.
+ [19
 
 ] [20
 
 ] (./maiwar-slides.toc) [21
 
-]
-[22
+] [22
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 507.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 507.
-LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <14.4> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 507.
-
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <14.4> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 507.
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <10> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 507.
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <7> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 507.
- [23
+] [23
 
 ] [24
+
+] [25
+
+] [26
+
+]
+[27
 
 ]
 \tf@nav=\write8
@@ -1896,22 +1889,22 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <7> not available
 
  (./maiwar-slides.aux)
 Package rerunfilecheck Info: File `maiwar-slides.out' has not changed.
-(rerunfilecheck)             Checksum: CA38E8B240D6D9436A186CF2475F3957;562.
+(rerunfilecheck)             Checksum: 2BF6A4923E9E96DA3720F10B8DFF70CD;348.
 Package logreq Info: Writing requests to 'maiwar-slides.run.xml'.
 \openout1 = `maiwar-slides.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46157 strings out of 478268
- 1072479 string characters out of 5846347
- 1832286 words of memory out of 5000000
- 63426 multiletter control sequences out of 15000+600000
- 625732 words of font info for 141 fonts, out of 8000000 for 9000
+ 46137 strings out of 478268
+ 1071835 string characters out of 5846347
+ 1832275 words of memory out of 5000000
+ 63405 multiletter control sequences out of 15000+600000
+ 604009 words of font info for 127 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,12n,122p,749b,1007s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
-cal/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
-22/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2022/texmf-d
+{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
+texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/20
+22/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2022/texmf-d
 ist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2022/texmf-dist/fonts/
 enc/dvips/lm/lm-rm.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/l
 m/lmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi10.p
@@ -1924,20 +1917,20 @@ lic/lm/lmss12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lms
 s8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss9.pfb></us
 r/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/
 texlive/2022/texmf-dist/fonts/type1/public/lm/lmsso10.pfb></usr/local/texlive/2
-022/texmf-dist/fonts/type1/public/lm/lmsso12.pfb></usr/local/texlive/2022/texmf
--dist/fonts/type1/public/lm/lmsso8.pfb></usr/local/texlive/2022/texmf-dist/font
-s/type1/public/lm/lmsso9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/pu
-blic/lm/lmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lm
-sy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></u
-sr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/te
-xlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/loca
-l/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></u
-sr/local/texlive/2022/texmf-dist/fonts/type1/public/yhmath/yhcmex.pfb>
-Output written on maiwar-slides.pdf (24 pages, 266004 bytes).
+022/texmf-dist/fonts/type1/public/lm/lmsso8.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/lm/lmsso9.pfb></usr/local/texlive/2022/texmf-dist/fonts
+/type1/public/lm/lmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/pub
+lic/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy
+8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><
+/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pf
+b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/yhmath/yhcmex.pfb>
+
+Output written on maiwar-slides.pdf (27 pages, 267300 bytes).
 PDF statistics:
- 339 PDF objects out of 1000 (max. 8388607)
- 254 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 261 compressed objects within 3 object streams
+ 58 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 

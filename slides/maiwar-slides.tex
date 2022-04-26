@@ -37,7 +37,7 @@
 \date{}
 \AtBeginSection[]
 {
-\begin{frame}{Table of Contents}
+\begin{frame}{Presenters}
 \tableofcontents[currentsection]
 \vfill\end{frame}
 \normalsize
@@ -162,10 +162,77 @@
     \item Scalable: at least to 8 regions and 20 sectors
   \end{enumerate}\normalsize
 \end{frame}
-
 \begin{frame}
 %==============================================================================
-  \frametitle{Cai--Judd's SCEQ: \small Simple (yet Powerful) Certainty Equivalent Method}
+  \frametitle{First: the current state of affairs}\thispagestyle{empty}
+%==============================================================================
+  Currently developing strategies for easy Scaling (pre Calibration).
+    \begin{itemize}
+      \item Conopt: for a well-scaled model, all values (variable,
+        dual variable and derivative) in $[10^{-2} , 10^{+2}]$.
+      \item E.g. Beyond 10 sectors log Cobb-Douglas Utility:
+        \emph{corner sol}.
+        \begin{itemize}
+          \item As number of parameters grows, investment shares fall.
+          \item To help identify scaling parameters: NIMROD, RCC working!
+          \item Thanks to: David Green, Thom Cuddihy and Marlies Hankel.
+          \item Last Friday: 120 runs in 1 hour on 12 CPUs.
+        \end{itemize}
+    \end{itemize}
+
+  In February, we obtained access to BLADE and established that can use for
+  for government contracts (\emph{not for commercial gain}).
+  \begin{itemize}
+    \item Illion Credit-reporting agency: possible BLADE integration \dots
+  \end{itemize}
+\end{frame}
+\begin{frame}\thispagestyle{empty}
+%==============================================================================
+  \frametitle{MAIWAR model literature}
+%==============================================================================
+  \begin{itemize}
+    \item Solution method: Cai--Judd (2021, 2017)
+    \item Model is a combination of Cai--Judd and Atalay
+    \item Calibration/estimation methods and estimates from Atalay
+    \item But Atalay's solution is not dynamic/stochastic
+      \dots
+    \item We next explain Cai--Judd in some detail.
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  {\color{blue} Quote from Cai and Judd (Feb, 2021)}
+  \begin{quote}
+  {\color{blue} Macroeconomists [and CoPS] are often interested in obtaining solutions around the non-stochastic steady state.}
+  {\color{patrickcolor3} However in reality, the initial state could be far away from the steady state, and a policymaker may be more interested in the solutions for the initial periods in the forward-looking model than the far future states that could be around the steady state.}
+  {\color{patrickcolor1} For example, in environmental and climate change economics \dots}
+\end{quote}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{Quick interlude on formal model}
+%==============================================================================
+\uncover <+-|alert@+>{\color<.>{blue}
+  \begin{align*}
+    V_{0}(\omega_{0}) = \max_{a_{\cdot}}& \quad \mathbb E
+    \left\{\sum_{t = 0}^{27} \beta^{t} r_{t}(\omega_{t}, a_{t}) + \beta^{28} V_{28}(\omega_{28})\right\}
+    \\
+    \textup{s.t.}& \quad \omega_{t+1} = g_{t}(\omega_{t}, a_{t}, \varepsilon_{t}), \quad t = 0, \dots, 27
+    \\
+    & \quad f_{t}(\omega_{t}, a_{t}) \geq 0, \quad t = 0, \dots, 27.
+  \end{align*}
+}
+\uncover<+-|alert@+>{\color<.>{blue}
+With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, reward $r_{t}$, discount factor $0 < \beta < 1$, terminal value function $V_{28}$, transition law $g_{t}$, error $\varepsilon_{t}$ and feasibility constraints $f_{t}$ on actions.}
+\\
+\begin{itemize}
+  \item Grid-free: all about paths \dots a simple example.
+\end{itemize}
+
+\vfill\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{Cai--Judd's SCEQ: \small Simple (yet Powerful) Certainty
+  Equivalent Method}
 %==============================================================================
   E.g. Irreversible risk:  one-off, permanent $5\%$ productivity shock.
 
@@ -182,7 +249,8 @@
 
   Agents make 10-year plans (LookForward) at each time and path.
   
-  \small Goal: Balance consumption today vs uncertain consumption tomorrow.
+  \small
+  Goal: Balance consumption today vs uncertain consumption tomorrow.
   On path $p$: once plan $t_0$ is made, time reveals state $\omega_{t_{1}}$
  $\rightarrow$ new plan.
 
@@ -209,11 +277,16 @@
     \item Check that the Euler equation holds for the sample mean.
 
   \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{Example of results}
+%==============================================================================
   
 \end{frame}
 \begin{frame}\thispagestyle{empty}
 %==============================================================================
-  \frametitle{Our contribution: multi-sectoral flows}
+  \frametitle{Main contribution to Cai--Judd: multi-sectoral flows}
 %==============================================================================
   For each Region $r$, Sector $j$ and LookForward time $t$:
   \[
@@ -231,27 +304,67 @@
 
   Jacobi Equations, for $\mathbf{S}_{r, ij, t} = S_{r, ij, t} / \sigma_{r, ij}$:
     \[
-      \mathbf{S}_{r, ij, t} = \mathbf{S}_{r, ik, t} \times \mathbf{S}_{r, kj, t}^{-1}
-      \times \mathbf{S}_{r, kj, t} .
+      \mathbf{S}_{r, ij, t} = \mathbf{S}_{r, ik, t} \times
+      \mathbf{S}_{r, kj, t}^{-1} \times \mathbf{S}_{r, kj, t} .
     \]
   Use main diagonal and one column of $S$: $39$ flows with total $3,120$.
 \end{frame}
 \begin{frame}
 %==============================================================================
-  \frametitle{The solution for each path for Investment, Kapital and Labour}
+  \frametitle{Other innovations}
 %==============================================================================
-  
+So far, the main contributions are:
+
+To CGE: a tractable way of modelling uncertainty.
+
+To Atalay: we take his model beyond the steady-state.
+
+To Cai--Judd: a framework for sectoral/production networks.
 
 \end{frame}
-
 \begin{frame}
 %==============================================================================
   \frametitle{Cai--Judd: under the bonnet}
 %==============================================================================
-  
+  For each plan, the terminal value function $V_{10}$ is arbitrary.
+
+  One solution is to make longer plans: discount factor 
+    $\beta^t \rightarrow 0$.
+    \begin{itemize}
+      \item Behaviourally unrealistic?
+      \item Costly computationally \dots
+    \end{itemize}
+  So best to treat it as another form of parametric uncertainty.
+    \begin{itemize}
+      \item Scaling this term: important for avoiding corner solutions.
+    \end{itemize}
+  Checking the Euler Equations in multi-sectoral models is tricky compared to
+  Cai--Judd baseline models.
+    \begin{itemize}
+      \item Maximum of deviations from the Jacobi Identity helps here.
+        \begin{itemize}
+          \item my first guide to a good solution.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{Data}
+%==============================================================================
+  Late December 2020: lunch with Alicia, discussion of regional
+  identifiers that had only just been added to BLADE.
+  \begin{itemize}
+    \item This represents a unique opportunity for regional modelling
+    \item Moreover, Type of Activity Units
+      \begin{itemize}
+        \item ABS uses employment data to split larger firms
+      \end{itemize}
+    \item This means upto SA1-level regions and 4-digit ANZSIC sectors!
+  \end{itemize}
 
 \end{frame}
 
+\section{Tina Rampino}
 \begin{frame}
 %==============================================================================
   \frametitle{Why CGE modelling?}
@@ -270,24 +383,21 @@
       shocks.
     }
     \item<+-|alert@+>{\color<.>{blue}
-      A guide to analysing the implications of 
+      A guide to analysing the sector-specific implications of macroeconomic shocks
     }
   \end{itemize}
 \vfill
 \end{frame}
 \begin{frame}
 %==============================================================================
-\frametitle{Macroeconomics with networks}
-%==============================================================================
-
-\end{frame}
-
-\begin{frame}
-%==============================================================================
 \frametitle{Why the focus on uncertainty?}
 %==============================================================================
+John Williams (Federal Reserve, San Fransisco):
 
+\begin{quote}
 There is pretty strong evidence that the rise in uncertainty is a significant factor holding back the pace of recovery now. [...] research shows that heightened uncertainty slows economic growth, raises unemployment, and reduces inflationary pressures. [...] There is no question that slow growth, high unemployment, and significant uncertainty are challenges for monetary policy.
+\end{quote}
+From Caggiano, Castelnuovo, Groshenny 2015.
 \end{frame}
 
 %\begin{frame}
@@ -468,43 +578,7 @@ J. Miranda-Pinto of UQ had a hand in TIM (and in our choices)
         Social Accounting Matrix using Current and Capital Accounts}
 \end{itemize}
   \end{frame}
-\section{``Global'' solution methods}
-\begin{frame}
-  {\color{blue} Quote from Cai and Judd (Feb, 2021)}
 
-  {\color{blue} Macroeconomists [and CoPS] are often interested in obtaining solutions around the non-stochastic steady state.}
-
-  {\color{patrickcolor3} However in reality, the initial state could be far away from the steady state, and a policymaker may be more interested in the solutions for the initial periods in the forward-looking model than the far future states that could be around the steady state.}
-
-  {\color{patrickcolor1} For example, in environmental and climate change economics \dots}
-\end{frame}
-
-\subsection{Value functions}
-
-
-\begin{frame}\frametitle{
-    The current value function $V_{0}$
-}
-\uncover <+-|alert@+>{\color<.>{blue}
-  \begin{align*}
-    V_{0}(\omega_{0}) = \max_{a_{\cdot}}& \quad \mathbb E
-    \left\{\sum_{t = 0}^{27} \beta^{t} r_{t}(\omega_{t}, a_{t}) + \beta^{28} V_{28}(\omega_{28})\right\}
-    \\
-    \textup{s.t.}& \quad \omega_{t+1} = g_{t}(\omega_{t}, a_{t}, \varepsilon_{t}), \quad t = 0, \dots, 27
-    \\
-    & \quad f_{t}(\omega_{t}, a_{t}) \geq 0, \quad t = 0, \dots, 27.
-  \end{align*}
-}
-\uncover<+-|alert@+>{\color<.>{blue}
-With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, reward $r_{t}$, discount factor $0 < \beta < 1$, terminal value function $V_{28}$, transition law $g_{t}$, error $\varepsilon_{t}$ and feasibility constraints $f_{t}$ on actions.}
-\\
-\begin{itemize}
-\item<+-|alert@+>{\color<.>{blue}
-        \emph{\color{patrickcolor1} Once approximated}, iterate over $t$ to get \emph{\color{patrickcolor3} optimal policy} $a^{*}_{\cdot}(\omega_{\cdot})$
-                }
-\end{itemize}
-
-\vfill\end{frame}
 %
 %\subsection{Estimating and approximating Value functions}
 %\begin{frame}
