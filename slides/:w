@@ -1,0 +1,613 @@
+%==============================================================================
+\documentclass[handout,english]{beamer}
+%\documentclass{beamer}
+%==============================================================================
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pifont}
+\usepackage{media9}  
+\usepackage{Preamble_files/beamer_preamble}
+\usepackage{comment}
+\usepackage{RKsmileys}
+\setbeamertemplate{itemize item}{
+  \scriptsize\raise1.25pt\hbox{
+    \donotcoloroutermaths$\blacktriangleright$
+  }
+}
+\setbeamertemplate{itemize subitem}{
+  \tiny\raise1.5pt\hbox{
+    \donotcoloroutermaths$\blacktriangleright$
+  }
+}
+
+\def\checkmark{
+  \tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;
+}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\linespread{1.5}
+%\input{../../bib/_addbibresource_Alphabetical_Aligned.tex}
+
+\usetheme{}
+\title{Sustainability, Modelling and Regional Transition (in Queensland)}
+\author[Patrick O'Callaghan]{Patrick O'Callaghan}
+\institute{AIBE, The University of Queensland\\
+\today}
+\date{}
+\AtBeginSection[]
+{
+\begin{frame}{Table of Contents}
+\tableofcontents[currentsection]
+\vfill\end{frame}
+\normalsize
+}
+\AtBeginSubsection[]
+{
+%\begin{frame}{Table of Contents}
+%\vskip8pt
+%\tableofcontents[currentsection, currentsubsection]
+%\vfill\end{frame}
+%\normalsize
+}
+
+
+\begin{document}
+\maketitle
+\section{John Mangan}
+\begin{frame}
+%==============================================================================
+  \frametitle{Why are we here?}
+%==============================================================================
+  Brief discussion of the history of the project and why we are here.
+  \begin{itemize}
+    \item why the project is important to AIBE\\
+    \item background of regional/sectoral economics at UQ\\
+    \item Input-Output modelling\\
+    \item the state of CGE modelling in Australia\\
+    \begin{itemize}
+      \item CoPS, U Victoria (no uncertainty at all or proper dynamics)\\
+      \item Warwick McKibben (steady-state, no uncertainty either)\\
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+\section{Patrick O'Callaghan}
+\begin{frame}
+%==============================================================================
+  \frametitle{How we arrived at Maiwar: methodology}
+%==============================================================================
+  Recent literature on macroeconomic production networks: Baqaee--Farhi, \dots
+  \begin{itemize}
+    \item embeds network modelling in macro models (IO renaissance)
+    \item main finding: nonlinear (beyond Cobb-Douglas) effects matter
+  \end{itemize}
+  Atalay has some good econometric estimates of elasticities
+  \begin{itemize}
+    \item elasticity of substitution for flows between sectors is about 0.1
+  \end{itemize}
+  Conclusion: nonlinear effects matter
+  \begin{itemize}
+    \item {\color{patrickcolor3}
+      does not bode well for multi-sectoral steady-state approx.}
+    \item this includes Baqaee--Farhi, Atalay, CoPS, McKibben
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{How we arrived at Maiwar: methodology}
+%==============================================================================
+  How about ``global'' approximation e.g. Value Function Iteration?
+  Building on Scheidegger's machine-learning approach, we found
+  \begin{itemize}
+    \item grid approach is at least 1 order of magnitude more accurate than 
+      steady/ergodic-state approximations, even for 1-good models.
+  \end{itemize}
+  But:
+  \begin{itemize}
+    \item trouble with grid approach: $10 ^ {12}$ points for 12 dimensions
+    \item approximation is poor outside of grid
+    \item VFI is also unstable (poorly suited to multi-sectoral flows)
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{How we arrived at Maiwar \dots the research question}
+%==============================================================================
+  My old supervisor (Herakles Polemarchakis) once told me that building a model
+  without a question is \emph{the kiss of death}.
+
+  Reading group: Aarushi, Marian, Patrick Duenow and I, late 2020.
+  \begin{itemize}
+    \item Economy-wide implications of mental health: with Patrick D
+    \item COVID impact
+    \item In 2022, settled on 2050 net-zero carbon emission targets.
+    \begin{itemize}
+      \item Most economists think Australia will be better off, but
+      \item Adams 2021, CoPS: Qld -6\% GSP and -100k jobs \emph{rel. to base}.
+      \item What about Qld targets over and above those of Australia?
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{MAIWAR \small(Modelling Australian Industry With AMPL Regions)}
+%==============================================================================
+  \begin{enumerate}\footnotesize
+    \item[ii Flexible yet Fast: without steady-state approx
+    \item Look-forward property: flow of state-action dependent rewards
+  \[
+    V_{0}(\omega_{0}) = r_{0}(\omega_{0}, a_{0}) + \cdots
+    + r_{9}(\omega_{9}, a_{9}) + V_{10}(\omega_{10})
+  \]
+    \item Uncertainty: easy way to improve on CoPS
+    \item Investment/saving behaviour: Euler equations: CGE Dixon--Rimmer 2020
+    \item Data: BLADE, calibration, econometrics
+    \item Robust/Reliable: works with a variety of set-ups
+    \item Accurate/Accessible: John as end-user, as open source as possible
+    \item Modern yet Trustworthy: best-in-class knowledge, 2+ solvers
+    \item Scalable: at least to 8 regions and 20 sectors
+  \end{enumerate}\normalsize
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{Cai--Judd's SCEQ: \small Simple (yet Powerful) Certainty Equivalent Method}
+%==============================================================================
+  E.g. Irreversible risk:  one-off, permanent shock to output.
+
+  At each time $t = 1, 2, \dots$ there is a small chance of tipping.
+
+  Loosely resembles events such as ice-shelves collapsing, or \dots
+
+  We are interested in $T^{*} = 2050$, so 28 paths/states of the world:
+    \begin{itemize}
+    \item path where shock never happens
+    \item path where shock happens in 2023; in 2024, \dots, in 2049
+    \end{itemize}
+  Our agent(s) make 10-year plans at each $t$: balance today's consumption with
+  the need to invest and produce ``tomorrow''.
+
+  Once a plan is made, the die is cast, roll time forward to $t+1$.
+
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{Our contribution: multi-sectoral flows}
+%==============================================================================
+  \[
+    k_{t + 1, j} = (1 - \delta) k_{t, j} + s_{t, j}
+  \]
+  where $s_{tj}$ is a CES function of intermediate flows.
+  \[
+    s_{t, j} = \left(\sum_{i} \sigma_{i, j} S_{t, i, j} ^ {\rho} \right)
+      ^ {\frac{1}{\rho}}
+  \]
+  From Atalay's model: $\rho = \frac{0.1 - 1}{0.1} = -9$.
+
+  Difficulty: for 20 sectors and 10 time periods, $20^2 * 10 = 4000$ flows.
+
+  Jacobi Equation:
+    \[
+      S_{ij} / \sigma_{ij} = 
+    \]
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{The solution for each path for Investment, Kapital and Labour}
+%==============================================================================
+  
+
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{Cai--Judd: under the bonnet}
+%==============================================================================
+  
+
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{Why CGE modelling?}
+%==============================================================================
+
+  \begin{itemize}
+    \item<+-|alert@+>{\color<.>{blue}
+      "Old-fashioned", "black-box", "intractible", \dots
+    }
+    \item<+-|alert@+>{\color<.>{blue}
+      Yet industry demands "CGE" modelling and uses it as a basis for key 
+      decisions.
+    }
+    \item<+-|alert@+>{\color<.>{blue}
+      A guide to quantifying the broader repurcussions of sector-specific
+      shocks.
+    }
+    \item<+-|alert@+>{\color<.>{blue}
+      A guide to analysing the implications of 
+    }
+  \end{itemize}
+\vfill
+\end{frame}
+\begin{frame}
+%==============================================================================
+\frametitle{Macroeconomics with networks}
+%==============================================================================
+
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+\frametitle{Why the focus on uncertainty?}
+%==============================================================================
+
+There is pretty strong evidence that the rise in uncertainty is a significant factor holding back the pace of recovery now. [...] research shows that heightened uncertainty slows economic growth, raises unemployment, and reduces inflationary pressures. [...] There is no question that slow growth, high unemployment, and significant uncertainty are challenges for monetary policy.
+\end{frame}
+
+%\begin{frame}
+%\frametitle{{\color{patrickcolor3}
+%  Example: 2050 net-zero emissions targets
+%}
+%}
+%\uncover<+-|alert@+>{\color<.>{blue}
+%  In 2017, Qld set a { \color{magenta} \href{https://www.vision6.com.au/em/message/email/view.php?id=1398053&a=79404&k=VZGdbxVB3M5LdOkRxoA2ohzW3lZeME6xaZFD4f5Ic-o}{``state target for net-zero emissions by 2050''}
+%  }.
+%}
+%\begin{itemize}
+%\item<+-|alert@+>{\color<.>{blue}
+%        Why not simply enforce the Australia-wide net-zero target?
+%        }
+%\end{itemize}
+%
+%\uncover<+-|alert@+>{\color<.>{blue}
+%        Likely answer: green credentials beyond the national policy \dots
+%      }
+%\begin{itemize}
+%\item<+-|alert@+>{\color<.>{blue}
+%        Norwegian Sovereign Fund divestment of Qld public debt?
+%        }
+%\item<+-|alert@+>{\color<.>{blue}
+%        Exports to EU, US, \dots?
+%        }
+%  \item<+-|alert@+>{\color<.>{blue}
+%        Local public opinion?
+%        }
+%  \item<+-|alert@+>{\color<.>{blue}
+%        Encourage innovation \eg\ hydrogen?
+%        }
+%\end{itemize}
+%\uncover<+-|alert@+>{\color<.>{patrickcolor3}
+%  What is the  cost of this policy? (A normative question.)
+%}
+%\begin{itemize}
+%
+%  \item<+-|alert@+>{\color<.>{blue} {\color{magenta}\href{https://theconversation.com/economists-back-carbon-price-say-benefits-of-net-zero-outweigh-costs-169939}{link}} (to Conversation article)
+%        }
+%
+%%  \item<+-|alert@+>{\color<.>{blue}
+%%        We want a model that can (help) answer such questions.
+%%        }
+%\end{itemize}
+%\vfill\end{frame}
+%\begin{frame}
+%\frametitle{What zoo of models can answer such questions?}
+%\uncover<+-|alert@+>{\color<.>{blue}
+%}
+%\begin{itemize}
+%\item<+-|alert@+>{\color<.>{blue}
+%  The preferred policy is an economy-wide carbon price.
+%        }
+%\end{itemize}
+%\uncover<+-|alert@+>{\color<.>{patrickcolor3}
+%        Answer: economy-wide models (built on normative principles)
+%      }
+%      \begin{itemize}
+%\item<+-|alert@+>{\color<.>{blue}
+%        Leontief Input-Output models (1950s+)
+%        }
+%\item<+-|alert@+>{\color<.>{blue}
+%        Centre of Policy Studies (CoPS) CGE model (1970s+)
+%              }
+%      \end{itemize}
+%\uncover<+-|alert@+>{\color<.>{patrickcolor3}
+%        Inter-sectoral models with inter-temporal choice and uncertainty:
+%      }
+%      \begin{itemize}
+%        \item<+-|alert@+>{\color<.>{blue}
+%          Original model: Long and Plosser (1983)
+%        }
+%        \item<+-|alert@+>{\color<.>{blue}
+%        More recently: Atalay (2017); Baqaee--Farhi \dots
+%        }
+%        \item<+-|alert@+>{\color{red}
+%        Treasury Intersectoral Model (2019)
+%        }
+%      \end{itemize}
+%      \vfill\end{frame}
+%\section{Steady-state models}
+%\subsection{CoPS}
+%
+\begin{frame}
+{\color{patrickcolor3} Why not use a CoPS CGE model?}
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+Cost of software and of data for the model.
+}
+\vskip5pt
+\item<+-|alert@+>{\color<.>{blue}
+  CoPS already have a recent paper on 2050 targets
+        }
+\end{itemize}
+\vskip5pt
+\uncover<+-|alert@+>{\color<.>{blue}
+Moreover:
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        no proper savings/investment: intertemporal behaviour
+        }
+        \begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        leads to strange ``macro-closure conditions''
+        }
+        \end{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        no model of risk/uncertainty and associated behaviour
+        }
+\end{itemize}
+}
+
+\uncover<+-|alert@+>{\color{patrickcolor1}
+        CoPS assume current economy is in \emph{Deterministic Steady-State}.
+      }
+      \vskip5pt
+\vfill\end{frame}
+\begin{frame}
+  {Treasury Intersectoral Model (TIM, 2017)
+  }
+
+\uncover<+-|alert@+>{\color<.>{blue}
+Part of a new generation of Australian models
+}
+\vskip5pt
+\uncover<+-|alert@+>{\color<.>{blue}
+J. Miranda-Pinto of UQ had a hand in TIM (and in our choices)
+}
+\vskip5pt
+\uncover<+-|alert@+>{\color<.>{blue}
+  TIM has a sister called EMMA (Macro-econometric forecasting)
+  }
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        TIM has proper savings
+        }
+\item<+-|alert@+>{\color<.>{blue}
+        114-sector model of Australia
+        }
+\item<+-|alert@+>{\color<.>{blue}
+        but no risk
+         }
+\item<+-|alert@+>{\color<.>{blue}
+        Deterministic steady state \& {\color{red} we can't access}
+      }
+\end{itemize}
+  \end{frame}
+\begin{frame}
+{Adapting the Atalay model}
+  \uncover<+-|alert@+>{\color<.>{blue}
+      Atalay assumes economy in (non-determistic) steady state
+      }
+\begin{itemize}
+  \item<+-|alert@+>{\color<.>{blue}
+        pretty complete and quite good empirical foundations
+        }
+  \item<+-|alert@+>{\color<.>{blue}
+        {\color{patrickcolor3} we have full access via Matlab \& Stata}
+        }
+\end{itemize}
+\uncover<+-|alert@+>{\color<.>{patrickcolor1}
+      Our adaptation of Atalay is the first model in our suite.
+    }
+\begin{itemize}
+  \item<+-|alert@+>{\color<.>{blue}
+        less than 1 second to solve a 20-sector model
+        }
+
+  \item<+-|alert@+>{\color<.>{blue}
+        regionalise using LGA-level income data via Table Builder
+        }
+  \item<+-|alert@+>{\color<.>{blue}
+        capital flows matrix by adapting a US flows table from 1997 \RKconfused\
+        }
+  \item<+-|alert@+>{\color<.>{blue}
+        Social Accounting Matrix using Current and Capital Accounts}
+\end{itemize}
+  \end{frame}
+\section{``Global'' solution methods}
+\begin{frame}
+  {\color{blue} Quote from Cai and Judd (Feb, 2021)}
+
+  {\color{blue} Macroeconomists [and CoPS] are often interested in obtaining solutions around the non-stochastic steady state.}
+
+  {\color{patrickcolor3} However in reality, the initial state could be far away from the steady state, and a policymaker may be more interested in the solutions for the initial periods in the forward-looking model than the far future states that could be around the steady state.}
+
+  {\color{patrickcolor1} For example, in environmental and climate change economics \dots}
+\end{frame}
+
+\subsection{Value functions}
+
+
+\begin{frame}\frametitle{
+    The current value function $V_{0}$
+}
+\uncover <+-|alert@+>{\color<.>{blue}
+  \begin{align*}
+    V_{0}(\omega_{0}) = \max_{a_{\cdot}}& \quad \mathbb E
+    \left\{\sum_{t = 0}^{27} \beta^{t} r_{t}(\omega_{t}, a_{t}) + \beta^{28} V_{28}(\omega_{28})\right\}
+    \\
+    \textup{s.t.}& \quad \omega_{t+1} = g_{t}(\omega_{t}, a_{t}, \varepsilon_{t}), \quad t = 0, \dots, 27
+    \\
+    & \quad f_{t}(\omega_{t}, a_{t}) \geq 0, \quad t = 0, \dots, 27.
+  \end{align*}
+}
+\uncover<+-|alert@+>{\color<.>{blue}
+With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, reward $r_{t}$, discount factor $0 < \beta < 1$, terminal value function $V_{28}$, transition law $g_{t}$, error $\varepsilon_{t}$ and feasibility constraints $f_{t}$ on actions.}
+\\
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        \emph{\color{patrickcolor1} Once approximated}, iterate over $t$ to get \emph{\color{patrickcolor3} optimal policy} $a^{*}_{\cdot}(\omega_{\cdot})$
+                }
+\end{itemize}
+
+\vfill\end{frame}
+%
+%\subsection{Estimating and approximating Value functions}
+%\begin{frame}
+%  {Estimating/approximating $V_0$ and $V_{28}$}
+%  \begin{itemize}
+%    \item<+-|alert@+>{\color<.>{blue}
+%          Estimate parameters:
+%          }
+%          \begin{itemize}
+%              \item<+-|alert@+>{\color<.>{blue}
+%                  Entity data: Jobs in Australia, Consumption Surveys, BLADE
+%                  }
+%              \item<+-|alert@+>{\color<.>{blue}
+%                  Link data: Input-Output Tables, ABS (Elazar) supply-chain, illion + BLADE
+%                  }
+%              \item<+-|alert@+>{\color<.>{blue}
+%                  OECD, \etc : productivity and emissions data
+%                  }
+%          \end{itemize}
+%  \end{itemize}
+%\uncover<+-|alert@+>{\color<.>{blue}
+%  Three approaches to {\color{patrickcolor1}``globally''  \footnotesize(not Atalay)} approximating $V_{\cdot}$
+%}
+%\begin{itemize}
+%        \item<+-|alert@+>{\color<.>{blue}
+%        Scheidegger--Bilionis: Gaussian Process model
+%        \begin{itemize}
+%          \item<+-|alert@+>{\color<.>{blue}
+%               working Python model on GitHub
+%                }
+%          \item<+-|alert@+>{\color<.>{blue}
+%               robust (uses Ipopt)
+%                }
+%          \item<+-|alert@+>{\color<.>{blue}
+%                slow, but Nimrod of UQ HPC will solve this
+%                }
+%          \item<+-|alert@+>{\color<.>{blue}
+%                scratch/sandbox model in Julia
+%                }
+%          \end{itemize}
+%        }
+%        \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  {Two more novel approaches}
+%\uncover<+-|alert@+>{\color<.>{blue}
+%  Azinovic--Gaegauf--Scheidegger: Deep Equilibrium Networks
+%}
+%  \begin{itemize}
+%    \item<+-|alert@+>{\color<.>{blue}
+%          {\color{patrickcolor3} full access to Python code}, we have basic model
+%        }
+%    \item<+-|alert@+>{\color<.>{blue}
+%          Flexible: approximate around ergodic set \& easily use GPUs
+%          }
+%    \item<+-|alert@+>{\color<.>{blue}
+%          Robust: involves approximation by composing linear functions
+%          }
+%        \end{itemize}
+%\uncover<+-|alert@+>{\color<.>{blue}
+%  Cai and Judd: Simulated Certainty Equivalent Approximation
+%  }
+%  \begin{itemize}
+%    \item<+-|alert@+>{\color<.>{blue}
+%          {\color{patrickcolor3} full access to GAMS code}, translating to Julia, uses Ipopt
+%          }
+%  \item<+-|alert@+>{\color<.>{blue}
+%          {\color{patrickcolor1} Made for 2050-style questions}
+%          }
+%    \item<+-|alert@+>{\color<.>{blue}
+%          Fast: grid-free without relying on SS or ergodic set
+%          }
+%          \begin{itemize}
+%    \item<+-|alert@+>{\color<.>{blue}
+%          simulates paths of length 28, Nimrod useful again (for larger models)
+%                  }
+%          \end{itemize}
+%        \end{itemize}
+%\end{frame}
+%\section{Summary}
+%\subsection{Table}
+%\begin{frame}
+%\frametitle{}
+%
+%\uncover<+-|alert@+>{\color<.>{blue}
+%
+%
+%\begin{longtable}{| c | c | c | c | c |}
+%\hline
+%& Atalay & GP & DEQN & SCEQ
+%\\\hline
+%SS & \cmark & \xmark &  \xmark & \xmark
+%\\\hline
+%  ``Global'' & \xmark & \cmark & \cmark & \cmark
+%\\\hline
+%Gridfree & \cmark & \xmark &  \cmark$^{*}$ & \cmark
+%\\\hline
+%Robust &  \cmark & \cmark &  \cmark & \cmark
+%\\\hline
+%Fast$^{\dagger}$ & \cmark & \xmark$^{\ddagger}$ & \xmark$^{\ddagger}$ & \cmark
+%\\\hline
+%Complete &  \cmark$^{\mathsection}$ & \cmark$^{\mathsection}$ & \cmark$^ {\mathsection} $ & \cmark$^{\mathsection}$
+%\\\hline
+%
+%\end{longtable}
+%}
+%\begin{itemize}
+%  \item[ $ * $]<+-|alert@+>{\color<.>{blue}
+%        optional
+%        }
+%  \item[$\dag$]<+-|alert@+>{\color<.>{blue}
+%                my math will simplify:  $20 \times 20 = 400 \mapsto 39$ dimensions
+%                }
+%  \item[$\ddagger$]<+-|alert@+>{\color<.>{blue}
+%                Nimrod and GPU respectively
+%                }
+%\item[ $ \mathsection $]<+-|alert@+>{\color<.>{blue}
+%        various stages of development
+%        }
+%
+%\end{itemize}
+%\vfill\end{frame}
+
+\begin{frame}
+\frametitle{Thanks for listening!}
+\uncover<+-|alert@+>{\color<.>{blue}
+Many thanks to the absent members of the team:
+}
+
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        Josh Aberdeen
+        }
+\item<+-|alert@+>{\color<.>{blue}
+        Patrick Duenow
+        }
+\item<+-|alert@+>{\color<.>{blue}
+        Cameron Gordon
+        }
+
+\end{itemize}
+
+\vfill\end{frame}
+
+
+%\printbibliography
+
+\end{document}

@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{John Mangan}{2}{0}{1}
+\beamer@sectionintoc {2}{Patrick O'Callaghan}{4}{0}{2}
+\beamer@sectionintoc {3}{``Global'' solution methods}{19}{0}{3}
+\beamer@subsectionintoc {3}{1}{Value functions}{21}{0}{3}

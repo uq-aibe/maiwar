@@ -16,7 +16,7 @@ param LInf 'start period/infimum of the look forward set', default 0;
 param LSup 'end period/supremum of the look forward set' > LInf, default 1e+1; 
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
-  default 2 >= PInf; 
+  default 1 >= PInf; 
 param TSup 'final time' >= PInf + LInf, default PSup + LSup;
 /*=============================================================================
 Sets
@@ -217,7 +217,7 @@ Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
 var E_output 'current intermediate variable for output'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
-    = E_output_CD[r, i, t, s] * 5e+0;
+    = E_output_CD[r, i, t, s] * 9e+0;
 var inv_sec 'current intermediate variable for aggregated investment'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
     = inv_sec_CES[r, j, t, s];
@@ -227,7 +227,7 @@ var adj_cost_kap 'current adjustment costs for kapital'
 var utility 'current intermediate variable for utility'
   {t in LookForward, s in PathTimes} = utility_SumShr_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_SumShr[s] * 6e-1; 
+  {s in PathTimes} = tail_val_SumShr[s] * 4e-1; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/

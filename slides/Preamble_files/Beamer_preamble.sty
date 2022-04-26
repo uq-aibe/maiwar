@@ -1,0 +1,256 @@
+%\usepackage{natbib}
+% Notation: \leavevmode to start new line after theorem
+%\usepackage{pgfplots}
+ \usepackage{dutchcal} 
+\usepackage{etoolbox}% for toggling
+\newtoggle{submit}
+\togglefalse{submit}
+\newtoggle{biber}
+\toggletrue{biber}
+%\usepackage{upgreek}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}%[fleqn]
+\usepackage{amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+%\usepackage{movie15}
+\usepackage{layout}
+\usepackage{tikz}
+%\usepackage{enumitem}
+\usepackage{pgfplots,pgfplotstable}
+\usepackage{yhmath}
+%\usepackage{mathabx} 
+\usepackage{xr}
+\usepackage{accents} %for underbar etc
+\usepackage{appendix}
+\usepackage{todo}
+\usepackage{nicefrac}
+\usepackage{stackengine}
+\usepackage[]{hyperref}
+\usepackage{syntonly}
+\hypersetup{
+%    colorlinks=true,
+}
+%\usepackage{enumitem}
+\usepackage{environ}
+\usepackage[
+    backend=\iftoggle{biber}{biber}{bibtex},
+    style=authoryear,%alphabetic,
+%    sortlocale=en_EN,
+    natbib=true,
+    url=false,
+    doi=false,
+    eprint=false,
+    isbn=false,
+    autolang=hyphen
+]{biblatex}
+
+\DeclareSourcemap{
+  \maps{
+    \map{
+      \step[fieldsource=language, fieldset=langid, origfieldval, final]
+      \step[fieldset=language, null]
+    }
+  }
+}
+
+
+\makeatletter
+
+\newrobustcmd*{\parentexttrack}[1]{%
+  \begingroup
+  \blx@blxinit
+  \blx@setsfcodes
+  \blx@bibopenparen#1\blx@bibcloseparen
+  \endgroup}
+
+\AtEveryCite{%
+  \let\parentext=\parentexttrack%
+  \let\bibopenparen=\bibopenbracket%
+  \let\bibcloseparen=\bibclosebracket}
+
+\makeatother
+%\usepackage{url}
+%\usepackage{authblk}
+\usepackage{filecontents}%for inputting files inside a file eg. bbl file
+%----------------------------------------end packages-------------------------
+\setbeamertemplate{navigation
+      symbols}{}
+\setbeamerfont{page number in head/foot}{size=\large}
+\setbeamerfont{author in head/foot}{size=\large}      
+\setbeamertemplate{footline}[frame number]      
+      
+\definecolor{patrickcolor1}{rgb}{1,.4,0}
+\definecolor{patrickcolor2}{rgb}{1,0,1}
+\definecolor{patrickcolor3}{rgb}{.3,.6,0}
+\definecolor{patrickcolor4}{rgb}{0.5,1,0}
+
+
+
+\linespread{1.5}
+\usetheme{}
+
+\makeatletter
+\providecommand*{\diff}%
+{\@ifnextchar^{\DIfF}{\DIfF^{}}}
+\def\DIfF^#1{%
+\mathop{\textup{d}}%
+\nolimits^{#1}\gobblespace}
+\def\gobblespace{%
+\futurelet\diffarg\opspace}
+\def\opspace{%
+\let\DiffSpace\!%
+\ifx\diffarg(%
+\let\DiffSpace\relax
+\else
+\ifx\diffarg[%
+\let\DiffSpace\relax
+\else
+\ifx\diffarg\{%
+\let\DiffSpace\relax
+\fi\fi\fi\DiffSpace}
+
+
+\providecommand{\keywords}[1]{\textbf{\centering Keywords\\} #1}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+
+\makeatletter
+\newcommand\etc{etc\@ifnextchar.{}{.\@}}
+\makeatother
+
+%\makeatletter
+%\newcommand\ie{i\@.e\@ifnextchar.{}{.\@}}
+%\makeatother
+
+\makeatletter
+\newcommand\eg{e\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\withoutlog{w\@.l\@.o\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\uhc{u\@.h\@.c\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\lhc{l\@.h\@.c\@ifnextchar.{}{.\@}}
+\makeatother
+
+\newcommand{\ccirc}{\kern0.5ex\vcenter{\hbox{$\scriptstyle\circ$}}\kern0.5ex}
+
+%%%%%%%%%%------for quotes--------%%%%%%%%%%%%
+\def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+  \hbox{}\nobreak\hfil(#1)%
+  \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+
+\newsavebox\mybox
+\newenvironment{aquote}[1]
+  {\savebox\mybox{#1}\begin{quote}}
+  {\signed{\usebox\mybox}\end{quote}}
+  
+  %format \begin{aquote}{Bourbaki} ... \end{aquote}
+%%%%%%%%%%------end for quotes--------%%%%%%%%%%%%
+
+
+\theoremstyle{plain}
+\numberwithin{theorem}{section}
+\newtheorem*{a0}{A0}
+\newtheorem*{a1}{A1}
+\newtheorem*{a2}{A2}
+\newtheorem*{a3}{A3}
+\newtheorem*{a4}{A4}
+\newtheorem*{a5}{A5}
+\newtheorem*{a6}{A6}
+\newtheorem*{axiom*}{Axiom}
+
+\newtheorem{case}{Case}
+
+%\numberwithin{claim}{section}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{claim*}{Claim}
+\newtheorem*{observation*}{Observation}
+\newtheorem*{definition*}{Definition}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}{Condition}[theorem]
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{proposition}[theorem]{Proposition}
+%\numberwithin{example}{section}
+\newtheorem*{example*}{Example}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{notation}{Notation}
+
+\newtheorem{property}{Property}
+\newtheorem{properties}{Properties}
+
+%\numberwithin{remark}{section}
+\newtheorem{summary}{Summary}
+%\numberwithin{equation}{section}
+
+\newtheorem{taggedtheoremx}{Axiom}
+\newenvironment{taggedaxiom}[1]
+ {\renewcommand\thetaggedtheoremx{#1}\taggedtheoremx}
+ {\endtaggedtheoremx}
+
+\makeatletter
+\setbeamercolor{theorem text}{bg=green!50!black}
+\setbeamertemplate{theorem begin}
+{%
+\color{structure}  \large \textup%\bfseries % \inserttheoremheadfont% \bfseries
+  \inserttheoremname \inserttheoremnumber 
+  \ifx\inserttheoremaddition\@empty\else\ (\inserttheoremaddition)\fi%
+  \inserttheorempunctuation
+  \normalfont\normalsize\normalcolor
+}
+\setbeamertemplate{theorem end}{%
+  % empty
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator{\baspace}{ba}
+\DeclareMathOperator{\ck}{cvker}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\cone}{cone}
+%\DeclareMathOperator{\esssup}{ess\,sup}
+\DeclareMathOperator{\lin}{Lin}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\interior}{Int}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vecspan}{span}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\bd}{bd}
+\DeclareMathOperator{\rebd}{rebd}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\argsup}{argsup}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\ri}{ri}
+\DeclareMathOperator{\aff}{aff}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\dom}{Dom}
+
+\newcommand*{\Chi}{\mbox{\Large$\chi$}}
+\newcommand{\mbb}{\mathbb}
+%\newcommand{\I}{\rm }
+\newcommand{\lambdas}{\,\lambda\,}
+\newcommand{\bs}{\smallsetminus}
+\newcommand{\1}{\mathbf{1}}
+
+
+\newcommand{\R}{\mbb R}
+\newcommand{\ds}{\Delta}
+\newcommand{\ie}{i.e.\ }
+\newcommand{\as}{\textrm{a.s.}}
+\newcommand{\ud}{\, \mathrm{d}}
+\newcommand{\wt}{\widetilde}
+\newcommand{\mc}{\mathcal }
