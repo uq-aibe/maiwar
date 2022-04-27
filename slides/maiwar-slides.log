@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  27 APR 2022 16:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  27 APR 2022 16:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1867,14 +1867,14 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
 
 ] [23
 
-] [24
+] (./maiwar-slides.toc)
+[24
 
-]
-(./maiwar-slides.toc) [25
+] [25
 
-] [26
+] (./maiwar-slides.toc) [26
 
-] (./maiwar-slides.toc) [27
+] [27
 
 ] [28
 
@@ -1882,8 +1882,7 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
 
 ] [30
 
-]
-[31
+] [31
 
 ]
 \tf@nav=\write8
@@ -1895,7 +1894,8 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
 \tf@snm=\write10
 \openout10 = `maiwar-slides.snm'.
 
- (./maiwar-slides.aux)
+
+(./maiwar-slides.aux)
 Package rerunfilecheck Info: File `maiwar-slides.out' has not changed.
 (rerunfilecheck)             Checksum: 5AF279A42DB8916AE213488668FBA5B4;699.
 Package logreq Info: Writing requests to 'maiwar-slides.run.xml'.
@@ -1935,7 +1935,7 @@ lic/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy
 b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/yhmath/yhcmex.pfb>
 
-Output written on maiwar-slides.pdf (31 pages, 270773 bytes).
+Output written on maiwar-slides.pdf (31 pages, 270850 bytes).
 PDF statistics:
  399 PDF objects out of 1000 (max. 8388607)
  308 compressed objects within 4 object streams
