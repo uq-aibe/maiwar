@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  27 APR 2022 06:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  27 APR 2022 16:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1797,24 +1797,21 @@ LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <10.95> not available
 
 ] [7
 
-]
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 143.
- [8
+] [8
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 164.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <9> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 164.
-LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <9> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 164.
-
- [9
+] [9
 
 ] [10
 
-] [11
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 180.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <9> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 180.
+LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <9> not available
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 180.
+
+ [11
 
 ] [12
 
@@ -1822,16 +1819,18 @@ LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <9> not available
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 257.
+(Font)              <10> on input line 250.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 257.
+(Font)              <7> on input line 250.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 250.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 257.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 250.
 LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 257.
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 250.
 
 LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <7> not available
-(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 257.
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 250.
 
  [14
 
@@ -1842,13 +1841,13 @@ LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <7> not available
 
 ]
 LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <10.95> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 305.
 LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <8> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 305.
 LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <6> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 311.
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 305.
 
-Overfull \vbox (3.85637pt too high) detected at line 311
+Overfull \vbox (3.85637pt too high) detected at line 305
  []
 
 [17
@@ -1857,7 +1856,7 @@ Overfull \vbox (3.85637pt too high) detected at line 311
 
 ]
 LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 349.
+(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 343.
  [19
 
 ] [20
@@ -1870,12 +1869,21 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
 
 ] [24
 
-] [25
+]
+(./maiwar-slides.toc) [25
 
 ] [26
 
+] (./maiwar-slides.toc) [27
+
+] [28
+
+] [29
+
+] [30
+
 ]
-[27
+[31
 
 ]
 \tf@nav=\write8
@@ -1889,16 +1897,16 @@ LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <5> not available
 
  (./maiwar-slides.aux)
 Package rerunfilecheck Info: File `maiwar-slides.out' has not changed.
-(rerunfilecheck)             Checksum: 2BF6A4923E9E96DA3720F10B8DFF70CD;348.
+(rerunfilecheck)             Checksum: 5AF279A42DB8916AE213488668FBA5B4;699.
 Package logreq Info: Writing requests to 'maiwar-slides.run.xml'.
 \openout1 = `maiwar-slides.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46137 strings out of 478268
- 1071835 string characters out of 5846347
- 1832275 words of memory out of 5000000
- 63405 multiletter control sequences out of 15000+600000
+ 46167 strings out of 478268
+ 1072139 string characters out of 5846347
+ 1832276 words of memory out of 5000000
+ 63421 multiletter control sequences out of 15000+600000
  604009 words of font info for 127 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,12n,122p,749b,1007s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1927,10 +1935,10 @@ lic/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy
 b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/yhmath/yhcmex.pfb>
 
-Output written on maiwar-slides.pdf (27 pages, 267300 bytes).
+Output written on maiwar-slides.pdf (31 pages, 270773 bytes).
 PDF statistics:
- 347 PDF objects out of 1000 (max. 8388607)
- 261 compressed objects within 3 object streams
- 58 named destinations out of 1000 (max. 500000)
- 73 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 399 PDF objects out of 1000 (max. 8388607)
+ 308 compressed objects within 4 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 89 words of extra memory for PDF output out of 10000 (max. 10000000)
 

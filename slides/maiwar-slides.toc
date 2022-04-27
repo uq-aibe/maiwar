@@ -1,3 +1,5 @@
 \beamer@sectionintoc {1}{John Mangan}{2}{0}{1}
 \beamer@sectionintoc {2}{Patrick O'Callaghan}{4}{0}{2}
 \beamer@sectionintoc {3}{Tina Rampino}{21}{0}{3}
+\beamer@sectionintoc {4}{Other team members and thanks}{25}{0}{4}
+\beamer@sectionintoc {5}{Appendix/extra slides}{27}{0}{5}

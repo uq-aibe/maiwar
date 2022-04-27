@@ -105,85 +105,9 @@
   \end{itemize}
   But, after a lot of hard work:
   \begin{itemize}
+    \item VFI is also unstable (poorly suited to multi-sectoral flows)
     \item trouble with grid approach: $10 ^ {12}$ points for 12 dimensions
     \item approximation is poor outside of grid
-    \item VFI is also unstable (poorly suited to multi-sectoral flows)
-  \end{itemize}
-\end{frame}
-\begin{frame}
-%==============================================================================
-  \frametitle{A bit more detail on the current state of CGE modelling}
-%==============================================================================
-  \begin{itemize}
-      \item McKibbin 1990s GCube (steady-state, no uncertainty either)
-      \item Malakellis 1990s CoPS (Hamiltonian no uncertainty)
-      \item Ha--Kompas 2017 Hamiltoniann, no uncertainty, impressive.
-      \item Wende 2019, Treasury Intersectoral Model (TIM) steady-state,
-        no uncertainty
-  \end{itemize}
-\end{frame}
-\begin{frame}
-%==============================================================================
-  \frametitle{How we arrived at Maiwar \dots the research question}
-%==============================================================================
-  My old supervisor (Herakles Polemarchakis) once told me that building a model
-  without a question is \emph{the kiss of death}.
-
-  Reading group: Aarushi, Marian, Patrick Duenow and I, late 2020.
-  \begin{itemize}
-    \item Economy-wide implications of mental health: with Patrick D
-    \item COVID impact
-    \item In 2022, settled on 2050 net-zero carbon emission targets.
-    \begin{itemize}
-      \item Most economists think Australia will be better off, but
-      \item Adams 2021, CoPS: Qld -6\% GSP and -100k jobs \emph{rel. to base}.
-      \item What about Qld targets over and above those of Australia?
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-%==============================================================================
-  \frametitle{MAIWAR \small(Modelling Australian Industry With AMPL Regions)}
-%==============================================================================
-  \begin{enumerate}\footnotesize
-    \item Flexible yet Fast: without steady-state approx
-    \item Look-forward property: flow of state-action dependent rewards
-  \[
-    V_{t_0}(\omega_{t_0}) = r_{t_0}(\omega_{t_0}, a_{t_0}) + \cdots
-    + r_{t_9}(\omega_{t_9}, a_{t_9}) + V_{t_{10}}(\omega_{t_{10}})
-  \]
-    \item Uncertainty: easy way to improve on CoPS
-    \item Investment/saving behaviour: Euler equations: CGE Dixon--Rimmer 2020
-    \item Data: BLADE, calibration, econometrics
-    \item Robust/Reliable: works with a variety of set-ups
-    \item Accurate/Accessible: John as end-user, as open source as possible
-    \item Modern yet Trustworthy: best-in-class knowledge, 2+ solvers
-    \item Scalable: at least to 8 regions and 20 sectors
-  \end{enumerate}\normalsize
-\end{frame}
-\begin{frame}
-%==============================================================================
-  \frametitle{First: the current state of affairs}\thispagestyle{empty}
-%==============================================================================
-  Currently developing strategies for easy Scaling (pre Calibration).
-    \begin{itemize}
-      \item Conopt: for a well-scaled model, all values (variable,
-        dual variable and derivative) in $[10^{-2} , 10^{+2}]$.
-      \item E.g. Beyond 10 sectors log Cobb-Douglas Utility:
-        \emph{corner sol}.
-        \begin{itemize}
-          \item As number of parameters grows, investment shares fall.
-          \item To help identify scaling parameters: NIMROD, RCC working!
-          \item Thanks to: David Green, Thom Cuddihy and Marlies Hankel.
-          \item Last Friday: 120 runs in 1 hour on 12 CPUs.
-        \end{itemize}
-    \end{itemize}
-
-  In February, we obtained access to BLADE and established that can use for
-  for government contracts (\emph{not for commercial gain}).
-  \begin{itemize}
-    \item Illion Credit-reporting agency: possible BLADE integration \dots
   \end{itemize}
 \end{frame}
 \begin{frame}\thispagestyle{empty}
@@ -209,20 +133,89 @@
 \end{frame}
 \begin{frame}
 %==============================================================================
+  \frametitle{A bit more detail on the current state of CGE modelling}
+%==============================================================================
+  \begin{itemize}
+      \item McKibbin 1990s GCube (steady-state, no uncertainty either)
+      \item Malakellis 1990s CoPS (Hamiltonian no uncertainty)
+      \item Ha--Kompas 2017 Hamiltonian, no uncertainty, impressive.
+      \item Wende 2019, Treasury Intersectoral Model (TIM) steady-state,
+        no uncertainty
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{How we arrived at Maiwar \dots the research question}
+%==============================================================================
+  Herakles Polemarchakis: building a model without a question is 
+  \emph{putting the cart before the horse}.
+
+  In 2022, settled on 2050 net-zero carbon emission targets.
+    \begin{itemize}
+      \item Most economists think Australia will be better off, but
+      \item Adams 2021, CoPS: Qld -6\% GSP and -100k jobs \emph{rel. to base}.
+      \item What about Qld targets over and above those of Australia?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+%==============================================================================
+  \frametitle{MAIWAR \small(Modelling Australian Industry With AMPL Regions)}
+%==============================================================================
+  \begin{enumerate}\footnotesize
+    \item Flexible yet Fast: without steady-state approx
+    \item Look-forward property: flow of state-action dependent rewards
+  \[
+    V_{t_0}(\omega_{t_0}) = r_{t_0}(\omega_{t_0}, a_{t_0}) + \cdots
+    + r_{t_9}(\omega_{t_9}, a_{t_9}) + V_{t_{10}}(\omega_{t_{10}})
+  \]
+    \item Uncertainty: easy way to improve on CoPS
+    \item Investment/saving behaviour: Euler equations: CGE Dixon--Rimmer 2020
+    \item Data: BLADE, calibration, econometrics
+    \item Robust/Reliable: works with a variety of set-ups
+    \item Accurate/Accessible: as open source as possible
+    \item Modern yet Trustworthy: best-in-class knowledge, 2+ solvers
+    \item Scalable: at least to 8 regions and 20 sectors
+  \end{enumerate}\normalsize
+\end{frame}
+\begin{frame}
+%==============================================================================
+  \frametitle{Maiwar: the current state of affairs}\thispagestyle{empty}
+%==============================================================================
+  Currently developing strategies for easy Scaling (pre Calibration).
+    \begin{itemize}
+      \item Conopt: for a well-scaled model, all values (variable,
+        dual variable and derivative) in $[10^{-2} , 10^{+2}]$.
+      \item E.g. Beyond 10 sectors log Cobb-Douglas Utility:
+        \emph{corner sol}.
+        \begin{itemize}
+          \item To help identify scaling parameters: NIMROD, RCC working!
+          \item Last Friday: 120 runs in 1 hour on 12 CPUs.
+        \end{itemize}
+    \end{itemize}
+
+  In February, we obtained access to BLADE and established that can use for
+  for government contracts (\emph{not for commercial gain}).
+  \begin{itemize}
+    \item Illion Credit-reporting agency: possible BLADE integration \dots
+  \end{itemize}
+\end{frame}
+\begin{frame}
+%==============================================================================
   \frametitle{Quick interlude on formal model}
 %==============================================================================
 \uncover <+-|alert@+>{\color<.>{blue}
   \begin{align*}
     V_{0}(\omega_{0}) = \max_{a_{\cdot}}& \quad \mathbb E
-    \left\{\sum_{t = 0}^{27} \beta^{t} r_{t}(\omega_{t}, a_{t}) + \beta^{28} V_{28}(\omega_{28})\right\}
+    \left\{\sum_{t = 0}^{9} \beta^{t} r_{t}(\omega_{t}, a_{t}) + \beta^{10} V_{10}(\omega_{10})\right\}
     \\
-    \textup{s.t.}& \quad \omega_{t+1} = g_{t}(\omega_{t}, a_{t}, \varepsilon_{t}), \quad t = 0, \dots, 27
+    \textup{s.t.}& \quad \omega_{t+1} = g_{t}(\omega_{t}, a_{t}, \varepsilon_{t}), \quad t = 0, \dots, 9
     \\
-    & \quad f_{t}(\omega_{t}, a_{t}) \geq 0, \quad t = 0, \dots, 27.
+    & \quad f_{t}(\omega_{t}, a_{t}) \geq 0, \quad t = 0, \dots, 9.
   \end{align*}
 }
 \uncover<+-|alert@+>{\color<.>{blue}
-With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, reward $r_{t}$, discount factor $0 < \beta < 1$, terminal value function $V_{28}$, transition law $g_{t}$, error $\varepsilon_{t}$ and feasibility constraints $f_{t}$ on actions.}
+With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, reward $r_{t}$, discount factor $0 < \beta < 1$, terminal value function $V_{10}$, transition law $g_{t}$, error $\varepsilon_{t}$ and feasibility constraints $f_{t}$ on actions.}
 \\
 \begin{itemize}
   \item Grid-free: all about paths \dots a simple example.
@@ -282,6 +275,7 @@ With current state $\omega_{t}$, action  $a_{t}$, expectation $\mathbb E$, rewar
 %==============================================================================
   \frametitle{Example of results}
 %==============================================================================
+  
   
 \end{frame}
 \begin{frame}\thispagestyle{empty}
@@ -365,6 +359,39 @@ To Cai--Judd: a framework for sectoral/production networks.
 \end{frame}
 
 \section{Tina Rampino}
+\begin{frame}\thispagestyle{empty}\small
+%==============================================================================
+  \frametitle{BLADE: \small 	Business Longitudinal Analysis Data Environment} 
+%==============================================================================
+  \begin{itemize}
+    \item Economic data tool integrating tax, trade and intellectual property data 
+  with information from ABS surveys
+    
+   \item Contains data on all active businesses from 2001-02 to 2018-19.
+	
+   \item We are currently using BLADE Core to construct parameters to scale down
+  the Input-Output tables for Australia.
+
+   \item Approx. 2.4 million operating businesses in 2020
+  
+   \item Patrick and I currently have access and are building 
+  variables that will allow us to capture number of TAUs in a given region.
+
+   \item Alicia and Martie-Louise are discussants.
+\end{itemize}
+\end{frame}
+\begin{frame}\thispagestyle{empty}\small
+%==============================================================================
+  \frametitle{BLADE benefits and usage}
+%==============================================================================
+\begin{itemize}
+	  \item Publicly Available data not granular enough to inform local policy makers, 
+	  \item BLADE is especially relevant in the case of Qld (state with the highest regional population)
+	  \item Projects must benefit the public:
+	  \item SMaRT in Qld modelling provides insights on policy interventions
+	  \item “Pulse of the region” industry engagement meetings: DAF interested in assessing the impact of COVID-19 using CGE framework (they think SA4 level, we can model SA1, which is more relevant for rural Queensland)
+  \end{itemize}
+\end{frame}
 \begin{frame}
 %==============================================================================
   \frametitle{Why CGE modelling?}
@@ -388,6 +415,38 @@ To Cai--Judd: a framework for sectoral/production networks.
   \end{itemize}
 \vfill
 \end{frame}
+\section{Other team members and thanks}
+\begin{frame}
+%==============================================================================
+  \frametitle{Thanks for listening!}
+%==============================================================================
+\uncover<+-|alert@+>{\color<.>{blue}
+And many thanks to the absent members of the team:
+}
+
+\begin{itemize}
+\item<+-|alert@+>{\color<.>{blue}
+        Josh Aberdeen (UQ Student Joint Bachelors)}
+\item<+-|alert@+>{\color<.>{blue}
+        Patrick Duenow (UQ Student PhD Health Economics)
+        }
+\item<+-|alert@+>{\color<.>{blue}
+        Cameron Gordon (U Adelaide Student PhD Machine Learning)
+        }
+\item<+-|alert@+>{\color<.>{blue}
+    Alexander Yelkhovsky (Research Fellow Computing)
+  }
+\end{itemize}
+Also Alicia Rambaldi for her advice on BLADE
+
+Jorge Miranda-Pinto for his expertise on the literature
+
+Brent Ritchie for making the project happen.
+
+\vfill\end{frame}
+%==============================================================================
+\section{Appendix/extra slides}
+%==============================================================================
 \begin{frame}
 %==============================================================================
 \frametitle{Why the focus on uncertainty?}
@@ -703,26 +762,6 @@ J. Miranda-Pinto of UQ had a hand in TIM (and in our choices)
 %\end{itemize}
 %\vfill\end{frame}
 
-\begin{frame}
-\frametitle{Thanks for listening!}
-\uncover<+-|alert@+>{\color<.>{blue}
-Many thanks to the absent members of the team:
-}
-
-\begin{itemize}
-\item<+-|alert@+>{\color<.>{blue}
-        Josh Aberdeen
-        }
-\item<+-|alert@+>{\color<.>{blue}
-        Patrick Duenow
-        }
-\item<+-|alert@+>{\color<.>{blue}
-        Cameron Gordon
-        }
-
-\end{itemize}
-
-\vfill\end{frame}
 
 
 %\printbibliography

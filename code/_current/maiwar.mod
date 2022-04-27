@@ -16,7 +16,7 @@ param LInf 'start period/infimum of the look forward set', default 0;
 param LSup 'end period/supremum of the look forward set' > LInf, default 1e+1; 
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
-  default 1 >= PInf; 
+  default 3 >= PInf; 
 param TSup 'final time' >= PInf + LInf, default PSup + LSup;
 /*=============================================================================
 Sets
@@ -217,7 +217,7 @@ Current intermediate variables (substituted out during pre-solving)
 =============================================================================*/
 var E_output 'current intermediate variable for output'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
-    = E_output_CD[r, i, t, s] * 9e+0;
+    = E_output_CD[r, i, t, s] * 5e+0;
 var inv_sec 'current intermediate variable for aggregated investment'
   {r in Regions, j in Sectors, t in LookForward, s in PathTimes}
     = inv_sec_CES[r, j, t, s];
@@ -227,7 +227,7 @@ var adj_cost_kap 'current adjustment costs for kapital'
 var utility 'current intermediate variable for utility'
   {t in LookForward, s in PathTimes} = utility_SumShr_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_SumShr[s] * 4e-1; 
+  {s in PathTimes} = tail_val_SumShr[s] * 5e-1; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/
@@ -348,7 +348,8 @@ for {s in PathTimes}{
         - ADJ_COST_KAP[rr, i, s - 1]
       );
     };
-      
+    display s, _ampl_elapsed_time, _total_solve_time,
+      E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, MKT_CLR, LAB, KAP;
 #-----------set and solve the plan for start time s
     objective pres_disc_val[s];
     let InstanceName := ("./maiwar" & card(Regions) & "x" & card(Sectors)
@@ -356,8 +357,24 @@ for {s in PathTimes}{
     write ("b" & InstanceName);
     solve;
     #solution (InstanceName & ".sol");
-    display s, _ampl_elapsed_time, _total_solve_time,
-      E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, MKT_CLR, LAB, KAP;
+    for {r in Regions, i in Sectors}{
+#-----------save actual path values of variables to parameter
+      let CON[r, i, s - 1] := con[r, i, LInf, s - 1];
+      let INV_SEC[r, i, s - 1] := inv_sec[r, i, LInf, s - 1];
+      let INV_SUM[r, i, s - 1] := sum{j in Sectors} inv[r, i, j, LInf, s - 1];
+      let LAB[r, i, s - 1] := lab[r, i, LInf, s - 1];
+      let E_OUTPUT[r, i, s - 1] := E_output[r, i, LInf, s - 1];
+      let ADJ_COST_KAP[r, i, s - 1] := adj_cost_kap[r, i, LInf, s - 1];
+      let KAP[r, i, s] := kap[r, i, 1, s - 1];
+      for {j in Sectors}{
+        let INV[r, i, j, s - 1] := inv[r, i, j, LInf, s - 1];
+        let JAC_ID[r, i, j, s - 1] := max{ii in Sectors, jj in Sectors}(
+            INV[r, i, j, s] / INV_SHR[r, i , j]
+            - (INV[r, i, ii, s - 1] / INV_SHR[r, i, ii])
+              / (INV[r, jj, ii, s - 1] / INV_SHR[r, jj, ii])
+              * (INV[r, jj, j, s - 1] / INV_SHR[r, jj, j])
+          );
+      };
   };
 };
 /*=============================================================================
