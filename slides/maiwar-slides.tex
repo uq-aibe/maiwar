@@ -7,6 +7,7 @@
 \usepackage{pifont}
 \usepackage{media9}  
 \usepackage{Preamble_files/beamer_preamble}
+\usepackage{appendixnumberbeamer}
 \usepackage{comment}
 \usepackage{RKsmileys}
 \setbeamertemplate{itemize item}{
@@ -37,7 +38,8 @@
 \date{}
 \AtBeginSection[]
 {
-\begin{frame}{Presenters}
+  \begin{frame}{Presenters}\thispagestyle{empty}
+    \addtocounter{framenumber}{-1}
 \tableofcontents[currentsection]
 \vfill\end{frame}
 \normalsize
@@ -71,6 +73,21 @@
   \end{itemize}
 \end{frame}
 \section{Patrick O'Callaghan}
+\begin{frame}
+%==============================================================================
+  \frametitle{Purpose}
+%==============================================================================
+  Yesterday in conversations with Flavio and John:
+  \begin{itemize}
+    \item Flavio: CGE is good for long-term problems
+    \item John: real test of success is if we can provide new insights
+  \end{itemize}
+  Key points:
+  \begin{itemize}
+    \item Maiwar expands the scope of CGE to mid-term problems
+    \item Tools we now have are being applied to design electricity grids
+\end{itemize}
+\end{frame}
 \begin{frame}
 %==============================================================================
   \frametitle{How we arrived at Maiwar: methodology}
@@ -359,7 +376,7 @@ To Cai--Judd: a framework for sectoral/production networks.
 \end{frame}
 
 \section{Tina Rampino}
-\begin{frame}\thispagestyle{empty}\small
+\begin{frame}\small
 %==============================================================================
   \frametitle{BLADE: \small 	Business Longitudinal Analysis Data Environment} 
 %==============================================================================
@@ -380,7 +397,7 @@ To Cai--Judd: a framework for sectoral/production networks.
    \item Alicia and Martie-Louise are discussants.
 \end{itemize}
 \end{frame}
-\begin{frame}\thispagestyle{empty}\small
+\begin{frame}\small
 %==============================================================================
   \frametitle{BLADE benefits and usage}
 %==============================================================================
@@ -765,5 +782,5 @@ J. Miranda-Pinto of UQ had a hand in TIM (and in our choices)
 
 
 %\printbibliography
-
+\addtocounter{framenumber}{-5}
 \end{document}
