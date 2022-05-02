@@ -1,0 +1,479 @@
+ %----------------------------------------begin packages-------------------------
+\usepackage{amsmath}%[fleqn]
+\usepackage{amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{graphics}
+\usepackage{graphicx}
+% \usepackage{layout}
+% \usepackage{dutchcal} 
+%\usepackage{newtxtext,newtxmath}
+\usepackage{pdfrender}
+\usepackage{titlesec}
+%\titleformat*{\section}{\large\MakeUppercase}
+%\usepackage{epstopdf}
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.8}
+\usepackage{mathabx} 
+%\usepackage{yhmath}
+
+\usepackage{accents} %for underbar etc
+
+\usepackage{xr}
+
+\usepackage{stmaryrd}
+%\usepackage{wasysym}
+\usepackage{appendix}
+%\usepackage[obeyDraft]{todonotes}
+\usepackage{hyperref}
+\hypersetup{
+  frenchlinks = true, %small caps
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = gray!75!black, %Colour for external hyperlinks
+  linkcolor    = {gray!75!black}, %Colour of internal links
+  citecolor   = {gray!75!black} %Colour of citations
+}
+\usepackage{etex,etoolbox}
+\usepackage{thmtools}
+\usepackage{environ}
+\usepackage{verbatim}
+%\usepackage{enumitem}
+\usepackage{environ}
+%----------------bibliography packages!!!-----------------
+\usepackage{natbib}
+%\usepackage[
+%    backend=biber,
+%	style=numeric,%draft,
+%    sortlocale=en_US,
+%    natbib=true,
+%    url=false,
+%    doi=false,
+%    isbn=false,
+%    giveninits=true,
+%    abbreviate=false,
+%    maxbibnames=99,
+%    eprint=false
+%]{biblatex}%\usepackage{url}
+\usepackage{authblk}
+\usepackage{filecontents}%for inputting files inside a file eg. bbl file
+\usepackage{docmute}
+%\usepackage{enumerate,mdwlist}
+\usepackage[shortlabels]{enumitem}
+\usepackage{nicefrac}
+\usepackage{upgreek}
+%\labelformat{chapter}{chapter~#1}
+%\labelformat{section}{section~#1}
+%\labelformat{subsection}{subsection~#1}
+%\labelformat{equation}{equation~(#1)}
+%\renewcommand\reftextfaceafter{on page~\thevpagerefnum}
+%\renewcommand\reftextfacebefore{on page~\thevpagerefnum}
+%\renewcommand\reftextafter{on page~\thevpagerefnum}
+%\renewcommand\reftextbefore{on page~\thevpagerefnum}
+\usepackage[nameinlink]{cleveref}
+\usepackage[english]{babel}
+%\usepackage{perpage}
+%\MakePerPage{footnote}
+%\usepackage[symbol*]{footmisc}
+%\DefineFNsymbolsTM{myfnsymbols}{% def. from footmisc.sty "bringhurst" symbols
+ % \textasteriskcentered *
+%  \textdagger    \dagger
+%  \textdaggerdbl \ddagger
+%  \textsection   \mathsection
+ % \textbardbl    \|%
+%  \textparagraph \mathparagraph
+%}%
+%\setfnsymbol{myfnsymbols}
+%\usepackage[utf8]{inputenc}
+        %\usepackage{bickham}
+        %\usepackage{boondox-cal}
+        %\usepackage{boondox-calo}
+%       \usepackage{dutchcal} 
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{stackengine,scalerel}
+\usepackage{caption}
+
+%----for prudent inductive inference paper
+\usepackage{epigraph}%to write epigraphs
+\usepackage[nodayofweek]{datetime}%to change the way dates and times are displayed
+\usepackage{dsfont}%for special fonts 
+%\usepackage{bbm,eufrak}
+%%\usepackage[T1]{fontenc}
+%\usepackage[upright=mtc]{mathalfa}
+\usepackage{yfonts}
+
+\usepackage{geometry}
+% \usepackage[a4paper,bindingoffset=0.2in,%
+%             left=0in,right=0in,top=1.25in,bottom=1.25in,%
+%             % footskip=.25in
+%             ]{geometry}
+            \usepackage{extsizes}
+%            \setspace{1.5}
+
+%\usepackage{pdfsync}
+%\synctex=1
+
+%\usepackage[T1]{fontenc}
+
+\usepackage{authblk}
+ \usepackage[right, modulo]{lineno}% to show line numbers
+
+\usepackage{relsize}
+\usepackage{blkarray} % for block/bordered matrices
+% \usepackage{tabstackengine}[2016-11-30] % for bordered matrices
+\usepackage[conf={one big link}]{proof-at-the-end}
+\pgfkeys{/prAtEnd/global custom defaults/.style={
+    proof at the end,
+%    no link to proof
+%one big link={The proof is on page~\pageref*{proof:prAtEnd\pratendcountercurrent}.}
+} }
+%----------------------------------------end packages-------------------------
+
+%----------------------------------------begin environments-------------------------
+% \NewDocumentEnvironment{thmE}{O{}O{}+b}{%
+%   \begin{theoremEnd}[normal,#2]{thm}[#1]%
+%     #3%
+%   \end{theoremEnd}%
+% }{}
+% \NewDocumentEnvironment{proofE}{O{}+b}{%
+%   \begin{proofEnd}[#1]%
+%     #2%
+%   \end{proofEnd}%
+% }{}
+%%%%%%%%%%%%%%-----begin innerproof environment------%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%
+%\NewEnviron{innerproof}{%
+%	  \edef\next{%
+%   \noexpand\begin{proof}%[\pat@proofof\space\pat@label]%
+%    \unexpanded\expandafter{\BODY}}%
+%  \renewcommand{\qedsymbol}{}\expandafter{\next\end{proof}}
+%  }
+%%%%%%%%%%%%%%-----end innerproof environment------%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%-----begin proofatend environment------%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%-----end proofatend environment------%%%%%%%%%%%%%%%%%
+
+%\declaretheorem[style=plain,name=Theorem,qed=$\square$,numberwithin=section]{thm}
+%\declaretheorem[style=plain,name=Lemma,qed=$\square$,numberlike=thm]{lem}
+%\newtheorem{thm}{Theorem}
+%\newtheorem{lem}[thm]{Lemma}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{claim*}{Claim}
+%\theoremstyle{definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{example*}{Example}
+\newtheorem*{axiom*}{Axiom}
+\newtheorem*{axioms}{Axioms}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{conjecture*}{Conjecture}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{observation*}{Observation}
+\newtheorem*{assumption*}{Richness~Assumption}
+\newtheorem*{prudence*}{\textit{4}-Prudence}
+\newtheorem*{diversity*}{Diversity}
+\newtheorem*{4-ind*}{\textit{4}-Independence}
+\newtheorem*{k-jac*}{$k$-Jac}
+% [section]
+%\newtheorem{theorem}{Theorem}%[section]
+%\newtheorem{definition}{Definition}%[section]
+%\newtheorem{claim}{Claim}%[section]
+%\newtheorem{lemma}{Lemma}%[section]
+%\newtheorem{example}{Example}%[section]
+%\newtheorem{proposition}{Proposition}%[section]
+%\newtheorem{remark}{Remark}%[section]
+%\newtheorem{corollary}{Corollary}%[section]
+\newtheorem{theorem}{Theorem}%[section]
+\newtheorem{definition}{Definition}%[section]
+\newtheorem{lemma}{Lemma}[theorem]
+\newtheorem{claim}{Claim}[lemma]
+\newtheorem{claim-gsii}{Claim}[theorem]	
+\newtheorem{example}{Example}%[section]
+\newtheorem{proposition}{Proposition}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{corollary}{Corollary}%[section]
+\newtheorem{conjecture}{Conjecture}%[section]
+\newtheorem{assumption}{Assumption}
+\newtheorem{observation}{Observation}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem*{thm*}{Theorem}
+\providecommand*\thmautorefname{Theorem}
+
+
+%%%%%%%%
+\newtheorem{taggedtheoremz}{Diversity}
+\newenvironment{taggeddiv}[1]
+ {\renewcommand\thetaggedtheoremz{#1}\taggedtheoremz}
+ {\endtaggedtheoremz}
+ %%%%%%%%
+\newtheorem{taggedtheoremx}{Prudence}
+\newenvironment{taggedpru}[1]
+ {\renewcommand\thetaggedtheoremx{#1}\taggedtheoremx}
+ {\endtaggedtheoremx}
+% \def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+%   \hbox{}\nobreak\hfil(#1)%
+%   \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+%%%%%%%
+\newtheorem{taggedtheoremy}{}
+\newenvironment{taggedblank}[1]
+ {\renewcommand\thetaggedtheoremy{#1}\taggedtheoremy}
+ {\endtaggedtheoremy}
+\def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+  \hbox{}\nobreak\hfil(#1)%
+  \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+\newsavebox\mybox
+%%%%%%%%%%%%
+%\fixstatement{theorem}
+%\fixstatement{lemma}
+%\fixstatement{proposition}
+%\fixstatement{corollary}
+
+\newenvironment{aquote}[1]
+  {\savebox\mybox{#1}\begin{quote}}
+  {\signed{\usebox\mybox}\end{quote}}  %format \begin{aquote}{Bourbaki} ... \end{aquote}
+
+
+
+\def\keywords#1{\begin{center}{\bf Keywords}\\{#1}\end{center}} %keywords
+
+\newtheoremstyle{note}% <name>
+{3pt}% <Space above>
+{5pt}% <Space below>
+{\upshape}% <Body font>
+{}% <Indent amount>
+{\scshape}% <Theorem head font>
+{.}% <Punctuation after theorem head>
+{1em}% <Space after theorem headi>
+{}% <Theorem head spec (can be left empty, meaning `normal')>
+%\theoremstyle{definition}
+\theoremstyle{note}
+\newtheorem{step}{Step}[section]
+%\renewcommand\thestep{\arabic{step}}
+
+\theoremstyle{note}
+\newtheorem{substep}{Step}[step]
+%\renewcommand\thestep{\arabic{step}}
+
+
+\theoremstyle{note}
+\newtheorem{case}{Case}[theorem]
+\renewcommand\thecase{\arabic{case}}
+
+\newtheoremstyle{last}% <name>
+{3pt}% <Space above>
+{0pt}% <Space below>
+{\upshape}% <Body font>
+{}% <Indent amount>
+{\scshape}% <Theorem head font>
+{.}% <Punctuation after theorem head>
+{1em}% <Space after theorem headi>
+{}% <Theorem head spec (can be left empty, meaning `normal')>
+%\theoremstyle{definition}
+
+\theoremstyle{last}
+\newtheorem{lemcase}{Case}[lemma]
+\renewcommand\thelemcase{\arabic{lemcase}}
+
+%\newcommand{\subscript}[2]{$#1 _ #2$}
+%----------------------------------------end environments-------------------------
+%----------------------------------------begin math notation and shorthand-------------------------
+\newcommand*{\medcap}{\mathbin{\scalebox{.85}{\ensuremath{\bigcap}}}}%
+\newcommand*\mcap{\mathbin{\mathpalette\mcapinn\relax}}
+\newcommand*\mcapinn[2]{\vcenter{\hbox{$\mathsurround=0pt
+  \ifx\displaystyle#1\textstyle\else#1\fi\bigcap$}}}
+\newcommand{\bs}{-}%\operatorname{\setminus}}
+\newcommand{\relint}{\operatorname{ri}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\mc}{\mathcal}
+\newcommand{\ds}{\Delta}
+\newcommand{\id}{\mathbf{id}}
+\newcommand{\ccirc}{\kern0.5ex\vcenter{\hbox{$
+\scriptstyle\circ$}}\kern0.5ex}
+\newcommand{\overbar}{\widebar}
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}%\sffamily
+\let\oldbar\bar % this is not necessary in the real application
+%%% Define a new math font
+\DeclareSymbolFont{boldoperators}{OT1}{cmr}{bx}{n}
+\SetSymbolFont{boldoperators}{bold}{OT1}{cmr}{bx}{n}
+\edef\bar{\unexpanded{\protect\mathaccentV{bar}}\number\symboldoperators16}
+
+\newcommand\barbelow[1]{\centering\stackunder[1.1pt]{$#1$}{\rule{1.3ex}{.1ex}}}
+%\newcommand\ubar[1]{\stackunder[1.0pt]{$#1$}{\rule{.6ex}{.1ex}}}
+%\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+\newcommand\ubar[1]{\text{\b{$#1$}}} 
+
+\newcommand\uvbar[1]{\centering\stackunder[1.1pt]{\hskip.8pt$#1$}{\rule{.6ex}{.1ex}}}
+\newcommand\ugbar[1]{\centering\stackunder[1.1pt]{\hskip.8pt$#1$}{\rule{.8ex}{.1ex}}}
+\newcommand\uhbar[1]{\centering\stackunder[1.1pt]{\hskip2pt$#1$}{\rule{.8ex}{.1ex}}}
+\newcommand\urbar[1]{\centering\stackunder[1.1pt]{$#1$}{\rule{1ex}{.1ex}}}
+%\newcommand\uvbar[1]{\text{\b{\hskip2pt$#1$}}} 
+
+\newcommand\barabove[1]{\stackon[1.2pt]{$#1$}{\rule{1ex}{.1ex}}}
+
+%----------begin--ThisStyle---for-overstar
+\makeatletter
+\def\SavedSubStyle{\csname @mstyle\s@switch\endcsname}
+\renewcommand\ThisStyle[1]{%
+\ifmmode%
+\def\@mmode{T}\mathchoice%
+{\edef\m@switch{D}\edef\s@switch{S}\LMex=1ex\relax\LMpt=1pt\relax#1}%
+{\edef\m@switch{T}\edef\s@switch{S}\LMex=1ex\relax\LMpt=1pt\relax#1}%
+{\edef\m@switch{S}\edef\s@switch{s}\LMex=\scriptstyleScaleFactor ex\relax%
+\LMpt=\scriptstyleScaleFactor pt\relax#1}%
+{\edef\m@switch{s}\edef\s@switch{s}\LMex=\scriptscriptstyleScaleFactor ex\relax%
+\LMpt=\scriptscriptstyleScaleFactor pt\relax#1}%
+\else%
+\def\@mmode{F}%
+\edef\m@switch{T}\edef\s@switch{S}\LMex=1ex\relax\LMpt=1pt\relax#1%
+\fi%
+}
+%----------begin-overstar
+\makeatother
+\newcommand\overstarbf[1]{\ThisStyle{\ensurestackMath{%
+  \stackengine{0pt}{\SavedStyle\mathbf{#1}}{\smash{\SavedSubStyle\star}}{O}{c}{F}{T}{S}}}}
+\newcommand\overstar[1]{\ThisStyle{\ensurestackMath{%
+  \setbox0=\hbox{$\SavedStyle#1$}%
+  \stackengine{0pt}{\copy0}{\kern.2\ht0\smash{\SavedSubStyle\star}}{O}{c}{F}{T}{S}}}}
+%-------------end--overstar---
+
+%-------------begin-overast
+\makeatother
+\newcommand\overfrownbf[1]{\ThisStyle{\ensurestackMath{%
+  \stackengine{0pt}{\SavedStyle\mathbf{#1}}{\smash{\SavedSubStyle\checkmark}}{O}{c}{F}{T}{S}}}}
+\newcommand\overfrown[1]{\ThisStyle{\ensurestackMath{%
+  \setbox0=\hbox{$\SavedStyle#1$}%
+  \stackengine{0pt}{\copy0}{\kern.2\ht0\smash{\SavedSubStyle\checkmark}}{O}{c}{F}{T}{S}}}}
+%-------------end--overast---
+%-------------begin-overast
+\makeatother
+\newcommand\overpropbf[1]{\ThisStyle{\ensurestackMath{%
+  \stackengine{0pt}{\SavedStyle\mathbf{#1}}{\smash{\SavedSubStyle\propto}}{O}{c}{F}{T}{S}}}}
+\newcommand\overprop[1]{\ThisStyle{\ensurestackMath{%
+  \setbox0=\hbox{$\SavedStyle#1$}%
+  \stackengine{0pt}{\copy0}{\kern.2\ht0\smash{\SavedSubStyle\propto}}{O}{c}{F}{T}{S}}}}
+%-------------end--overast---
+
+%-------------begin-overast
+\makeatother
+\newcommand\overhatbf[1]{\ThisStyle{\ensurestackMath{%
+  \stackengine{0pt}{\SavedStyle\mathbf{#1}}{\smash{\SavedSubStyle\arrownot}}{O}{c}{F}{T}{S}}}}
+\newcommand\overhat[1]{\ThisStyle{\ensurestackMath{%
+  \setbox0=\hbox{$\SavedStyle#1$}%
+  \stackengine{0pt}{\copy0}{\kern.2\ht0\smash{\SavedSubStyle\arrownot}}{O}{c}{F}{T}{S}}}}
+%-------------end--overast---
+%----------------------------------------end math shorthand-------------------------
+%----------------------------------------begin math operators-------------------------
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\graph}{gr}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{Ran}
+
+%\DeclareMathOperator{\id}{id}
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.55}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+
+\makeatletter
+\providecommand*{\diff}%------the differential in integrals
+{\@ifnextchar^{\DIfF}{\DIfF^{}}}
+\def\DIfF^#1{%
+\mathop{\mathrm{\mathstrut d}}%
+\nolimits^{#1}\gobblespace}
+\def\gobblespace{%
+\futurelet\diffarg\opspace}
+\def\opspace{%
+\let\DiffSpace\!%
+\ifx\diffarg(%
+\let\DiffSpace\relax
+\else
+\ifx\diffarg[%
+\let\DiffSpace\relax
+\else
+\ifx\diffarg\{%
+\let\DiffSpace\relax
+\fi\fi\fi\DiffSpace}
+%--------------------------------------end math operators -------------------------------------
+%--------------------------------------begin acronyms-------------------------
+
+\makeatletter
+\renewcommand\etc{etc\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\ie{i\@.e\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\eg{e\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\Eg{E\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\Wlog{W\@.l\@.o\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\withoutlog{w\@.l\@.o\@.g\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\suchthat{s\@.t\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\wrt{w\@.r\@.t\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\uhc{u\@.h\@.c\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\lhc{l\@.h\@.c\@ifnextchar.{}{.\@}}
+\makeatother
+
+\makeatletter
+\newcommand\cf{c\@.f\@ifnextchar.{}{.\@}}
+\makeatother
+
+
+%----------------------------------------end acronyms-------------------------
+
+%---------------------------------------start alias-------------------------
+%----------------------------------------end alias-------------------------
+
+
+%-------------- start insert modified commands ------------------
+\makeatletter
+\def\blx@bblfile@bibtex{% instead of ...\blx@bblfile@@biber
+ \blx@secinit
+  \begingroup
+  \blx@bblstart
+\input{bibliography.bbl}%<---------------------
+ \blx@bblend
+  \endgroup
+  \csnumgdef{blx@labelnumber@\the\c@refsection}{0}%
+  \iftoggle{blx@reencode}{\blx@reencode}{}}
+  
+%  \newcommand \numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+%-------------- end insert modified commands ------------------
+
+%----------------------------------------start colors-------------------------
+\definecolor{patrickcolor1}{rgb}{1,.4,0}
+\definecolor{patrickcolor2}{rgb}{1,0,1}
+\definecolor{patrickcolor3}{rgb}{.4,.7,0}
+\definecolor{patrickcolor4}{rgb}{0.5,1,0}
+
+%----------------------------------------end colors-------------------------
