@@ -3,9 +3,9 @@
    \documentclass[12pt,a4paper,twoside]{article}
    % \documentclass[12pt]{article}
 \listfiles
-\usepackage{./Paper_preamble}
+\usepackage{./preamble-files/paper-preamble}
 \usepackage{bm}
-%  \usepackage{../../preamble_files/Paper_preamble}
+%  \usepackage{../../preamble-files/paper-preamble}
 %\input{../../bib/_addbibresource_Alphabetical_Aligned.tex}
 
 %includeonly 
@@ -526,23 +526,25 @@ CCM}
   \usepackage{fancyhdr}
   \fancyhf{}
 \fancyhead[LE,RO]{\small\thepage}
-\fancyhead[CO]{\small\scshape Second-order inductive inference}% odd page header 
+\fancyhead[CO]{\small\scshape MAIWAR}% odd page header 
 \fancyhead[CE]{\small\scshape P.H. O'Callaghan}
 \fancyfoot[L,R,C]{}
 \renewcommand{\headrulewidth}{0pt}% disable the underline of the header part
 %\includeonly{}
 %\includeonly{./introduction/introduction}
-\title{\MakeUppercase{Second-order Inductive Inference:\\ an axiomatic
-    approach}\footnote{I thank Itzhak Gilboa for encouraging this project at an
-    early stage. I am indebted to Sacha Bourgeois-Gironde for many conversations
-    on the neuroscientific evidence for case-based reasoning and for introducing
-    me to the related references that appear in the text.
+\title{
+   \textsc{
+MAIWAR (Modelling Australian Industry with Weak-solutions, AMPL and Regions)
+}
+\footnote{
+      I thank Josh Aberdeen, Patrick Duenow, Cameron Gordon and John Mangan
+      for participating in the creation of MAIWAR.
+      This version has time stamp \currenttime~(AEST), \today. The most recent
+      version (as well as past versions) can be found at
+      \url{https://arxiv.org/abs/1904.02934} .}}
 
-    This version has time stamp \currenttime~(AEST), \today. The most recent
-    version (as well as past versions) can be found at
-    \url{https://arxiv.org/abs/1904.02934} .}}
-
-\author{\large\textsc{By Patrick H. O'Callaghan}\footnote{Email address
+\author{\large\textsc{By Patrick H. O'Callaghan}
+   \footnote{Email address
     \href{mailto:p.ocallaghan@uq.edu.au}{\texttt{p.ocallaghan@uq.edu.au}} and
     ORCID iD \href{http://orcid.org/0000-0003-0606-5465}{
       \texttt{0000-0003-0606-5465}} }}
@@ -562,28 +564,28 @@ CCM}
  % abstract
 
 \begin{abstract}%\resetlinenumber
-  Consider a predictor who ranks eventualities on the basis of past cases: for
-  instance a search engine ranking webpages given past searches. Resampling past
-  cases leads to different rankings and the extraction of deeper
-  information. Yet a rich database, with sufficiently diverse rankings, is often
-  beyond reach. Inexperience demands either ``on the fly'' learning-by-doing or
-  \emph{prudence}: the arrival of a novel case does not force (i) a revision of
-  current rankings, (ii) dogmatism towards new rankings, or (iii)
-  intransitivity.
-
-  For this higher-order framework of inductive inference, we derive a suitably
-  unique numerical representation of these rankings via a matrix on
-  eventualities $\times$ cases and describe a robust test of
-  prudence. Applications include: the success/failure of startups; the veracity
-  of fake news; and novel conditions for the existence of a yield curve that is
-  robustly arbitrage-free.
-  %better understand the
-  % substantial body of psycholog\
-  % Our results provide a foundation through which tical and neuroscientific evidence that
-  % demonstrates an inverse relationship between novelty and transitivity.
-  % Potential applications feature novel situations where accuracy is valuable
-  % and revisions are costly or slow. For instance, the generation of search
-  % engine results pages; zero-day cyberattacks; and no-arbitrage bond pricing.
+  
+  Policy makers make decisions regarding medium term policies where capital is
+  evolving.
+  They do so in the face of uncertainty.
+  Existing Computable General Equilibrium models fail to adequately model
+  saving behaviour in the face of uncertainty.
+  Although macroeconomic models typically address this concern, they rely
+  on local approximations around the non-stochastic steady-state
+  (where capital is no longer evolving).
+  Global approximation methods are intractible or slow in multi-sectoral
+  settings.
+  
+  In this white paper, we extend a simple, yet 
+  powerful approximation method of Cai and Judd to the
+  multi-sectoral setting.
+  Unlike other methods, this approach is built for medium-term
+  problems.
+  The solution is \emph{weak}: \ie\ characterised by an empirical 
+  distribution on the set of paths through time.
+  Similar to structural econometric models, the key measure of accuracy is that
+  the mean (of the simulated sample paths) satisfies the Intertemporal Euler
+  equation.
 \end{abstract}
     % \newpage
 \setlength{\epigraphwidth}{11.5cm}
@@ -594,6 +596,33 @@ CCM}
 %introduction
 % \renewcommand*{\thefootnote}{\arabic{footnote}}
 \section{Introduction}\label{sec-introduction}
+
+\subsection{Steady-state models}
+  Beyond the short-term, economic theory provides the lens through which
+  policy-makers peer into the future. 
+  In medium term, the economy is unlikely to reach its steady state. 
+  Moreover, in models with multiple sectors recent research has highlighted
+  the importance of nonlinear effects.
+  For such problems, first-order steady-state approximations are ill-suited.
+  Yet this is the solution method that is most commonly applied today.
+
+
+  Computable General Equilibrium (CGE)
+  models are often used to provide insights into the regional and sectoral
+  impacts of current policies and shocks that propagate through the economy's
+  production networks over time.
+  Such approximations are even less appealing for nonlinear production networks
+  that arise when elasticities of substition are below one.
+  Impressive recent work using Hamiltonian methods still fails to capture
+  the central economic theme of uncertainty.
+  
+  existing models that assume steady state approximations
+  yet even the 
+  impact of long-term policies, such as 2050 net-zero emissions targets
+  should involve a careful analysis of the medium term.
+  For instance, a policy that is unsustainable or sub-optimal in the interim
+  is liable to fail altogether.
+
 Experience is the basis of prediction.  Yet outside of stylised settings, even
 the most experienced forecasters do not claim  access to ``the full
 model'' that is closed  with respect to the relevant states of the

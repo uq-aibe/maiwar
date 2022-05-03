@@ -291,6 +291,7 @@ Solving the model
 param InstanceName symbolic;
 option substout 1;
 option solver conopt;
+option solver snopt;
 #option solver knitro;
 #option solver baron;
 #option baron_options trace;
