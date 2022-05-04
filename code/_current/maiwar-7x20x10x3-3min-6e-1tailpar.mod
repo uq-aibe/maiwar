@@ -225,9 +225,9 @@ var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward, s in PathTimes}
     = adj_cost_kap_Q[r, i, t, s];
 var utility 'current intermediate variable for utility'
-  {t in LookForward, s in PathTimes} = utility_SumShr_Q[t, s];
+  {t in LookForward, s in PathTimes} = utility_CD_Q[t, s];
 var tail_val 'current intermediate variable for tail value function'
-  {s in PathTimes} = tail_val_SumShr[s] * 6e-1; 
+  {s in PathTimes} = tail_val_SumShr[s] * 1e-1; 
 /*=============================================================================
 The objectives and constraints
 =============================================================================*/
@@ -291,7 +291,7 @@ Solving the model
 param InstanceName symbolic;
 option substout 1;
 option solver conopt;
-option solver snopt;
+#option solver snopt;
 #option solver knitro;
 #option solver baron;
 #option baron_options trace;

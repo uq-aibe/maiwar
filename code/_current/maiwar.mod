@@ -90,8 +90,8 @@ param JAC_ID 'observed jacobi identity' {Regions, Sectors, Sectors, PathTimes}
 /*=============================================================================
 Computed parameters
 =============================================================================*/
-param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - GAMMA[r];
-param ETA_HAT 'utility parameter'{r in Regions}, = 1 + ETA[r];
+param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - 1/GAMMA[r];
+param ETA_HAT 'utility parameter'{r in Regions}, = 1 + 1/ETA[r];
 param RHO 'exponent of the ces function', = (EoS_KAP - 1) / EoS_KAP; 
 param RHO_INV 'inverse of RHO', = 1 / RHO;
 param A 'productivity trend' {i in Sectors}
@@ -380,17 +380,17 @@ for {s in PathTimes}{
 /*=============================================================================
 Post processing: Euler Equation and Jacobi identity check
 =============================================================================*/
-param jacobi_id 'Intertemporal constraints on investment'
-  {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes
-    : j <> 'PbSc' and i <> j}
-      = inv[r, i, j, t, s].val
-           - (inv[r, i, 'PbSc', t, s].val / INV_SHR[r, i, 'PbSc'])
-             / (inv[r, 'PbSc', 'PbSc', t, s].val / INV_SHR[r, 'PbSc', 'PbSc'])
-             * (inv[r, 'PbSc', j, t, s].val / INV_SHR[r, 'PbSc', j])
-             * INV_SHR[r, i, j];
-         #   / (inv[r, j, j, t, s].val / INV_SHR[r, j, j])
-         #   * (inv[r, j, j, t, s].val / INV_SHR[r, j, j])
-param max_jacobi_id 'the worst of the jacobi identities'
-  = max{r in Regions, i in Sectors, j in Sectors, t in LookForward, s in 
-      PathTimes: j <> 'PbSc' and i <> j}  jacobi_id[r, i, j, t, s];
-display max_jacobi_id, _ampl_time, _total_solve_time;
+#param jacobi_id 'Intertemporal constraints on investment'
+#  {r in Regions, i in Sectors, j in Sectors, t in LookForward, s in PathTimes
+#    : j <> 'PbSc' and i <> j}
+#      = inv[r, i, j, t, s].val
+#           - (inv[r, i, 'PbSc', t, s].val / INV_SHR[r, i, 'PbSc'])
+#             / (inv[r, 'PbSc', 'PbSc', t, s].val / INV_SHR[r, 'PbSc', 'PbSc'])
+#             * (inv[r, 'PbSc', j, t, s].val / INV_SHR[r, 'PbSc', j])
+#             * INV_SHR[r, i, j];
+#         #   / (inv[r, j, j, t, s].val / INV_SHR[r, j, j])
+#         #   * (inv[r, j, j, t, s].val / INV_SHR[r, j, j])
+#param max_jacobi_id 'the worst of the jacobi identities'
+#  = max{r in Regions, i in Sectors, j in Sectors, t in LookForward, s in 
+#      PathTimes: j <> 'PbSc' and i <> j}  jacobi_id[r, i, j, t, s];
+#display max_jacobi_id, _ampl_time, _total_solve_time;
