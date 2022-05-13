@@ -93,7 +93,7 @@ Computed parameters
 param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - GAMMA[r];
 param ETA_HAT 'utility parameter'{r in Regions}, = 1 + ETA[r];
 param RHO 'exponent of the ces function', = (EoS_KAP - 1) / EoS_KAP; 
-param RHO_INV 'inverse of RHO', = 1 / RHO;
+param RHO_INV 'inverse of RHO', = .9 / RHO;
 param A 'productivity trend' {i in Sectors}
   default (1 - (1 - DELTA[i]) * BETA) / (ALPHA[i] * BETA) >= 0;
 param B 'relative weight of consumption and leisure in utility' 
@@ -156,7 +156,7 @@ Potential intermediate variables (substituted out during pre-solving)
 =============================================================================*/
 var con_sec_CD 'Cobb-Douglas consumption aggregate (across sectors)'
   {r in Regions, t in LookForward, s in PathTimes}
-  = prod{i in Sectors} con[r, i, t, s] ^ CON_SHR[r, i];
+  = (prod{i in Sectors} con[r, i, t, s] ^ CON_SHR[r, i]) ^ .9;
 var con_sec_SumPow 'Sum of power consumption aggregate (across sectors)'
   {r in Regions, t in LookForward, s in PathTimes}
   = sum{i in Sectors}
