@@ -1,0 +1,1077 @@
+:	CON_SHR	LAB_SHR	:=																	
+CnQ	F	0.0979423	0.0991677																	
+CnQ	G	0.101072	0.0986318																	
+CnQ	H	0.101131	0.100184																	
+CnQ	I	0.0980338	0.101721																	
+CnQ	J	0.100849	0.101731																	
+CnQ	K	0.0999833	0.0979062																	
+CnQ	L	0.100606	0.0985245																	
+CnQ	M	0.100894	0.101262																	
+CnQ	N	0.100502	0.0990802																	
+CnQ	PbSc	0.098987	0.101792																	
+FNQ	F	0.0993795	0.0982526																	
+FNQ	G	0.0992444	0.0988936																	
+FNQ	H	0.0978474	0.101627																	
+FNQ	I	0.100945	0.100644																	
+FNQ	J	0.101024	0.0989964																	
+FNQ	K	0.100494	0.101047																	
+FNQ	L	0.101031	0.101492																	
+FNQ	M	0.0978603	0.0989961																	
+FNQ	N	0.101138	0.0982298																	
+FNQ	PbSc	0.101037	0.101822																	
+Mck	F	0.101841	0.101556																	
+Mck	G	0.0987854	0.0996831																	
+Mck	H	0.0984988	0.101452																	
+Mck	I	0.100662	0.0982839																	
+Mck	J	0.100242	0.101654																	
+Mck	K	0.101137	0.0989257																	
+Mck	L	0.100069	0.0982889																	
+Mck	M	0.0997356	0.0990458																	
+Mck	N	0.100337	0.101552																	
+Mck	PbSc	0.0986918	0.0995592																	
+;																				
+																				
+INV_SHR	"[CnQ,*,*]"																			
+:	F	G	H	I	J	K	:=													
+F	0.102024	0.10167	0.0991112	0.101756	0.0993039	0.101822														
+G	0.0994451	0.0993625	0.102192	0.0987964	0.0991966	0.10092														
+H	0.100904	0.0998946	0.0982941	0.0996571	0.0978953	0.0993267														
+I	0.100828	0.100021	0.098953	0.0990142	0.101527	0.100453														
+J	0.0985747	0.0992265	0.100138	0.101609	0.100399	0.0989074														
+K	0.0989994	0.100953	0.100582	0.0998837	0.0991723	0.101186														
+L	0.100447	0.0994005	0.0995934	0.0992679	0.101608	0.0990428														
+M	0.0988491	0.0996924	0.0989979	0.0990277	0.0992489	0.0994261														
+N	0.100853	0.101778	0.101833	0.101822	0.100983	0.0986424														
+PbSc	0.0990752	0.0980018	0.100306	0.0991667	0.100665	0.100274														
+																				
+:	L	M	N	PbSc	:=															
+F	0.101387	0.0991295	0.100671	0.0991397																
+G	0.100931	0.0988639	0.0992779	0.0997202																
+H	0.098449	0.0987248	0.0989593	0.0983822																
+I	0.100601	0.101604	0.10025	0.101196																
+J	0.10067	0.101164	0.0994455	0.0997484																
+K	0.100121	0.0992159	0.101584	0.101175																
+L	0.0988948	0.100852	0.10104	0.10003																
+M	0.101428	0.0990626	0.100573	0.0982574																
+N	0.0996119	0.0998856	0.0999138	0.101116																
+PbSc	0.0979051	0.101498	0.0982857	0.101236																
+																				
+	"[FNQ,*,*]"																			
+:	F	G	H	I	J	K	:=													
+F	0.0994635	0.0991261	0.101201	0.0999202	0.0999251	0.0996404														
+G	0.100009	0.0985499	0.100134	0.101413	0.10019	0.0990801														
+H	0.101099	0.100975	0.0991249	0.101217	0.101595	0.101392														
+I	0.0996728	0.101717	0.101073	0.0987718	0.0989171	0.100545														
+J	0.0996809	0.100696	0.0987448	0.0993231	0.0990145	0.0998151														
+K	0.0986671	0.10019	0.0997743	0.0992967	0.10036	0.101779														
+L	0.101642	0.0992681	0.0988912	0.099223	0.100776	0.101654														
+M	0.101087	0.0994567	0.0993194	0.0994364	0.0991823	0.097914														
+N	0.0982393	0.0992075	0.0996331	0.100086	0.0998232	0.098663														
+PbSc	0.10044	0.100813	0.102105	0.101313	0.100217	0.0995167														
+																				
+:	L	M	N	PbSc	:=															
+F	0.100983	0.101389	0.10052	0.100145																
+G	0.0980929	0.100351	0.0985669	0.0991781																
+H	0.0989558	0.0983162	0.101057	0.101213																
+I	0.0998224	0.101563	0.100241	0.100232																
+J	0.101776	0.0986719	0.0992251	0.0988124																
+K	0.100616	0.0994338	0.099346	0.0997366																
+L	0.0991323	0.101629	0.0998858	0.101304																
+M	0.101662	0.0985514	0.100957	0.10126																
+N	0.100253	0.101159	0.0988895	0.0979378																
+PbSc	0.0987069	0.0989359	0.10131	0.100181																
+																				
+	"[Mck,*,*]"																			
+:	F	G	H	I	J	K	:=													
+F	0.100836	0.0994139	0.101918	0.0989303	0.0992565	0.10082														
+G	0.101731	0.0999348	0.0991915	0.0999722	0.101586	0.0999177														
+H	0.099598	0.0997698	0.0986699	0.0991554	0.10148	0.0987664														
+I	0.100152	0.100181	0.0986349	0.0994887	0.101411	0.10198														
+J	0.0997307	0.0996861	0.100939	0.101762	0.0988688	0.0995697														
+K	0.100877	0.100373	0.0987497	0.0980538	0.0984129	0.0998222														
+L	0.0998938	0.0996102	0.099635	0.100955	0.0986441	0.100396														
+M	0.0990857	0.101166	0.10043	0.10194	0.101436	0.100267														
+N	0.0979399	0.0989261	0.10157	0.101128	0.0992143	0.0985921														
+PbSc	0.100156	0.100939	0.100262	0.098615	0.0996911	0.0998687														
+																				
+:	L	M	N	PbSc	:=															
+F	0.102069	0.100088	0.101954	0.0984176																
+G	0.0988395	0.101483	0.0986992	0.100755																
+H	0.099091	0.0991835	0.102036	0.101353																
+I	0.101357	0.101282	0.0984272	0.0990416																
+J	0.0991859	0.100012	0.09902	0.0989556																
+K	0.0982054	0.0989374	0.101918	0.101592																
+L	0.100064	0.0998167	0.0997927	0.100179																
+M	0.101992	0.101587	0.099072	0.0985708																
+N	0.0998111	0.0992214	0.0993599	0.101352																
+PbSc	0.0993856	0.0983896	0.0997206	0.0997837																
+;																				
+																				
+																				
+Presolve	eliminates	0	constraints	and	30	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23460	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46740	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	30	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23460	variables:																			
+	22260	nonlinear	variables																	
+	1200	linear	variables																	
+2400	"constraints,"	all	nonlinear;	46740	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+1	nonlinear	objective;	1230	nonzeros.																
+																				
+CONOPT	3.17A:	Locally	optimal;	objective	810.2990875															
+49	iterations;	evals:	nf	=	"56,"	ng	=	"36,"	nc	=	"311,"	nJ	=	"36,"	nH	=	"5,"	nHv	=	17
+_ampl_elapsed_time	=	0.148612																		
+_total_solve_time	=	2.10849																		
+																				
+s	=	1																		
+																				
+																				
+Presolve	eliminates	0	constraints	and	31	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23459	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46738	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	32	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23458	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46736	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	33	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23457	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46734	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	34	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23456	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46732	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	35	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23455	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46730	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	36	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23454	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46728	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	37	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23453	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46726	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	38	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23452	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46724	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	39	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23451	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46722	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	40	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23450	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46720	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	41	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23449	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46718	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	42	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23448	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46716	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	43	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23447	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46714	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	44	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23446	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46712	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	45	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23445	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46710	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	46	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23444	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46708	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	47	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23443	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46706	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	48	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23442	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46704	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	49	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23441	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46702	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	50	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23440	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46700	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	51	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23439	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46698	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	52	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23438	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46696	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	53	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23437	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46694	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	54	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23436	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46692	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	55	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23435	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46690	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	56	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23434	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46688	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	57	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23433	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46686	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	58	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23432	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46684	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	59	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23431	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46682	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	60	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23430	variables:																			
+	22230	nonlinear	variables																	
+	1200	linear	variables																	
+2400	"constraints,"	all	nonlinear;	46680	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+1	nonlinear	objective;	1230	nonzeros.																
+																				
+CONOPT	3.17A:	Locally	optimal;	objective	811.1025871															
+48	iterations;	evals:	nf	=	"56,"	ng	=	"33,"	nc	=	"253,"	nJ	=	"33,"	nH	=	"4,"	nHv	=	16
+s	=	1																		
+_ampl_elapsed_time	=	2.22187																		
+_total_solve_time	=	3.97289																		
+																				
+:	E_OUTPUT	CON	INV_SUM	ADJ_COST_KAP	:=															
+CnQ	F	0	2.05851	0.955142	1.08423	0.00181273														
+CnQ	G	0	2.05838	0.985785	1.08416	0.00180762														
+CnQ	H	0	2.05573	0.988883	1.08435	0.00170229														
+CnQ	I	0	2.05928	0.955325	1.08413	0.00184396														
+CnQ	J	0	2.06325	0.979001	1.08366	0.00200975														
+CnQ	K	0	2.06246	0.971344	1.08378	0.00197598														
+CnQ	L	0	2.06261	0.977245	1.08373	0.0019826														
+CnQ	M	0	2.05739	0.984984	1.08422	0.0017678														
+CnQ	N	0	2.06304	0.975837	1.08376	0.00200061														
+CnQ	PbSc	0	2.05775	0.966033	1.0842	0.00178226														
+FNQ	F	0	2.05851	0.969158	1.08419	0.00181279														
+FNQ	G	0	2.05838	0.96796	1.08413	0.00180754														
+FNQ	H	0	2.05573	0.956773	1.08451	0.00170212														
+FNQ	I	0	2.05928	0.983694	1.08411	0.00184413														
+FNQ	J	0	2.06325	0.980699	1.08362	0.00200979														
+FNQ	K	0	2.06246	0.976302	1.08374	0.00197599														
+FNQ	L	0	2.06261	0.98138	1.08377	0.0019826														
+FNQ	M	0	2.05739	0.955372	1.08427	0.00176762														
+FNQ	N	0	2.06304	0.982007	1.08362	0.0020007														
+FNQ	PbSc	0	2.05775	0.986037	1.08428	0.00178242														
+Mck	F	0	2.05851	0.993164	1.0842	0.00181287														
+Mck	G	0	2.05838	0.963483	1.0842	0.0018075														
+Mck	H	0	2.05573	0.963142	1.08444	0.00170208														
+Mck	I	0	2.05928	0.980938	1.0841	0.00184409														
+Mck	J	0	2.06325	0.973107	1.08364	0.00200984														
+Mck	K	0	2.06246	0.982553	1.08372	0.00197601														
+Mck	L	0	2.06261	0.972031	1.08372	0.00198262														
+Mck	M	0	2.05739	0.97368	1.08434	0.00176777														
+Mck	N	0	2.06304	0.974234	1.08366	0.00200067														
+Mck	PbSc	0	2.05775	0.963152	1.08421	0.00178225														
+;																				
+																				
+MKT_CLR	:=																			
+F	0	1.56E-16																		
+G	0	1.48E-15																		
+H	0	-1.91E-15																		
+I	0	-2.46E-15																		
+J	0	7.05E-16																		
+K	0	-1.28E-15																		
+L	0	2.30E-15																		
+M	0	3.68E-16																		
+N	0	-5.59E-16																		
+PbSc	0	-8.08E-16																		
+;																				
+																				
+:	LAB	KAP	:=																	
+CnQ	F	0	0.265919	1																
+CnQ	F	1	.	1.06021																
+CnQ	F	2	.	1																
+CnQ	G	0	0.265895	1																
+CnQ	G	1	.	1.06013																
+CnQ	G	2	.	1																
+CnQ	H	0	0.265385	1																
+CnQ	H	1	.	1.05835																
+CnQ	H	2	.	1																
+CnQ	I	0	0.266068	1																
+CnQ	I	1	.	1.06073																
+CnQ	I	2	.	1																
+CnQ	J	0	0.266835	1																
+CnQ	J	1	.	1.0634																
+CnQ	J	2	.	1																
+CnQ	K	0	0.266681	1																
+CnQ	K	1	.	1.06286																
+CnQ	K	2	.	1																
+CnQ	L	0	0.266711	1																
+CnQ	L	1	.	1.06297																
+CnQ	L	2	.	1																
+CnQ	M	0	0.265704	1																
+CnQ	M	1	.	1.05946																
+CnQ	M	2	.	1																
+CnQ	N	0	0.266793	1																
+CnQ	N	1	.	1.06326																
+CnQ	N	2	.	1																
+CnQ	PbSc	0	0.265774	1																
+CnQ	PbSc	1	.	1.0597																
+CnQ	PbSc	2	.	1																
+FNQ	F	0	0.265919	1																
+FNQ	F	1	.	1.06021																
+FNQ	F	2	.	1																
+FNQ	G	0	0.265895	1																
+FNQ	G	1	.	1.06013																
+FNQ	G	2	.	1																
+FNQ	H	0	0.265385	1																
+FNQ	H	1	.	1.05835																
+FNQ	H	2	.	1																
+FNQ	I	0	0.266068	1																
+FNQ	I	1	.	1.06073																
+FNQ	I	2	.	1																
+FNQ	J	0	0.266835	1																
+FNQ	J	1	.	1.0634																
+FNQ	J	2	.	1																
+FNQ	K	0	0.266681	1																
+FNQ	K	1	.	1.06286																
+FNQ	K	2	.	1																
+FNQ	L	0	0.266711	1																
+FNQ	L	1	.	1.06297																
+FNQ	L	2	.	1																
+FNQ	M	0	0.265704	1																
+FNQ	M	1	.	1.05946																
+FNQ	M	2	.	1																
+FNQ	N	0	0.266793	1																
+FNQ	N	1	.	1.06326																
+FNQ	N	2	.	1																
+FNQ	PbSc	0	0.265774	1																
+FNQ	PbSc	1	.	1.05971																
+FNQ	PbSc	2	.	1																
+Mck	F	0	0.265919	1																
+Mck	F	1	.	1.06021																
+Mck	F	2	.	1																
+Mck	G	0	0.265895	1																
+Mck	G	1	.	1.06012																
+Mck	G	2	.	1																
+Mck	H	0	0.265385	1																
+Mck	H	1	.	1.05835																
+Mck	H	2	.	1																
+Mck	I	0	0.266068	1																
+Mck	I	1	.	1.06073																
+Mck	I	2	.	1																
+Mck	J	0	0.266835	1																
+Mck	J	1	.	1.0634																
+Mck	J	2	.	1																
+Mck	K	0	0.266681	1																
+Mck	K	1	.	1.06287																
+Mck	K	2	.	1																
+Mck	L	0	0.266711	1																
+Mck	L	1	.	1.06297																
+Mck	L	2	.	1																
+Mck	M	0	0.265704	1																
+Mck	M	1	.	1.05946																
+Mck	M	2	.	1																
+Mck	N	0	0.266793	1																
+Mck	N	1	.	1.06326																
+Mck	N	2	.	1																
+Mck	PbSc	0	0.265774	1																
+Mck	PbSc	1	.	1.0597																
+Mck	PbSc	2	.	1																
+;																				
+																				
+s	=	2																		
+																				
+																				
+Presolve	eliminates	0	constraints	and	61	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23429	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46678	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	62	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23428	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46676	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	63	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23427	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46674	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	64	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23426	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46672	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	65	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23425	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46670	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	66	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23424	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46668	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	67	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23423	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46666	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	68	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23422	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46664	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	69	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23421	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46662	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	70	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23420	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46660	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	71	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23419	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46658	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	72	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23418	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46656	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	73	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23417	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46654	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	74	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23416	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46652	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	75	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23415	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46650	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	76	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23414	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46648	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	77	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23413	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46646	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	78	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23412	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46644	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	79	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23411	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46642	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	80	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23410	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46640	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	81	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23409	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46638	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	82	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23408	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46636	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	83	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23407	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46634	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	84	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23406	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46632	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	85	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23405	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46630	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	86	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23404	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46628	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	87	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23403	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46626	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	88	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23402	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46624	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	89	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23401	"variables,"	all	nonlinear																	
+2400	"constraints,"	all	nonlinear;	46622	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+3	"objectives,"	all	nonlinear;	3690	nonzeros.															
+																				
+																				
+Presolve	eliminates	0	constraints	and	90	variables.														
+Substitution	eliminates	14286	variables.																	
+Adjusted	problem:																			
+23400	variables:																			
+	22200	nonlinear	variables																	
+	1200	linear	variables																	
+2400	"constraints,"	all	nonlinear;	46620	nonzeros															
+	1800	equality	constraints																	
+	600	inequality	constraints																	
+1	nonlinear	objective;	1230	nonzeros.																
+																				
+CONOPT	3.17A:	Locally	optimal;	objective	811.8626973															
+45	iterations;	evals:	nf	=	"52,"	ng	=	"26,"	nc	=	"175,"	nJ	=	"26,"	nH	=	"4,"	nHv	=	15
+s	=	2																		
+_ampl_elapsed_time	=	4.77867																		
+_total_solve_time	=	5.45007																		
+																				
+:			E_OUTPUT	CON	INV_SUM	ADJ_COST_KAP	:=													
+CnQ	F	0	2.05851	0.955142	1.08423	0.00181273														
+CnQ	F	1	2.08802	0.983576	1.08496	0.00165119														
+CnQ	G	0	2.05838	0.985785	1.08416	0.00180762														
+CnQ	G	1	2.08785	1.01509	1.08489	0.0016489														
+CnQ	H	0	2.05573	0.988883	1.08435	0.00170229														
+CnQ	H	1	2.08429	1.01745	1.08498	0.00160043														
+CnQ	I	0	2.05928	0.955325	1.08413	0.00184396														
+CnQ	I	1	2.08906	0.983995	1.08488	0.00166549														
+CnQ	J	0	2.06325	0.979001	1.08366	0.00200975														
+CnQ	J	1	2.09443	1.00961	1.08455	0.00174043														
+CnQ	K	0	2.06246	0.971344	1.08378	0.00197598														
+CnQ	K	1	2.09335	1.00147	1.08464	0.00172519														
+CnQ	L	0	2.06261	0.977245	1.08373	0.0019826														
+CnQ	L	1	2.09356	1.0076	1.0846	0.00172815														
+CnQ	M	0	2.05739	0.984984	1.08422	0.0017678														
+CnQ	M	1	2.08652	1.01396	1.08491	0.00163067														
+CnQ	N	0	2.06304	0.975837	1.08376	0.00200061														
+CnQ	N	1	2.09414	1.00628	1.08464	0.0017363														
+CnQ	PbSc	0	2.05775	0.966033	1.0842	0.00178226														
+CnQ	PbSc	1	2.08701	0.99456	1.0849	0.00163728														
+FNQ	F	0	2.05851	0.969158	1.08419	0.00181279														
+FNQ	F	1	2.08802	0.998009	1.08492	0.00165122														
+FNQ	G	0	2.05838	0.96796	1.08413	0.00180754														
+FNQ	G	1	2.08785	0.996735	1.08485	0.00164884														
+FNQ	H	0	2.05573	0.956773	1.08451	0.00170212														
+FNQ	H	1	2.08428	0.984417	1.08514	0.00160036														
+FNQ	I	0	2.05928	0.983694	1.08411	0.00184413														
+FNQ	I	1	2.08906	1.01322	1.08486	0.00166556														
+FNQ	J	0	2.06325	0.980699	1.08362	0.00200979														
+FNQ	J	1	2.09443	1.01136	1.08451	0.00174043														
+FNQ	K	0	2.06246	0.976302	1.08374	0.00197599														
+FNQ	K	1	2.09335	1.00658	1.0846	0.0017252														
+FNQ	L	0	2.06261	0.98138	1.08377	0.0019826														
+FNQ	L	1	2.09356	1.01186	1.08463	0.00172816														
+FNQ	M	0	2.05739	0.955372	1.08427	0.00176762														
+FNQ	M	1	2.08651	0.983475	1.08496	0.0016306														
+FNQ	N	0	2.06304	0.982007	1.08362	0.0020007														
+FNQ	N	1	2.09414	1.01264	1.0845	0.00173632														
+FNQ	PbSc	0	2.05775	0.986037	1.08428	0.00178242														
+FNQ	PbSc	1	2.08701	1.01515	1.08498	0.00163733														
+Mck	F	0	2.05851	0.993164	1.0842	0.00181287														
+Mck	F	1	2.08803	1.02273	1.08493	0.0016513														
+Mck	G	0	2.05838	0.963483	1.0842	0.0018075														
+Mck	G	1	2.08785	0.992125	1.08492	0.00164883														
+Mck	H	0	2.05573	0.963142	1.08444	0.00170208														
+Mck	H	1	2.08428	0.99097	1.08508	0.00160038														
+Mck	I	0	2.05928	0.980938	1.0841	0.00184409														
+Mck	I	1	2.08906	1.01038	1.08486	0.00166555														
+Mck	J	0	2.06325	0.973107	1.08364	0.00200984														
+Mck	J	1	2.09443	1.00353	1.08453	0.00174041														
+Mck	K	0	2.06246	0.982553	1.08372	0.00197601														
+Mck	K	1	2.09335	1.01302	1.08458	0.00172522														
+Mck	L	0	2.06261	0.972031	1.08372	0.00198262														
+Mck	L	1	2.09356	1.00222	1.08459	0.00172813														
+Mck	M	0	2.05739	0.97368	1.08434	0.00176777														
+Mck	M	1	2.08652	1.00232	1.08503	0.00163063														
+Mck	N	0	2.06304	0.974234	1.08366	0.00200067														
+Mck	N	1	2.09414	1.00462	1.08454	0.0017363														
+Mck	PbSc	0	2.05775	0.963152	1.08421	0.00178225														
+Mck	PbSc	1	2.08701	0.991594	1.08491	0.00163727														
+;																				
+																				
+MKT_CLR	:=																			
+F	0	1.56E-16																		
+F	1	1.88E-15																		
+G	0	1.48E-15																		
+G	1	-6.42E-16																		
+H	0	-1.91E-15																		
+H	1	-7.84E-16																		
+I	0	-2.46E-15																		
+I	1	-1.39E-15																		
+J	0	7.05E-16																		
+J	1	2.08E-16																		
+K	0	-1.28E-15																		
+K	1	1.70E-15																		
+L	0	2.30E-15																		
+L	1	-1.32E-15																		
+M	0	3.68E-16																		
+M	1	1.56E-15																		
+N	0	-5.59E-16																		
+N	1	2.00E-15																		
+PbSc	0	-8.08E-16																		
+PbSc	1	-1.05E-15																		
+;																				
+																				
+:	LAB	KAP	:=																	
+CnQ	F	0	0.265919	1																
+CnQ	F	1	0.263919	1.06021																
+CnQ	F	2	.	1.11938																
+CnQ	G	0	0.265895	1																
+CnQ	G	1	0.263898	1.06013																
+CnQ	G	2	.	1.11925																
+CnQ	H	0	0.265385	1																
+CnQ	H	1	0.263443	1.05835																
+CnQ	H	2	.	1.11655																
+CnQ	I	0	0.266068	1																
+CnQ	I	1	0.264052	1.06073																
+CnQ	I	2	.	1.12017																
+CnQ	J	0	0.266835	1																
+CnQ	J	1	0.264737	1.0634																
+CnQ	J	2	.	1.12424																
+CnQ	K	0	0.266681	1																
+CnQ	K	1	0.2646	1.06286																
+CnQ	K	2	.	1.12342																
+CnQ	L	0	0.266711	1																
+CnQ	L	1	0.264626	1.06297																
+CnQ	L	2	.	1.12358																
+CnQ	M	0	0.265704	1																
+CnQ	M	1	0.263727	1.05946																
+CnQ	M	2	.	1.11824																
+CnQ	N	0	0.266793	1																
+CnQ	N	1	0.2647	1.06326																
+CnQ	N	2	.	1.12402																
+CnQ	PbSc	0	0.265774	1																
+CnQ	PbSc	1	0.26379	1.0597																
+CnQ	PbSc	2	.	1.11861																
+FNQ	F	0	0.265919	1																
+FNQ	F	1	0.263919	1.06021																
+FNQ	F	2	.	1.11938																
+FNQ	G	0	0.265895	1																
+FNQ	G	1	0.263898	1.06013																
+FNQ	G	2	.	1.11925																
+FNQ	H	0	0.265385	1																
+FNQ	H	1	0.263442	1.05835																
+FNQ	H	2	.	1.11655																
+FNQ	I	0	0.266068	1																
+FNQ	I	1	0.264052	1.06073																
+FNQ	I	2	.	1.12017																
+FNQ	J	0	0.266835	1																
+FNQ	J	1	0.264737	1.0634																
+FNQ	J	2	.	1.12424																
+FNQ	K	0	0.266681	1																
+FNQ	K	1	0.2646	1.06286																
+FNQ	K	2	.	1.12342																
+FNQ	L	0	0.266711	1																
+FNQ	L	1	0.264626	1.06297																
+FNQ	L	2	.	1.12358																
+FNQ	M	0	0.265704	1																
+FNQ	M	1	0.263727	1.05946																
+FNQ	M	2	.	1.11824																
+FNQ	N	0	0.266793	1																
+FNQ	N	1	0.2647	1.06326																
+FNQ	N	2	.	1.12402																
+FNQ	PbSc	0	0.265774	1																
+FNQ	PbSc	1	0.26379	1.05971																
+FNQ	PbSc	2	.	1.11861																
+Mck	F	0	0.265919	1																
+Mck	F	1	0.263919	1.06021																
+Mck	F	2	.	1.11939																
+Mck	G	0	0.265895	1																
+Mck	G	1	0.263898	1.06012																
+Mck	G	2	.	1.11925																
+Mck	H	0	0.265385	1																
+Mck	H	1	0.263442	1.05835																
+Mck	H	2	.	1.11655																
+Mck	I	0	0.266068	1																
+Mck	I	1	0.264052	1.06073																
+Mck	I	2	.	1.12017																
+Mck	J	0	0.266835	1																
+Mck	J	1	0.264737	1.0634																
+Mck	J	2	.	1.12424																
+Mck	K	0	0.266681	1																
+Mck	K	1	0.2646	1.06287																
+Mck	K	2	.	1.12342																
+Mck	L	0	0.266711	1																
+Mck	L	1	0.264626	1.06297																
+Mck	L	2	.	1.12358																
+Mck	M	0	0.265704	1																
+Mck	M	1	0.263727	1.05946																
+Mck	M	2	.	1.11824																
+Mck	N	0	0.266793	1																
+Mck	N	1	0.2647	1.06326																
+Mck	N	2	.	1.12402																
+Mck	PbSc	0	0.265774	1																
+Mck	PbSc	1	0.26379	1.0597																
+Mck	PbSc	2	.	1.11861																
+;																				
+																				
+max_jacobi_id	=	0.0102512																		
+_ampl_time	=	4.76678																		
+_total_solve_time	=	5.45007																		
