@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  14 MAY 2022 14:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  14 MAY 2022 14:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1700,18 +1700,10 @@ LaTeX Font Info:    Trying to load font information for U+stmry on input line 2
 (/usr/local/texlive/2022/texmf-dist/tex/latex/stmaryrd/Ustmry.fd) [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-Package natbib Warning: Citation `CJ' on page 2 undefined on input line 293.
-
-
 Overfull \hbox (2.53777pt too wide) in paragraph at lines 296--303
 []\OT1/cmr/m/n/12 Beyond the short-term, eco-nomic the-ory pro-vides the lens t
 hrough which policy-|
  []
-
-
-Package natbib Warning: Citation `Owen-Empirical_likelihood' on page 2 undefine
-d on input line 330.
 
 
 Underfull \vbox (badness 6220) has occurred while \output is active []
@@ -1726,10 +1718,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [2]
-
-Package natbib Warning: Citation `Reiss_Wolak-Structural_econometrics' on page 
-3 undefined on input line 339.
-
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <3> not available
 (Font)              size <5> substituted on input line 353.
@@ -1884,14 +1872,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 394.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 395.
-
-
-LaTeX Warning: Reference `sec-approximation' on page 4 undefined on input line 
-396.
-
-
-Package natbib Warning: Citation `CJ' on page 4 undefined on input line 401.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 403.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -1964,6 +1944,7 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 432.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 432.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -2049,10 +2030,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 457.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 457.
-
-
-LaTeX Warning: Reference `eq-ces-inv' on page 5 undefined on input line 458.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 466.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2079,9 +2056,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 471.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 471.
-
-LaTeX Warning: Reference `eq-kapital' on page 5 undefined on input line 472.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 473.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2090,9 +2064,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 473.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 474.
-
-LaTeX Warning: Reference `eq-kapital' on page 5 undefined on input line 475.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 475.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2135,10 +2106,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 490.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 490.
-
-Package natbib Warning: Citation `Kojic-Concavity' on page 5 undefined on input
- line 491.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 492.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2149,6 +2116,7 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 493.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 493.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -2158,18 +2126,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-
-Package natbib Warning: Citation `Long_Plosser-Real_business_cycles' on page 6 
-undefined on input line 499.
-
-
-Package natbib Warning: Citation `Elazaar_Raymond-Network' on page 6 undefined 
-on input line 506.
-
-
-Package natbib Warning: Citation `Hosoe_et_al-CGE_textbook' on page 6 undefined
- on input line 511.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 520.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2206,9 +2162,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 527.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 532.
-
-LaTeX Warning: Reference `eq-ces-inv' on page 1 undefined on input line 532.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 532.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2282,6 +2235,7 @@ ine 547.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 547.
 
+
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -2306,11 +2260,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 555.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 556.
-
-
-Package natbib Warning: Citation `Atalay-Sectoral_shocks' on page 7 undefined o
-n input line 558.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 558.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2349,9 +2298,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 569.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 569.
-
-LaTeX Warning: Reference `eq-ces-inv' on page 1 undefined on input line 569.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 570.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2360,10 +2306,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 573.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 573.
-
-Package natbib Warning: Citation `Stachurski-Economic_dynamics' on page 7 undef
-ined on input line 576.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 577.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2384,6 +2326,7 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 587.
 Package hyperref Info: bookmark level for unknown remark* defaults to 0 on inpu
 t line 589.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -2534,17 +2477,8 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 668.
 LaTeX Font Info:    Undo math alphabet allocation in version normal on input li
 ne 671.
-
-
-Package natbib Warning: Citation `Stokey_Lucas-Recursive' on page 9 undefined o
-n input line 679.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 682.
-
-Package natbib Warning: Citation `Gonzalez_Hernandez-Euler' on page 9 undefined
- on input line 682.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 684.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2644,6 +2578,7 @@ ne 699.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 701.
 
+
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -2674,10 +2609,6 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 711.
 LaTeX Font Info:    Undo math alphabet allocation in version normal on input li
 ne 715.
-
-
-Package natbib Warning: Citation `CJ' on page 10 undefined on input line 719.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 720.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
@@ -2688,28 +2619,10 @@ LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 723.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 723.
-
-Package natbib Warning: Citation `Scheidegger_Bilionis-Gaussian_processes' on p
-age 10 undefined on input line 723.
-
-
-Package natbib Warning: Citation `Dixon_Rimmer-Euler_CGE' on page 10 undefined 
-on input line 734.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 735.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 737.
-
-Package natbib Warning: Citation `Bertsekas-Reinforcement_learning' on page 10 
-undefined on input line 748.
-
-
-Package natbib Warning: Citation `CJ' on page 10 undefined on input line 750.
-
-
-Package natbib Warning: Citation `CJS-Certainty_equivalent' on page 10 undefine
-d on input line 751.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2720,28 +2633,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [10]
-
-Package natbib Warning: Citation `CJ' on page 11 undefined on input line 762.
-
-
-Package natbib Warning: Citation `CJ' on page 11 undefined on input line 765.
-
-
-Package natbib Warning: Citation `Rehfeldt-PETSc' on page 11 undefined on input
- line 781.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 791.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 796.
-
-Package natbib Warning: Citation `CJ' on page 11 undefined on input line 796.
-
-LaTeX Font Info:    No math alphabet change to frozen version normal on input l
-ine 808.
-
-Package natbib Warning: Citation `Scheidegger_et_al-DEQN' on page 11 undefined 
-on input line 811.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2753,23 +2648,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [11]
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
+ine 808.
+LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 830.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 832.
-
-
-Package natbib Warning: Citation `Fourer_Gay_Kernighan-AMPL' on page 12 undefin
-ed on input line 835.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 844.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 846.
-
-Package natbib Warning: Citation `CJ' on page 12 undefined on input line 846.
-
-
-Package natbib Warning: Citation `CJ' on page 12 undefined on input line 851.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2780,21 +2667,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [12]
-
-Package natbib Warning: Citation `Wachter_Biegler-Ipopt' on page 13 undefined o
-n input line 860.
-
-
-Package natbib Warning: Citation `Atalay-Sectoral_shocks' on page 13 undefined 
-on input line 877.
-
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 877.
 LaTeX Font Info:    No math alphabet change to frozen version normal on input l
 ine 878.
-(./maiwar-white-paper.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2804,7 +2680,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[13]
+[13] (./maiwar-white-paper.bbl
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -2815,9 +2691,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [14])
 
-Package natbib Warning: There were undefined citations.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -2825,12 +2698,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[15] (./maiwar-white-paper.aux
-
-Package natbib Warning: Citation(s) may have changed.
-(natbib)                Rerun to get citations correct.
-
-)
+[15] (./maiwar-white-paper.aux)
 
  *File List*
  article.cls    2021/10/04 v1.4n Standard LaTeX document class
@@ -2999,51 +2867,47 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 3.5pt have occurred.
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 43622 strings out of 478268
- 973930 string characters out of 5846347
- 1367397 words of memory out of 5000000
- 61041 multiletter control sequences out of 15000+600000
+ 43623 strings out of 478268
+ 973946 string characters out of 5846347
+ 1369440 words of memory out of 5000000
+ 61042 multiletter control sequences out of 15000+600000
  504538 words of font info for 154 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,15n,103p,1053b,649s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
-cal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
-l/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
-texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
-live/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
-022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-22/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/202
-2/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2022
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/
-texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/texlive/202
-2/texmf-dist/fonts/type1/public/mathabx-type1/matha10.pfb></usr/local/texlive/2
-022/texmf-dist/fonts/type1/public/mathabx-type1/matha12.pfb></usr/local/texlive
-/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha5.pfb></usr/local/texliv
-e/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha6.pfb></usr/local/texli
-ve/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha7.pfb></usr/local/texl
-ive/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha8.pfb></usr/local/tex
-live/2022/texmf-dist/fonts/type1/public/mathabx-type1/mathx10.pfb></usr/local/t
-exlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/loc
-al/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on maiwar-white-paper.pdf (15 pages, 318584 bytes).
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
+></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
+ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
+al/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
+/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
+xlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texli
+ve/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
+2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
+022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/20
+22/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/202
+2/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022
+/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/texlive/20
+22/texmf-dist/fonts/type1/public/mathabx-type1/matha10.pfb></usr/local/texlive/
+2022/texmf-dist/fonts/type1/public/mathabx-type1/matha12.pfb></usr/local/texliv
+e/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha5.pfb></usr/local/texli
+ve/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha6.pfb></usr/local/texl
+ive/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha7.pfb></usr/local/tex
+live/2022/texmf-dist/fonts/type1/public/mathabx-type1/matha8.pfb></usr/local/te
+xlive/2022/texmf-dist/fonts/type1/public/mathabx-type1/mathx10.pfb></usr/local/
+texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/lo
+cal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on maiwar-white-paper.pdf (15 pages, 308673 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 119 compressed objects within 2 object streams
+ 187 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
