@@ -212,11 +212,11 @@ CCM}
 MAIWAR (Modelling Australian Industry with Weak-solutions, AMPL and Regions)
 }
 \footnote{
-      Thanks to Brent Ritchie for winning support for the SMaRT
-      project and to the University of Queensland for its financial support
-      (Research Support Package - Round 3).
       This work is part of the Sustainability, Modelling and Regional
       Transition (SMaRT) project.
+      Thanks to John Mangan and Brent Ritchie for winning financial support for
+      the SMaRT project and to the University of Queensland for this support
+      (Research Support Package - Round 3).
       I thank Josh Aberdeen, Patrick Duenow, Cameron Gordon, John Mangan and
       Tina Rampino for many conversations and active contributions to the
       creation of the MAIWAR model.
@@ -226,8 +226,7 @@ MAIWAR (Modelling Australian Industry with Weak-solutions, AMPL and Regions)
       Rambaldi and Martie-Louise Verreynne.
       This version has time stamp \currenttime~(AEST), \today. The most recent
       version (as well as past versions) can be found at
-      \url{https://arxiv.org/abs/1904.02934} .}}
-
+      \url{https://github.com/uq-aibe/maiwar/blob/main/documentation/maiwar-white-paper.pdf} .}}
 \author{\large\textsc{By Patrick H. O'Callaghan}
    \footnote{Email address
     \href{mailto:p.ocallaghan@uq.edu.au}{\texttt{p.ocallaghan@uq.edu.au}} and
@@ -457,9 +456,9 @@ $\textup{inv}_{r, n + t}$ are vectors on $J$ indexed by region.
 Similarly, we view $\textup{sav}_{r, n + t}$ as the $J\times J$ matrix-valued
 function of flows between regions that we define in \eqref{eq-ces-inv} (also
 indexed by region).
-It is this latter matrix of dynamic flows that significantly increases the
-dimension of the problem: for 20 sectors, there are 400 flows; for 100 sectors,
-there are 10,000.
+It is this latter matrix of \emph{dynamic} flows that significantly increases
+the dimension of the problem: for 20 sectors, there are 400 flows; for 100
+sectors, there are 10,000.
 
 We now turn to the constraints, beginning with the transition laws/dynamics for
 capital before turning to feasibility constraints such as market clearing.
@@ -537,8 +536,8 @@ Cobb-Douglas production function of capital and labour respectively:
 Let $\text{adj}_{r, i}: \nnreal^{2} \rightarrow \R$ be the quadratic cost of
 adjusting capital:
 \begin{equation}
-   \textup{adj}_{r, i}(x, x^{\mplus}) \mrpropto x
-   \cdot \left(\frac{x^{\mplus}}{x} - 1\right)^2.
+   \textup{adj}_{r, i}(x, x^{\mplus}) \mrpropto  
+   \frac{(x^{\mplus} - x)^2}{x}.
 \end{equation}
 Finally, the key feasibility condition is that the following expression (where
 we have suppressed reference to $n + t$), for total production minus total
@@ -826,13 +825,14 @@ in place the software infrastructure to ensure that simple model sweeps are
 easy to conduct on the local HPC cluster.
 The unit for parallelisation is paths: each path is passed to a single core.
 This means that most desktop computers can easily parallelise.
-For example, consider our canonical example of irreversible risk:
-where there are 28 paths and 
-assume 7 regions and 20 sectors.
-For the function that we specify above, each path takes
-$28\times \frac{1}{3} \approx 9$ minutes to solve.
-Thus, a desktop with 4 available cores would be able to assign 7 paths to
-each core and complete the task in $7\times 9 \approx 1$ hour.
+For example, consider our canonical example of irreversible risk: where there
+are 28 paths (each of length 28 years), and assume 7 regions and 20 sectors.
+For the functions we specify above, each step along a path takes $20$ seconds
+on average.
+Thus a path takes $28\times \frac{1}{3} \approx 9$ minutes to solve.
+For a desktop with 4 available cores, we are able to assign 7 paths to each
+core and complete the generate the full empirical distribution in
+$7\times 9 \approx 1$ hour.
 
 After an exhaustive search, we chose AMPL (A modelling language for
 mathematical programming) \citet{Fourer_Gay_Kernighan-AMPL} as the language and 
