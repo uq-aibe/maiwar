@@ -679,10 +679,12 @@ One normative measure of the accuracy of our weak solutions is the Euler error
 that is associated with the (intertemporal) Euler equation.
 This equation is a necessary condition for optimality of the stochastic dynamic
 program \citet{Stokey_Lucas-Recursive}.
-In the present setting the derivation of Euler equation is complicated by the
-fact that the number of control variables exceeds the number of state variables.
-To address this issue, for each $n$, we follow \citet{Gonzalez_Hernandez-Euler}
-appeal to the envelope theorem to obtain an indirect utility function
+In the present setting the derivation of Euler equation is complicated by two
+factors: the number of control variables exceeds the number of state variables;
+and there is no explicit form for
+To address this issue, for each $n$, we appeal to the envelope theorem.
+In particular, we follow \citet{Gonzalez_Hernandez-Euler}
+and derive an indirect utility function
 $\textup{v}_{n}$ as a function of current and next-period states $\omega_{n}$
 and $\omega_{n^{\mplus}}$.
 \begin{align*}
@@ -694,13 +696,14 @@ and $\omega_{n^{\mplus}}$.
 \end{align*}
 where the transition and feasibility constraints are those we have described
 above.
-As a matter of expedience, we follow the AMPL convention of identifying
-Lagrange multipliers with their corresponding constraint nomenclature.
-Thus $\textup{tran}_{s}$ and $\textup{feas}_{s}$ will denote the (random)
-Lagrange multipliers $s$ steps into the future from the root node
-$\mathfrak{0}$.
-For models with exogenous uncertainty (where actions do not affect transition
-probabilities), the Euler error associated with step $s$ is
+%As a matter of expedience, we follow the AMPL convention of identifying
+%Lagrange multipliers with their corresponding constraint nomenclature.
+%Thus $\textup{tran}_{s}$ and $\textup{feas}_{s}$ will denote the (random)
+%Lagrange multipliers $s$ steps into the future from the root node
+%$\mathfrak{0}$.
+Then, via the envelope theorem, for models with exogenous uncertainty (where
+actions do not affect transition probabilities), the Euler error associated
+with step $s$ is
 \begin{equation}
 \frac{
   \beta \cdot \mathbb{E}_{\mathfrak{0}} \left\{

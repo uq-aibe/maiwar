@@ -55,7 +55,8 @@ param INV_MIN 'lower bound of investment' default 0 >= 0;
 #param kmin 'smallest capital' default 1e-1 >= 0;
 #param kmax 'largest capital' default 1e+1 >= 0;
 param ZETA1 'TFP before shock' default 1 >= 0;
-param ZETA2 'TFP after shock' default .95 >= 0;
+#param ZETA2 'TFP after shock' default .95 >= 0;
+param ZETA2 'TFP after shock' default 1 >= 0;
 #param ZETA2 'TFP after shock' default __ZETA2__ >= 0;
 param PROB2 'one period probability of jump in TFP' default 0.01 >= 0;
 param TAIL_CON_SHR 'tail consumption share (of output)' default 0.75 >= 0;
@@ -87,6 +88,16 @@ param ADJ_COST_KAP 'observed adjustment costs of kapital'
   {Regions, Sectors, PathTimes} default 0 in [0, OSup);
 param MKT_CLR 'observed output' {Sectors, PathTimes}
   default 0 in (-1e-4, 1e-4); 
+param DUAL_KAP 'lagrange multiplier for kapital accumulation'
+  {Regions, Sectors, PathTimes} default 1e+0 in [0, OSup);
+param DUAL_MCL 'lagrange multiplier for market clearing constraint'
+  {Sectors, PathTimes} default 1e+0 in [0, OSup);
+param GROWTH_KAP 'lagrange multiplier for market clearing constraint'
+  {Regions, Sectors, PathTimes} default 5e-2 in (-1, 1);
+param EULER_INTEGRAND 'Euler error integrand'
+  {Regions, Sectors, PathTimesClosure} default 1 in (-OSup, OSup);
+param EULER_ERROR 'Expected Euler error'
+  {Regions, Sectors, PathTimes} default 0 in (-10, 10);
 param SCALE 'economies of scale: ensures concavity' default 0.9 in (0, 1);
 /*=============================================================================
 Computed parameters
@@ -197,6 +208,11 @@ var utility_CES_Q 'Const. Elast. Subst. and Quadratic instantaneous utility'
   {t in LookForward}
   = sum{r in Regions}
     REG_WGHT[r] * (con_sec_CES[r, t] - lab_sec_Q[r, t]);
+var utility_powCES_Q 'Const. Elast. Subst. and Quadratic instantaneous utility'
+  {t in LookForward}
+  = sum{r in Regions}
+    REG_WGHT[r] * ((con_sec_CES[r, t]) ^ GAMMA_HAT[r]/GAMMA_HAT[r]
+      - lab_sec_Q[r, t]);
 var utility_CD_F 'Cobb-Douglas and Frisch instantaneous utility'
   {t in LookForward}
   = sum{r in Regions}
@@ -211,7 +227,7 @@ var utility_SumPow_Q'utility: SumPow for consumption and quadratic for labour'
     REG_WGHT[r] * (con_sec_SumPow[r, t] - lab_sec_Q[r, t]);
 var tail_val_SumShr 'SumShr continuation value from time LSup + LInf onwards'
   = sum{r in Regions} sum{i in Sectors}
-      (TAIL_CON_SHR * A[i] * kap[r, i, LSup + LInf] ^ ALPHA[i])
+      (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i])
         ^ CON_SHR[r, i] / (1 - BETA);
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
@@ -227,11 +243,13 @@ var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward}
     = adj_cost_kap_Q[r, i, t];
 var utility 'current intermediate variable for utility'
-  {t in LookForward} = utility_CES_Q[t];
+  {t in LookForward} = utility_powCES_Q[t];
 var tail_val 'current intermediate variable for tail value function'
   #= tail_val_SumShr * __TAIL_WGHT__; 
   #= tail_val_SumShr * 243e-2; #right for LSup=50
-  = tail_val_SumShr * 3e-1; #right for LSup=10
+  #= tail_val_SumShr * 2e-0; #right for LSup=10 when num sectors = 20
+  = tail_val_SumShr * 3e-1; #right for LSup=10 when num sectors = 20
+  #= tail_val_SumShr * 1; #right for when num sectors = 60
 
 /*=============================================================================
 The objectives and constraints
@@ -239,15 +257,14 @@ The objectives and constraints
 maximize pres_disc_val 'present discounted value of utilities':
     sum{t in LookForward} BETA ^ (t - LInf) * utility[t]
       + BETA ^ (LSup - LInf) * tail_val;
-subject to accum_kap_eq 'accumulation of kapital'
+subject to accum_kap_eq 'equation for the accumulation of kapital'
   {r in Regions, j in Sectors, t in LookForward}:
-    kap[r, j, t + 1]
-      = (1 - DELTA[j]) * kap[r, j, t] + inv_sec[r, j, t];
+    kap[r, j, t + 1] = (1 - DELTA[j]) * kap[r, j, t] + inv_sec[r, j, t];
 subject to market_clearing_eq 'market clearing for each sector and time'
   {i in Sectors, t in LookForward}:
     sum{r in Regions}(
       con[r, i, t] + sum{j in Sectors}(inv[r, i, j, t])
-      + adj_cost_kap[r, i, t] - E_output[r, i , t]
+      + adj_cost_kap[r, i, t] - E_output[r, i , t] 
       ) <= 0;
 #subject to jacobi_id 'Intertemporal constraints on investment'
 #  {r in Regions, i in Sectors, j in Sectors, t in LookForward
@@ -289,13 +306,22 @@ data;
 ##-----------4x6
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := Agrc Elct Frst Mnfc Srvc Trns Utlt;
-##-----------7x20
+#-----------7x20
 set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+##-----------7x40
+#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
+#  A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 PbSc1 P1 Q1 R1 T1 U1;
+##-----------7x60
+#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
+#  A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 PbSc1 P1 Q1 R1 T1 U1
+#  A2 B2 C2 D2 E2 F2 G2 H2 I2 J2 K2 L2 M2 N2 PbSc2 P2 Q2 R2 T2 U2;
 #-----------display some parameter values:
 display  CON_SHR, LAB_SHR, INV_SHR;
 /*=============================================================================
-run: Solve the model
+Solving the model
 =============================================================================*/
 param InstanceName symbolic;
 option solver conopt;
@@ -305,6 +331,7 @@ option solver conopt;
 option show_stats 1;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
+#-----------update kapital (CJ call this the simulation step)
   fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
 #-----------set and solve the plan for start time s
   objective pres_disc_val;
@@ -323,21 +350,34 @@ for {s in PathTimes}{
     let LAB[r, i, s] := lab[r, i, LInf];
     let E_OUTPUT[r, i, s] := E_output[r, i, LInf];
     let ADJ_COST_KAP[r, i, s] := adj_cost_kap[r, i, LInf];
-    let KAP[r, i, s + 1] := kap[r, i, 1];
-#-----------update kapital (CJ call this the simulation step)
-    fix kap[r, i, LInf] := KAP[r, i, s + 1];
+    let KAP[r, i, s + 1] := kap[r, i, LInf + 1];
+    let DUAL_KAP[r, i, s] := accum_kap_eq[r, i, LInf]
 #-----------in this algorithm other variables automatically get warm start
   };
-    for {i in Sectors}{
+  for {i in Sectors}{
 #-----------save actual path values of market clearing to parameter
-      let MKT_CLR[i, s] := sum{rr in Regions}(
-        E_OUTPUT[rr, i, s] 
-        - CON[rr, i, s]
-        - INV_SUM[rr, i, s] 
-        - ADJ_COST_KAP[rr, i, s]
-        );
-    };
-  display E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, MKT_CLR, LAB;
+    let MKT_CLR[i, s] := sum{rr in Regions}(
+      E_OUTPUT[rr, i, s] 
+      - CON[rr, i, s]
+      - INV_SUM[rr, i, s] 
+      - ADJ_COST_KAP[rr, i, s]
+      );
+    let DUAL_MCL[i, s] := market_clearing_eq[i, LInf];
+  };
+  for {r in Regions, i in Sectors}{
+    let GROWTH_KAP[r, i, s] := (KAP[r, i, s + 1] - KAP[r, i, s]) * KAP[r, i, s];
+    let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
+      + DUAL_MCL[i, s] * (
+        ALPHA[i] * (KAP[r, i, s] / LAB[r, i, s]) ** (ALPHA[i] - 1)
+        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
+      );
+    let EULER_ERROR[r, i, s]
+      := abs(1 - BETA * EULER_INTEGRAND[r, i, s + 1] / DUAL_KAP[r, i, s]);
+  };
+  display E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, MKT_CLR, LAB, DUAL_KAP,
+  DUAL_MCL, EULER_ERROR;
   display s, _ampl_elapsed_time, _total_solve_time;
 };
+
+
 #display KAP;
