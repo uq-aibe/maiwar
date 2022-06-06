@@ -45,13 +45,21 @@ param StrtTm 'start time for each step on each path' {PathTimes, PathSpace}
 param EndTm 'start time for each step on each path' {PathTimes, PathSpace}
   default time();
 param BETA 'discount factor', in (0, 1), default .98; 
-param ALPHA 'importance of capital in production' {Sectors} default 33e-2 >= 0;
+#-----------output shares of each component
+param SHR_KAP_OUT 'importance of capital in production' {Sectors}
+  default 33e-2 >= 0;
+param SHR_LAB_OUT 'share of labour in output' {Sectors} default 33e-2 >=0;
+param SHR_INT_OUT 'share of labour in output' {i in Sectors}
+  default 1 - SHR_KAP_OUT[i] - SHR_LAB_OUT[i] >=0;
 param DELTA 'rate of depreciation for kapital' {Sectors} default .025 >= 0;
 param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
 param GAMMA 'intertemporal elasticity of subst.' {Regions} default 5e-1 >= 0;
 param ETA 'Frisch elasticity of labour supply'{Regions} default 5e-1 >= 0;
-param EoS_KAP 'elasticity of substitution for kapital' default 1e-1 > 0; 
-param EoS_OUT 'elasticity of substitution for output' default 5e-1 > 0; 
+param EoS_KAP 'elasticity of substitution for kapital flows' default 1e-1 > 0; 
+param EoS_OUT 'elasticity of substitution for output components'
+  default 5e-1 > 0; 
+param EoS_INT 'elasticity of substitution for intermediate flows'
+  default 5e-1 > 0; 
 param INV_MIN 'lower bound of investment' default 0 >= 0;
 #param kmin 'smallest capital' default 1e-1 >= 0;
 #param kmax 'largest capital' default 1e+1 >= 0;
@@ -107,19 +115,25 @@ param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - 1 / GAMMA[r];
 param ETA_HAT 'utility parameter'{r in Regions}, = 1 + 1 / ETA[r];
 param RHO_KAP 'exponent of the ces function', = (EoS_KAP - 1) / EoS_KAP; 
 param RHO_KAP_HAT 'inverse of RHO_KAP', = 1 / RHO_KAP;
+param RHO_OUT 'exponent of the ces function', = (EoS_OUT - 1) / EoS_OUT; 
+param RHO_OUT_HAT 'inverse of RHO_OUT', = 1 / RHO_OUT;
 param A 'productivity trend' {i in Sectors}
-  default (1 - (1 - DELTA[i]) * BETA) / (ALPHA[i] * BETA) >= 0;
+  default (1 - (1 - DELTA[i]) * BETA) / (SHR_KAP_OUT[i] * BETA) >= 0;
 param B 'relative weight of consumption and leisure in utility' 
   {r in Regions, i in Sectors}
-    default (1 - ALPHA[i]) * A[i] * (A[i] - DELTA[i]) ^ (-1 / GAMMA[r]) >= 0;
+    default (1 - SHR_KAP_OUT[i]) * A[i] * (A[i] - DELTA[i]) ^ (-1 / GAMMA[r])
+      >= 0;
 param CAL_FAC_INV 'Calibration factor for investment'
   default 1;
 param  REG_WGHT 'regional (population) weights' {r in Regions}
   default 1 / card(Regions);
-param KAP_SHR_CES 'importance of kapital in production' {i in Sectors}
-  = ALPHA[i] ^ EoS_KAP;
-param LAB_SHR_CES 'importance of labour in production' {i in Sectors}
-  = (1 - ALPHA[i]) ^ EoS_KAP;
+#-----------output component shares for CES functions
+param SHR_KAP_OUT_CES 'importance of kapital in production' {i in Sectors}
+  = SHR_KAP_OUT[i] ^ EoS_OUT;
+param SHR_LAB_OUT_CES 'importance of labour in production' {i in Sectors}
+  = SHR_LAB_OUT[i] ^ EoS_OUT;
+param SHR_INT_OUT_CES 'importance of labour in production' {i in Sectors}
+  = SHR_INT_OUT[i] ^ EoS_OUT;
 #-----------set the seed for the random number generator for weights
 option randseed 12345;
 #-----------Share parameters in the aggregators for utility and production.
@@ -146,15 +160,17 @@ param Pr_shk 'probability of SHK'
 param E_shk 'expected shock (exogenous)'
   {r in Regions, i in Sectors, t in LookForward}
     = ZETA2 + Pr_shk[r, i, t] * (ZETA1 - ZETA2);
-
 /*=============================================================================
 Basic (economic) variables
 =============================================================================*/
+var con 'consumption flows' {Regions, Sectors, LookForward}
+  in [VInf, VSup] default 1e-0;
 var inv 'investment flows'
   {r in Regions, i in Sectors, j in Sectors, LookForward}
   in [VInf, VSup] default DELTA[j] * KAP[r, j, PInf];
-var con 'consumption flows' {Regions, Sectors, LookForward}
-  in [VInf, VSup] default 1e-0;
+var int 'intermediate flows'
+  {Regions, Sectors, Sectors, LookForward}
+    in [VInf, VSup] default 1e-0;
 var lab 'labour flows' {Regions, Sectors, LookForward}
   in [VInf, VSup] default 1e-0;
 #-----------kapital, the dynamic variable, is defined on LookForwardClosure
@@ -172,7 +188,7 @@ Computed variables for paths
 ##-----------Euler integrand for CES production
 #    let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
 #      + DUAL_MCL[i, s] * (
-#        KAP_SHR_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_KAP - 1)
+#        SHR_KAP_OUT_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_KAP - 1)
 #        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
 #      );
 #    if s > PInf then 
@@ -205,6 +221,11 @@ var inv_sec_CES 'Const. Elast. Subst. investment aggregate (across sectors)'
 var inv_sec_CD 'Cobb-Douglas investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward}
   = prod{i in Sectors} (inv[r, i, j, t] ^ INV_SHR[r, i, j]);
+#-----------variety of intermediate aggregator functions 
+var int_sec_CES 'Const. Elast. Subst. investment aggregate (across sectors)'
+  {r in Regions, j in Sectors, t in LookForward}
+  = (sum{i in Sectors} SHR_INT_CES[r, i, j] * int[r, i, j, t] ^ RHO_INT)
+    ^ (RHO_INT_HAT * SCALE);
 #-----------variety of labour aggregator functions 
 var lab_sec_CD 'Cobb-Douglas labour aggregate (across sectors)'
   {r in Regions, t in LookForward}
@@ -224,11 +245,13 @@ var adj_cost_kap_Q 'quadratic adjustment costs for kapital'
 var E_output_CD 'Cobb-Douglas output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i]
-      * kap[r, i, t] ^ ALPHA[i] * lab[r, i, t] ^ (1 - ALPHA[i]);
+      * kap[r, i, t] ^ SHR_KAP_OUT[i] * lab[r, i, t] ^ (1 - SHR_KAP_OUT[i]);
 var E_output_CES 'Constant Elasticity of Substitution output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i] * (
-      KAP_SHR_CES[i] * kap[r, i, t] ^ RHO_KAP + LAB_SHR_CES[i] * lab[r, i, t] ^ RHO_KAP
+      SHR_KAP_OUT_CES[i] * kap[r, i, t] ^ RHO_OUT
+      + SHR_LAB_OUT_CES[i] * lab[r, i, t] ^ RHO_OUT
+      + SHR_INT_OUT_CES[i] * int_sec[r, i, t] ^ RHO_OUT
       )
       ^ (RHO_KAP_HAT * SCALE);
 #-----------variety of utility functions
@@ -271,7 +294,7 @@ var tail_val_CD_F 'continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
        REG_WGHT[r] * (
          5e-2 * prod{i in Sectors}(
-           (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i])
+           (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ SHR_KAP_OUT[i])
              ^ (CON_SHR[r, i] * SCALE)
          - B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
        )
@@ -280,7 +303,7 @@ var tail_val_CD_Q 'SumShr continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
        REG_WGHT[r] * (
          5e-2 * prod{i in Sectors} 
-           (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i])
+           (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ SHR_KAP_OUT[i])
              ^ (CON_SHR[r, i] * SCALE)
        ) 
        - 1 ^ 2
@@ -289,7 +312,7 @@ var tail_val_CES_Q 'SumShr continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
        REG_WGHT[r] * (
          sum{i in Sectors} CON_SHR_CES[r, i]
-           * (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i]) ^ RHO_KAP
+           * (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ SHR_KAP_OUT[i]) ^ RHO_KAP
        ) ^ (RHO_KAP_HAT * SCALE) #(RHO_KAP_HAT + GAMMA_HAT[r]) / GAMMA_HAT[r]
        - 1 ^ 2
     ) / (1 - BETA);
@@ -298,11 +321,11 @@ var tail_val_CDutl_F_CESout
   = (sum{r in Regions}
       REG_WGHT[r] * prod{i in Sectors}(
         TAIL_CON_SHR * A[i] * (
-          KAP_SHR_CES[i] * kap[r, i, LSup + LInf] ^ RHO_KAP
-             + LAB_SHR_CES[i] * 1 ^ RHO_KAP
+          SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ^ RHO_KAP
+             + SHR_LAB_OUT_CES[i] * 1 ^ RHO_KAP
         ) ^ (RHO_KAP_HAT * SCALE * CON_SHR[r, i])
-        - B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
       ) 
+        - B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
     ) / (1 - BETA);
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
@@ -480,13 +503,13 @@ for {s in PathTimes}{
 #-----------Euler integrand for Cobb-Douglas production
     #let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
     #  + DUAL_MCL[i, s] * (
-    #    ALPHA[i] * (KAP[r, i, s] / LAB[r, i, s]) ^ (ALPHA[i] - 1)
+    #    SHR_KAP_OUT[i] * (KAP[r, i, s] / LAB[r, i, s]) ^ (SHR_KAP_OUT[i] - 1)
     #    - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
     #  );
 #-----------Euler integrand for CES production
     let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
       + DUAL_MCL[i, s] * (
-        KAP_SHR_CES[i] * A[i] ^ RHO_KAP
+        SHR_KAP_OUT_CES[i] * A[i] ^ RHO_KAP
           * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_KAP - 1)
         - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
       );
