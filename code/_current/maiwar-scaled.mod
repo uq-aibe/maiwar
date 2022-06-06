@@ -51,6 +51,7 @@ param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
 param GAMMA 'intertemporal elasticity of subst.' {Regions} default 5e-1 >= 0;
 param ETA 'Frisch elasticity of labour supply'{Regions} default 5e-1 >= 0;
 param EoS_KAP 'elasticity of substitution for kapital' default 1e-1 > 0; 
+param EoS_OUT 'elasticity of substitution for output' default 5e-1 > 0; 
 param INV_MIN 'lower bound of investment' default 0 >= 0;
 #param kmin 'smallest capital' default 1e-1 >= 0;
 #param kmax 'largest capital' default 1e+1 >= 0;
@@ -104,8 +105,8 @@ Computed parameters
 =============================================================================*/
 param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - 1 / GAMMA[r];
 param ETA_HAT 'utility parameter'{r in Regions}, = 1 + 1 / ETA[r];
-param RHO 'exponent of the ces function', = (EoS_KAP - 1) / EoS_KAP; 
-param RHO_INV 'inverse of RHO', = SCALE / RHO;
+param RHO_KAP 'exponent of the ces function', = (EoS_KAP - 1) / EoS_KAP; 
+param RHO_KAP_HAT 'inverse of RHO_KAP', = 1 / RHO_KAP;
 param A 'productivity trend' {i in Sectors}
   default (1 - (1 - DELTA[i]) * BETA) / (ALPHA[i] * BETA) >= 0;
 param B 'relative weight of consumption and leisure in utility' 
@@ -171,7 +172,7 @@ Computed variables for paths
 ##-----------Euler integrand for CES production
 #    let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
 #      + DUAL_MCL[i, s] * (
-#        KAP_SHR_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO - 1)
+#        KAP_SHR_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_KAP - 1)
 #        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
 #      );
 #    if s > PInf then 
@@ -187,7 +188,8 @@ var con_sec_CD 'Cobb-Douglas consumption aggregate (across sectors)'
   = prod{i in Sectors} con[r, i, t] ^ (CON_SHR[r, i] * SCALE);
 var con_sec_CES 'Const. Elast. Subst. consumption aggregate (across sectors)'
   {r in Regions, t in LookForward}
-  = (sum{i in Sectors} CON_SHR_CES[r, i] * con[r, i, t] ^ RHO) ^ RHO_INV;
+  = (sum{i in Sectors} CON_SHR_CES[r, i] * con[r, i, t] ^ RHO_KAP)
+    ^ (RHO_KAP_HAT * SCALE);
 var con_sec_SumPow 'Sum of power consumption aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = sum{i in Sectors}
@@ -198,7 +200,8 @@ var con_sec_SumShr 'Sum of fractional powers from consumption shares'
 #-----------variety of investment aggregator functions 
 var inv_sec_CES 'Const. Elast. Subst. investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward}
-  = (sum{i in Sectors} INV_SHR[r, i, j] * inv[r, i, j, t] ^ RHO) ^ RHO_INV;
+  = (sum{i in Sectors} INV_SHR[r, i, j] * inv[r, i, j, t] ^ RHO_KAP)
+    ^ (RHO_KAP_HAT * SCALE);
 var inv_sec_CD 'Cobb-Douglas investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward}
   = prod{i in Sectors} (inv[r, i, j, t] ^ INV_SHR[r, i, j]);
@@ -225,9 +228,9 @@ var E_output_CD 'Cobb-Douglas output transformation'
 var E_output_CES 'Constant Elasticity of Substitution output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i] * (
-      KAP_SHR_CES[i] * kap[r, i, t] ^ RHO + LAB_SHR_CES[i] * lab[r, i, t] ^ RHO
+      KAP_SHR_CES[i] * kap[r, i, t] ^ RHO_KAP + LAB_SHR_CES[i] * lab[r, i, t] ^ RHO_KAP
       )
-      ^ RHO_INV;
+      ^ (RHO_KAP_HAT * SCALE);
 #-----------variety of utility functions
 var utility_CD 'Cobb-Douglas instantaneous utility'
   {t in LookForward}
@@ -286,8 +289,8 @@ var tail_val_CES_Q 'SumShr continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
        REG_WGHT[r] * (
          sum{i in Sectors} CON_SHR_CES[r, i]
-           * (1e-0 * TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i]) ^ RHO
-       ) ^ RHO_INV #(RHO_INV + GAMMA_HAT[r]) / GAMMA_HAT[r]
+           * (TAIL_CON_SHR * kap[r, i, LSup + LInf] ^ ALPHA[i]) ^ RHO_KAP
+       ) ^ (RHO_KAP_HAT * SCALE) #(RHO_KAP_HAT + GAMMA_HAT[r]) / GAMMA_HAT[r]
        - 1 ^ 2
     ) / (1 - BETA);
 var tail_val_CDutl_F_CESout
@@ -295,9 +298,9 @@ var tail_val_CDutl_F_CESout
   = (sum{r in Regions}
       REG_WGHT[r] * prod{i in Sectors}(
         TAIL_CON_SHR * A[i] * (
-          KAP_SHR_CES[i] * kap[r, i, LSup + LInf] ^ RHO
-             + LAB_SHR_CES[i] * 1 ^ RHO
-        ) ^ (RHO_INV * CON_SHR[r, i] * SCALE)
+          KAP_SHR_CES[i] * kap[r, i, LSup + LInf] ^ RHO_KAP
+             + LAB_SHR_CES[i] * 1 ^ RHO_KAP
+        ) ^ (RHO_KAP_HAT * SCALE * CON_SHR[r, i])
         - B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
       ) 
     ) / (1 - BETA);
@@ -317,13 +320,6 @@ var adj_cost_kap 'current adjustment costs for kapital'
 var utility 'current intermediate variable for utility'
   {t in LookForward} = utility_CD_F[t]; 
 var tail_val 'current intermediate variable for tail value function'
-  #= tail_val_SumShr * __TAIL_WGHT__; 
-  #= tail_val_SumShr * 243e-2; #right for LSup=50
-  #= tail_val_SumShr * 2e-0; #right for LSup=10 when num sectors = 20
-  #= tail_val_SumShr * 3e-1; #right for LSup=10 when num sectors = 20
-  # next is right for when num sectors=20, regions=7, utility=powCES_Q * 1;
-  #= tail_val_SumShr * 5e-1; 
-  #= tail_val_SumShr * 2180e-3; when LSup=10, con_fac=.05;
   = tail_val_CDutl_F_CESout;
 /*=============================================================================
 The objectives and constraints
@@ -412,12 +408,12 @@ let PSup := 18;
 display A;
 for {i in Sectors}{
   let A[i] := 2000e-2 * A[i];
-  let DELTA[i] := 3e-2;
+  let DELTA[i] := 4e-2;
   };
-
 display A, B;
 for {r in Regions, i in Sectors}{let B[r, i] := 30e-2 * B[r, i];};
 display B;
+let TAIL_CON_SHR := 0.45;
 let CAL_FAC_INV := 300e-2;
 let EoS_KAP := 15e-2;
 #-----------display some parameter values:
@@ -490,8 +486,8 @@ for {s in PathTimes}{
 #-----------Euler integrand for CES production
     let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
       + DUAL_MCL[i, s] * (
-        KAP_SHR_CES[i] * A[i] ^ RHO
-          * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO - 1)
+        KAP_SHR_CES[i] * A[i] ^ RHO_KAP
+          * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_KAP - 1)
         - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
       );
     if s > PInf then 
