@@ -13,7 +13,7 @@ Parameters for generating sets
 =============================================================================*/ 
 param TInf 'infimum of the set of times' default 0;
 param LInf 'start period/infimum of the look forward set', default 0;
-param LSup 'end period/supremum of the look forward set' > LInf, default 4e+1; 
+param LSup 'end period/supremum of the look forward set' > LInf, default 48e+0; 
 param PInf 'infimum of times on a path', default 0;
 param PSup 'supremum of times on a path (T_star in CJ)'# eg 2050 - 2022 = 28 
   default 3 >= PInf; 
@@ -59,7 +59,7 @@ param ZETA1 'TFP before shock' default 1 >= 0;
 param ZETA2 'TFP after shock' default 1 >= 0;
 #param ZETA2 'TFP after shock' default __ZETA2__ >= 0;
 param PROB2 'one period probability of jump in TFP' default 0.01 >= 0;
-param TAIL_CON_SHR 'tail consumption share (of output)' default 0.75 >= 0;
+param TAIL_CON_SHR 'tail consumption share (of output)' default 0.45 >= 0;
 #
 param UInf 'infimum of interval for uniform dbn' default 0.49 in [0, .5);
 param USup 'supremum of interval for uniform dbn' default 0.51 in (.5, 1];
@@ -73,32 +73,32 @@ param RAW_LAB_FLW {Regions, Sectors} default Uniform(UInf, USup) >= 0;
 param RAW_INV_FLW {Regions, Sectors, Sectors} 
   default Uniform(UInf, USup) >= 0;
 param CON 'observed consumption' {Regions, Sectors, PathTimes}
-  default 1e+0 in (OInf, OSup);
+  default 1e+0; # in (OInf, OSup);
 param INV_SEC 'observed investment' {Regions, Sectors, PathTimes}
-  default 1e+0 in (OInf, OSup);
+  default 1e+0; # in (OInf, OSup);
 param INV_SUM 'observed total investment' {Regions, Sectors, PathTimes}
-  default 1e+0 in (OInf, OSup); 
+  default 1e+0; # in (OInf, OSup); 
 param LAB 'observed labour' {Regions, Sectors, PathTimes}
-  default 1e+0 in (OInf, OSup);
+  default 1e+0; # in (OInf, OSup);
 param KAP 'observed kapital' {Regions, Sectors, PathTimesClosure}
-  default 1e+0 in (OInf, OSup);
+  default 1e+0; # in (OInf, OSup);
 param E_OUTPUT 'observed Exp. output' {Regions, Sectors, PathTimes}
-  default 1e+0 in (OInf, OSup); 
+  default 1e+0; # in (OInf, OSup); 
 param ADJ_COST_KAP 'observed adjustment costs of kapital'
-  {Regions, Sectors, PathTimes} default 0 in [0, OSup);
+  {Regions, Sectors, PathTimes} default 0; # in [0, OSup);
 param MKT_CLR 'observed output' {Sectors, PathTimes}
-  default 0 in (-1e-4, 1e-4); 
+  default 0; # in (-1e-4, 1e-4); 
 param DUAL_KAP 'lagrange multiplier for kapital accumulation'
-  {Regions, Sectors, PathTimes} default 1e+0 in (-OSup, OSup);
+  {Regions, Sectors, PathTimes} default 1e+0; # in (-OSup, OSup);
 param DUAL_MCL 'lagrange multiplier for market clearing constraint'
-  {Sectors, PathTimes} default 1e+0 in [0, OSup);
+  {Sectors, PathTimes} default 1e+0;# in [0, OSup);
 param GROWTH_KAP 'lagrange multiplier for market clearing constraint'
-  {Regions, Sectors, PathTimes} default 5e-2 in (-1, 1);
+  {Regions, Sectors, PathTimes} default 5e-2; # in (-1, 1);
 param EULER_INTEGRAND 'Euler error integrand'
-  {Regions, Sectors, PathTimesClosure} default 1 in (-OSup, OSup);
+  {Regions, Sectors, PathTimesClosure} default 1; # in (-OSup, OSup);
 param EULER_RATIO 'Expected Euler ratio'
-  {Regions, Sectors, PathTimes} default 1 in (-1e+2, 1e+2);
-param SCALE 'economies of scale: ensures concavity' default 90e-2 in (0, 1);
+  {Regions, Sectors, PathTimes} default 1; # in (-1e+2, 1e+2);
+param SCALE 'economies of scale: ensures concavity' default 90e-2; # in (0, 1);
 /*=============================================================================
 Computed parameters
 =============================================================================*/
@@ -110,8 +110,9 @@ param A 'productivity trend' {i in Sectors}
   default (1 - (1 - DELTA[i]) * BETA) / (ALPHA[i] * BETA) >= 0;
 param B 'relative weight of consumption and leisure in utility' 
   {r in Regions, i in Sectors}
-    #default 1 >= 0;
     default (1 - ALPHA[i]) * A[i] * (A[i] - DELTA[i]) ^ (-1 / GAMMA[r]) >= 0;
+param CAL_FAC_INV 'Calibration factor for investment'
+  default 1;
 param  REG_WGHT 'regional (population) weights' {r in Regions}
   default 1 / card(Regions);
 param KAP_SHR_CES 'importance of kapital in production' {i in Sectors}
@@ -180,6 +181,7 @@ Computed variables for paths
 /*=============================================================================
 Potential intermediate variables (substituted out during pre-solving)
 =============================================================================*/
+#-----------variety of consumption aggregator functions 
 var con_sec_CD 'Cobb-Douglas consumption aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = prod{i in Sectors} con[r, i, t] ^ (CON_SHR[r, i] * SCALE);
@@ -193,12 +195,14 @@ var con_sec_SumPow 'Sum of power consumption aggregate (across sectors)'
 var con_sec_SumShr 'Sum of fractional powers from consumption shares'
   {r in Regions, t in LookForward}
   = sum{i in Sectors} con[r, i, t] ^ CON_SHR[r, i];
+#-----------variety of investment aggregator functions 
 var inv_sec_CES 'Const. Elast. Subst. investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward}
   = (sum{i in Sectors} INV_SHR[r, i, j] * inv[r, i, j, t] ^ RHO) ^ RHO_INV;
 var inv_sec_CD 'Cobb-Douglas investment aggregate (across sectors)'
   {r in Regions, j in Sectors, t in LookForward}
   = prod{i in Sectors} (inv[r, i, j, t] ^ INV_SHR[r, i, j]);
+#-----------variety of labour aggregator functions 
 var lab_sec_CD 'Cobb-Douglas labour aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = prod{j in Sectors} B[r, j] * lab[r, j , t] ^ LAB_SHR[r, j];
@@ -208,10 +212,12 @@ var lab_sec_Q 'quadratic labour aggregate (across sectors)'
 var lab_sec_F 'Frisch labour aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = sum{j in Sectors} B[r, j] * lab[r, j , t] ^ ETA_HAT[r] / ETA_HAT[r];
+#-----------variety of adjustment cost functions 
 var adj_cost_kap_Q 'quadratic adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward}
   =PHI_ADJ[i] * kap[r, i, t]
       * (kap[r, i, t + 1] / kap[r, i, t] - 1) ^ 2;
+#-----------variety of production functions 
 var E_output_CD 'Cobb-Douglas output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i]
@@ -288,7 +294,7 @@ var tail_val_CDutl_F_CESout
   'continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
       REG_WGHT[r] * prod{i in Sectors}(
-        TAIL_CON_SHR * A[i] *(
+        TAIL_CON_SHR * A[i] * (
           KAP_SHR_CES[i] * kap[r, i, LSup + LInf] ^ RHO
              + LAB_SHR_CES[i] * 1 ^ RHO
         ) ^ (RHO_INV * CON_SHR[r, i] * SCALE)
@@ -304,7 +310,7 @@ var E_output 'current intermediate variable for output'
 var inv_sec 'current intermediate variable for aggregated investment'
   {r in Regions, j in Sectors, t in LookForward}
     #= __INVSEC__[r, j, t];
-    = inv_sec_CES[r, j, t];
+    = inv_sec_CES[r, j, t] * CAL_FAC_INV;
 var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward}
     = adj_cost_kap_Q[r, i, t];
@@ -395,9 +401,25 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
 #  A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 PbSc1 P1 Q1 R1 T1 U1
 #  A2 B2 C2 D2 E2 F2 G2 H2 I2 J2 K2 L2 M2 N2 PbSc2 P2 Q2 R2 T2 U2;
+/*-----------------------------------------------------------------------------
+#-----------set the horizon and length of paths
+-----------------------------------------------------------------------------*/
+let LSup := 28;
+let PSup := 18;
+/*-----------------------------------------------------------------------------
+#-----------opportunity to tune the calibration factors (still part of data)
+-----------------------------------------------------------------------------*/
+display A;
 for {i in Sectors}{
-let A[i] := 215e-1 * A[i];
-};
+  let A[i] := 2000e-2 * A[i];
+  let DELTA[i] := 3e-2;
+  };
+
+display A, B;
+for {r in Regions, i in Sectors}{let B[r, i] := 30e-2 * B[r, i];};
+display B;
+let CAL_FAC_INV := 300e-2;
+let EoS_KAP := 15e-2;
 #-----------display some parameter values:
 display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   INV_SHR['SEQ', 'A', 'PbSc'];
@@ -413,6 +435,8 @@ for {s in PathTimes}{
   display s;
 #-----------update kapital (CJ call this the simulation step)
   fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
+#-----------in this algorithm other variables automatically get warm start
+  display E_output['SEQ', 'PbSc', LInf], con['SEQ', 'PbSc', LInf];
 #-----------set and solve the plan for start time s
   objective pres_disc_val;
   let InstanceName := ("$HOME/maiwar-solutions/" & time() & "maiwar"
@@ -429,50 +453,58 @@ for {s in PathTimes}{
   market_clearing["PbSc", LInf];
 
   for {r in Regions, i in Sectors}{
-##-----------save actual path values of variables to parameter
-#    let CON[r, i, s] := con[r, i, LInf];
-#    let INV_SEC[r, i, s] := inv_sec[r, i, LInf];
-#    let INV_SUM[r, i, s] := sum{j in Sectors} inv[r, i, j, LInf];
-#    let LAB[r, i, s] := lab[r, i, LInf];
-#    let E_OUTPUT[r, i, s] := E_output[r, i, LInf];
-#    let ADJ_COST_KAP[r, i, s] := adj_cost_kap[r, i, LInf];
+#-----------save actual path values of variables to parameter
+    let CON[r, i, s] := con[r, i, LInf];
+    let INV_SEC[r, i, s] := inv_sec[r, i, LInf];
+    let INV_SUM[r, i, s] := sum{j in Sectors} inv[r, i, j, LInf];
+    let LAB[r, i, s] := lab[r, i, LInf];
+    let E_OUTPUT[r, i, s] := E_output[r, i, LInf];
+    let ADJ_COST_KAP[r, i, s] := adj_cost_kap[r, i, LInf];
     let KAP[r, i, s + 1] := kap[r, i, LInf + 1];
-#    let DUAL_KAP[r, i, s] := kap_transition[r, i, LInf]
-##-----------in this algorithm other variables automatically get warm start
+    let DUAL_KAP[r, i, s] := kap_transition[r, i, LInf]
   };
-#  display KAP;
-#  display E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, LAB, KAP, DUAL_KAP;
-#  for {i in Sectors}{
-##-----------save actual path values of market clearing to parameter
-#    let MKT_CLR[i, s] := sum{rr in Regions}(
-#      E_OUTPUT[rr, i, s] 
-#      - CON[rr, i, s]
-#      - INV_SUM[rr, i, s] 
-#      - ADJ_COST_KAP[rr, i, s]
-#      );
-#    let DUAL_MCL[i, s] := market_clearing[i, LInf];
-#  };
-#  display MKT_CLR, DUAL_MCL;
-#  for {r in Regions, i in Sectors}{
-#    let GROWTH_KAP[r, i, s] := (KAP[r, i, s + 1] - KAP[r, i, s]) / KAP[r, i, s];
-##-----------Euler integrand for Cobb-Douglas production
-#    #let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
-#    #  + DUAL_MCL[i, s] * (
-#    #    ALPHA[i] * (KAP[r, i, s] / LAB[r, i, s]) ^ (ALPHA[i] - 1)
-#    #    - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
-#    #  );
-##-----------Euler integrand for CES production
-#    let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
-#      + DUAL_MCL[i, s] * (
-#        KAP_SHR_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO - 1)
-#        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
-#      );
-#    if s > PInf then 
-#      let EULER_RATIO[r, i, s] 
-#        := BETA * EULER_INTEGRAND[r, i, s] / DUAL_KAP[r, i, s - 1];
-#  };
-#  display GROWTH_KAP, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
-#  display s, _ampl_elapsed_time, _total_solve_time;
+#    let TAIL_CON_SHR := (sum{r in Regions, i in Sectors} CON[r, i, s])
+#      / (sum{r in Regions, i in Sectors} E_OUTPUT[r, i, s]);
+  display E_OUTPUT, CON, INV_SUM, ADJ_COST_KAP, LAB, KAP;
+  display max {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
+  display min {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
+  for {i in Sectors}{
+#-----------save actual path values of market clearing to parameter
+    let MKT_CLR[i, s] := sum{rr in Regions}(
+      E_OUTPUT[rr, i, s] 
+      - CON[rr, i, s]
+      - INV_SUM[rr, i, s] 
+      - ADJ_COST_KAP[rr, i, s]
+      );
+    let DUAL_MCL[i, s] := market_clearing[i, LInf];
+  };
+#-----------growth rate of capital as a parameter
+  for {r in Regions, i in Sectors}{
+    let GROWTH_KAP[r, i, s] := (KAP[r, i, s + 1] - KAP[r, i, s]) / KAP[r, i, s];
+#-----------Euler integrand for Cobb-Douglas production
+    #let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
+    #  + DUAL_MCL[i, s] * (
+    #    ALPHA[i] * (KAP[r, i, s] / LAB[r, i, s]) ^ (ALPHA[i] - 1)
+    #    - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
+    #  );
+#-----------Euler integrand for CES production
+    let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
+      + DUAL_MCL[i, s] * (
+        KAP_SHR_CES[i] * A[i] ^ RHO
+          * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO - 1)
+        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
+      );
+    if s > PInf then 
+      let EULER_RATIO[r, i, s] 
+        := BETA * EULER_INTEGRAND[r, i, s] / DUAL_KAP[r, i, s - 1];
+  };
+  display GROWTH_KAP, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
+  display max{i in Sectors} abs(MKT_CLR[i, s]),
+    min{i in Sectors} DUAL_MCL[i, s];
+  display utility, tail_val, pres_disc_val;
+  display (sum{r in Regions, i in Sectors} con[r, i, LInf])
+    / (sum{r in Regions, i in Sectors} E_output[r, i, LInf]);
+  display s, _ampl_elapsed_time, _total_solve_time;
 #  for {r in Regions, i in Sectors}{
 #  if s > PInf then display EULER_RATIO[r, i, s] - EULER_RATIO[r, i, s - 1];
 #  };
