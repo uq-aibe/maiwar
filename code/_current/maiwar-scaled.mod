@@ -295,14 +295,14 @@ var tail_val_CES_Q 'SumShr continuation value from time LSup + LInf onwards'
     ) / (1 - BETA);
 var tail_val_CDutl_F_CESout
   'continuation value from time LSup + LInf onwards'
-  = (sum{r in Regions}
+  = (sum{r in Regions}(
       REG_WGHT[r] * prod{i in Sectors}(
         TAIL_CON_SHR * A[i] * (
           KAP_SHR_CES[i] * kap[r, i, LSup + LInf] ^ RHO_KAP
              + LAB_SHR_CES[i] * 1 ^ RHO_KAP
         ) ^ (RHO_KAP_HAT * SCALE * CON_SHR[r, i])
-        - B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
       ) 
+    - sum{j in Sectors} B[r, j] * 1 ^ ETA_HAT[r] / ETA_HAT[r])
     ) / (1 - BETA);
 /*=============================================================================
 Current intermediate variables (substituted out during pre-solving)
@@ -408,7 +408,7 @@ let PSup := 18;
 display A;
 for {i in Sectors}{
   let A[i] := 2000e-2 * A[i];
-  let DELTA[i] := 4e-2;
+  let DELTA[i] := 5e-2;
   };
 display A, B;
 for {r in Regions, i in Sectors}{let B[r, i] := 30e-2 * B[r, i];};
