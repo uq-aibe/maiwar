@@ -1,2 +1,2 @@
 # maiwar
-Model of Australian Industry With Attention to the Regions (MAIWAR)
+Model of Australian Industry with Weak Solutions, AMPL and Regions (MAIWAR)

@@ -1,0 +1,900 @@
+% !TEX TS-program = pdflatexmk
+%\RequirePackage[l2tabu, orthodox]{nag}
+   \documentclass[12pt,a4paper,twoside, draft]{article}
+   % \documentclass[12pt]{article}
+\listfiles
+\usepackage{./preamble-files/paper-preamble}
+\usepackage{bm}
+%\input{../../bib/_addbibresource_Alphabetical_Aligned.tex}
+
+\linespread{1.41}
+
+\geometry{showframe=true}
+   \geometry{a4paper,margin=1.25in}%,footskip=.25in}
+   % left=1.25in,right=1.25in,top=1.25in,bottom=1.25in}
+% \addtolength{\oddsidemargin}{-.875in}
+% \addtolength{\evensidemargin}{-.875in}
+% \addtolength{\textwidth}{1.75in}
+
+%\usepackage[printwatermark]{xwatermark}
+%\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+%\renewcommand\Affilfont{\itshape\small}
+ \usepackage{sectsty}
+% \allsectionsfont{\mdseries\itshape}
+ \paragraphfont{\mdseries\scshape}
+ \makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+ \sectionfont{\normalsize\centering\mdseries\scshape}
+%\usepackage[right]{lineno}
+%\nolinenumbers
+%\preto{\newpage}{\resetlinenumber}
+
+%\def\pagewiselinenumbers{\linenumbers\setpagewiselinenumbers}
+%\linenumbers
+%\modulolinenumbers[5]
+\renewcommand\thelinenumber{\color{lightgray}\arabic{linenumber}}
+   % \makeatletter \newsavebox{\@linebox}
+   % \savebox{\@linebox}[3em][t]{\parbox[t]{3em}{%
+   %     \@tempcnta\@ne\relax
+   %     \loop{\scriptsize\the\@tempcnta}\\
+   %     \advance\@tempcnta by \@ne\ifnum\@tempcnta<47\repeat}}
+   % \usepackage{fancyhdr} \pagestyle{fancy} \fancyhead{} \fancyfoot{}1]
+% \fancyhead[CO]{\scriptsize How to Count Lines}
+% \fancyhead[RO,LE]{\footnotesize\thepage}
+%% insert this block within a conditional
+% \fancyhead[RE]{\footnotesize\thepage\begin{picture}(0,0)%
+%      \put(-26,-25){\usebox{\@linebox}}%
+%    \end{picture}}  
+% \fancyhead[RO]{%
+% \begin{picture}(0,0)%
+%   \put(12,-38){\usebox{\@linebox}}%
+%  \end{picture}}
+% %\fancyfoot[C]{\scriptsize Draft copy}
+% \makeatother
+%\medmuskip=4mu plus 2mu minus 2mu
+%\newcounter{nameOfYourChoice}
+
+\makeatletter
+\newcommand{\srcsize}{\@setfontsize{\srcsize}{3pt}{3pt}}
+\makeatother
+\makeatletter
+\newcommand{\srcsizetwo}{\@setfontsize{\srcsizetwo}{2pt}{2pt}}
+\makeatother
+
+\newcommand{\smallgeq}{\mbox{\larger[-4]$\geq$}}
+\newcommand{\smallleq}{\mbox{\larger[-4]$\leq$}}
+\newcommand{\smallstrictlygr}{\mbox{\larger[-4]$>$}}
+\newcommand{\smallstrictlyless}{\mbox{\larger[-4]$<$}}
+\newcommand{\smallzero}{\mbox{\larger[-5]$0$}}
+\newcommand{\smallasterix}{\mbox{\larger[-4]$*$}}
+\newcommand{\smallplus}{\mbox{\larger[-4]$+$}}
+\newcommand{\nneg}{\smallgeq}
+\newcommand{\pos}{{\mdoubleplus}}
+\newcommand{\posint}{\mbb Z_{\mdoubleplus}}
+\newcommand{\nnint}{{\mbb Z}_{\mplus}}
+\newcommand{\posrat}{\mbb Q_{\mdoubleplus}}
+\newcommand{\posreal}{\mbb R_{\mdoubleplus}}
+\newcommand{\negreal}{\mbb R_{-}}
+\newcommand{\nnrat}{{\mbb Q}_{\mplus}}
+\newcommand{\nnreal}{{\mbb R}_{\mplus}}
+
+\newcommand\mdoubleplus{\text{\srcsize$+\mkern-2mu+$}}
+%\newcommand\mdoubleplus{\text{\srcsize$>$$0$}}
+\newcommand\mplus{\text{\srcsize$+$}}
+%\newcommand\mplus{\text{\srcsize$\geq$$0$}}
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!white}
+}
+\lightercolor{gray}{50}{lightgray}
+%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
+%\newcommand\doubleplus{+\kern-1.3ex+\kern0.8ex}
+%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
+%\newcommand\mdoubleplus{\text{\srcsize$*$$+$}}
+%\newcommand\mdoubleplus{\ensuremath{\mathbin{\bm{+}}}}
+%\newcommand\mdoubleplus{\ensuremath{\mathbin{\circ\mkern-12mu+}}}
+%\usepackage{cancel}
+\usepackage{accents}
+\newcommand*{\dt}[1]{%
+  \accentset{\mbox{\bfseries .}}{#1}}
+\usepackage{upgreek}
+\newcommand{\smallbot}{\text{\small$\hat{0}$}}
+
+\DeclareMathOperator{\dis}{d}
+\newcommand{\spann}{\operatorname{span}}
+\newcommand{\reg}{\operatorname{reg}}
+\newcommand*{\boldsymb}[1]{%
+  \textpdfrender{%
+    TextRenderingMode=FillStroke,%
+    LineWidth=.4pt,%
+  }{#1}%
+CCM}
+\newcommand{\countof}{\mathbin{\sharp}\hskip1pt}
+\newcommand{\xxp}{{(0,1)}}
+\newcommand{\xpx}{{(1,0)}}
+\newcommand{\xxpp}{{(0,2)}}
+\newcommand{\xpxpp}{{(1,2)}}
+\newcommand{\xppxp}{{(2,1)}}
+
+\renewcommand{\ij}{{(i, j)}}
+\newcommand{\ji}{{(j, i)}}
+
+\newcommand{\xy}{{(x, y)}}
+\newcommand{\yx}{{(y, x)}}
+
+\newcommand{\yz}{{(y,z)}}
+\newcommand{\zy}{{(z,y)}}
+
+\newcommand{\xz}{{(x,z)}}
+\newcommand{\zx}{{(z,x)}}
+
+\newcommand{\xw}{{(x,w)}}
+\newcommand{\wx}{{(w,x)}}
+
+\newcommand{\yw}{{(y,w)}}
+\newcommand{\wy}{{(w,y)}}
+
+\newcommand{\zw}{(z,w)}
+\newcommand{\wz}{(w,z)}
+
+\newcommand{\xpw}{(x^{\prime},w)}
+\newcommand{\wxp}{(x,x^{\prime})}
+
+\newcommand{\xpy}{(x^{\prime},y)}
+\newcommand{\yxp}{(y,x^{\prime})}
+
+\newcommand{\xpz}{(x^{\prime},z)}
+\newcommand{\zxp}{(z,x^{\prime})}
+
+\newcommand{\xyz}{{ (x,y,z) }}
+
+\newcommand{\dd}{{(\cdot,\cdot)}}
+\newcommand{\justdd}{\cdot\cdot}
+
+\newcommand{\ab}{{(a,b)}}
+\newcommand{\ba}{{(b,a)}}
+
+\newcommand{\fourpru}{\textit{4}-\textup{prudence}}
+\newcommand{\threepru}{\textit{3}-\textup{prudence}}
+\newcommand{\parthreediv}{\textup{partial-\textit{3}-diversity}}
+\newcommand{\Parthreediv}{\textup{Partial-\textit{3}-diversity}}
+\newcommand{\condtwodiv}{\textup{conditional-\textit{2}-diversity}}
+\newcommand{\Condtwodiv}{\textup{Conditional-\textit{2}-diversity}}
+\newcommand{\twodiv}{\textit{2}-\textup{diversity}}
+\newcommand{\twodivhash}{\textit{2}-\textup{Div}$^{\hash}$}
+\newcommand{\twodivstar}{\textit{2}-\textup{Div}$^{*}$}
+
+\newcommand{\fourdiv}{\textit{4}-\textup{diversity}}
+\newcommand{\fourdivhash}{\textit{4}-\textup{Div}$^{\hash}$}
+\newcommand{\fourdivstar}{\textit{4}-\textup{Div}$^{*}$}
+
+\newcommand{\threediv}{\textit{3}-\textup{diversity}}
+
+\newcommand{\fourjac}{\textup{\textit{4}-Jac}}
+\newcommand{\threejac}{\textup{\textit{3}-Jac}}
+\newcommand{\mrpropto}{\mathrel{\varpropto}}
+\newcommand{\half}{\frac{1}{2}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\rowrank}{rowrank}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\closure}{closure}
+\DeclareMathOperator{\strict}{strict}
+\DeclareMathOperator{\equivset}{equiv}
+\DeclareMathOperator{\image}{image}
+\usepackage{blindtext}
+\makeatletter
+\renewcommand\maketitle
+  {\begin{center}\mdseries\large
+    {\@title}%
+    \par\medskip\medskip
+    {\normalsize\@author}%
+    \par\medskip\medskip\normalfont
+    \begin{small}
+\emph{Australian Institute for Business and Economics}
+\end{small}
+\par
+\begin{small}
+\emph{University of Queensland}
+\end{small}
+   \end{center}
+  }
+  \makeatother
+  \usepackage{fancyhdr}
+  \fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[CO]{\small\scshape MAIWAR}% odd page header 
+\fancyhead[CE]{\small\scshape P.H. O'Callaghan}
+\fancyfoot[L,R,C]{}
+\renewcommand{\headrulewidth}{0pt}% disable the underline of the header part
+\title{
+   \textsc{
+MAIWAR (Modelling Australian Industry with Weak-solutions, AMPL and Regions)
+}
+\footnote{
+      Thanks to Brent Ritchie for winning support for the SMaRT
+      project and to the University of Queensland for its financial support
+      (Research Support Package - Round 3).
+      This work is part of the Sustainability, Modelling and Regional
+      Transition (SMaRT) project.
+      I thank Josh Aberdeen, Patrick Duenow, Cameron Gordon, John Mangan and
+      Tina Rampino for many conversations and active contributions to the
+      creation of the MAIWAR model.
+      I thank Alex Yelkhovski for valuable conversations at an early stage. 
+      Last, but certainly not least, I thank the members of the SMaRT project
+      panel: Hurriyet Babacan, Bego\~{n}a Dominguez, Flavio Menezes, Alicia
+      Rambaldi and Martie-Louise Verreynne.
+      This version has time stamp \currenttime~(AEST), \today. The most recent
+      version (as well as past versions) can be found at
+      \url{https://github.com/uq-aibe/maiwar/blob/main/documentation/maiwar-white-paper.pdf} .}}
+
+\author{\large\textsc{By Patrick H. O'Callaghan}
+   \footnote{Email address
+    \href{mailto:p.ocallaghan@uq.edu.au}{\texttt{p.ocallaghan@uq.edu.au}} and
+    ORCID iD \href{http://orcid.org/0000-0003-0606-5465}{
+      \texttt{0000-0003-0606-5465}} }}
+
+
+  \date{}
+    
+  \begin{document}
+  \maketitle
+
+  \pagestyle{fancy}
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} \thispagestyle{plain}
+%\input{frontmatter}
+%\maketitle
+%\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+ % abstract
+
+\begin{abstract}%\resetlinenumber
+  
+  Policy makers make decisions regarding medium term policies where capital is
+  evolving.
+  They do so in the face of uncertainty.
+  Existing Computable General Equilibrium models do not adequately model
+  such intertemporal behaviour.
+  Macroeconomic models typically address this concern, but
+  rely on local approximations around the non-stochastic steady-state
+  (where capital is no longer evolving). Ergodic-set methods are similarly
+  suited to the long-term whereas grid-based value-function iteration is
+  unstable or slow in multi-sectoral settings.
+  
+  In this white paper, we extend a simple, yet powerful, method (of Cai and
+  Judd) to the multisectoral setting. Along uncertain paths through time,
+  agents look ahead multiple periods and choose policies that are optimal the
+  certainty-equivalent sense. 
+  The model focuses on the medium term and the solution we derive is
+  \emph{weak}: characterised by an empirical distribution on the set of
+  paths (unobservable strong solutions).
+  Similar to structural econometric models, the key measure of accuracy is that
+  the mean path satisfies the Intertemporal Euler equation to within a 1\%
+  margin of error.
+\end{abstract}
+\setlength{\epigraphwidth}{11.5cm}
+\epigraph{
+   From the past, the present acts prudently, lest it spoil future action.
+  }{\emph{Titian:  Allegory of Prudence}
+}
+
+%==============================================================================
+\section{Introduction}\label{sec-introduction}
+%==============================================================================
+Experience is the basis of prediction.  Yet outside of stylised settings, even
+the most experienced forecasters do not claim  access to ``the full
+model''.
+In the methodology below, we will argue that, for incomplete model
+specifications, weak solutions, that is ones that explicitly uncertainty of
+various kinds and are characterised by an empirical probability distribution
+are more suitable.
+Yet this kind of solution is absent from the literature: certainly from
+the Computational General Equilibrium (CGE) literature, and the related
+multi-sectoral macroeconomic literature.
+The weak solution we derive is implicit in \citet{CJ}: though they do not
+consider the case of multi-sectoral investment flows that is central to MAIWAR.
+
+Beyond the short-term, economic theory provides the lens through which
+policy-makers peer into the future. 
+In medium term, the economy is unlikely to reach its steady state. 
+Moreover, in models with multiple sectors recent research has highlighted
+the importance of nonlinear effects.
+For such problems, first-order steady-state approximations are ill-suited.
+Yet this is the solution method that is most commonly applied today.
+
+Computable General Equilibrium (CGE)
+models are often used to provide insights into the regional and sectoral
+impacts of current policies and shocks that propagate through the economy's
+production networks over time.
+Models that assume steady-state approximations are better suited to
+long-term policy questions precisely because steady-state equilibria are a
+special kind of equilibrium that may take many years to arrive.
+Yet even the impact of longer-term policies, such as 2050 net-zero emissions
+targets should involve a careful analysis of the short-to-medium term.
+For a policy that is unsustainable or sub-optimal in the interim is liable to
+fail altogether.
+
+\emph{At this point, this white paper only contains a draft methodology.}
+
+%==============================================================================
+\section{Methodology}\label{sec-methodology}
+%==============================================================================
+%For the benefit of the wider community, we begin with methodology without any
+%mathematics. All emphasized terms are formally defined in the full methodology
+%that then follows.
+%\subsection{Non-technical methodology}
+The goal of our method is to generate statistical information about the path
+that key regional variables such as gross value added, employment, consumption
+and investment will take over the next few years.
+In particular, we combine current and past data with the structure of economic
+theory to generate an \emph{empirical likelihood}
+\citet{Owen-Empirical_likelihood} on the set of uncertain
+paths through time. This is what we refer to as a \emph{weak solution}.
+The weak solution can then be used not only for providing policy guidance as is
+the standard approach to CGE modelling, but also for quantifying the
+uncertainty and for measuring the accuracy of the model itself.
+For example, we can check that the mean of the empirical likelihood
+satisfies an optimality criteria such as the intertemporal Euler equation. 
+
+As in structural econometric modelling
+\citep{Reiss_Wolak-Structural_econometrics} it is important to distinguish the
+following kinds of uncertainty:
+\begin{enumerate}[I]
+   \item\label{aue} agent uncertainty about the economic environment;
+   \item\label{aub} optimization errors / behaviour of economic agents;
+   \item\label{rum} researcher measurement and approximation errors.
+\end{enumerate}
+%==============================================================================
+\subsection{Type \ref{aue} uncertainty}
+%==============================================================================
+In MAIWAR, type \ref{aue} uncertainty is captured using a decision tree.
+A decision tree $\mc T$ is a pair $(\mc N, \mc E)$ of nodes and directed
+arcs/edges connecting future nodes to preceding ones.
+A \emph{node} $n$ is where agents make decisions.
+An \emph{edge} $e$ is a pair $(n, n^{\mplus})$ of nodes that are connected in
+the sense that $n$ immediately precedes $n^{\mplus}$.
+Uncertainty arises when there is more than one edge emanating from some node
+$n$.\footnote{
+   Since $\mc T$ is a tree, for every $e = (n , n^{\mplus}) \in \mc E$ if 
+   $e' = (n', n^{\mplus}) \in \mc E$, then $n' = n$.
+}
+Uncertainty at node $n$ unfolds along edge $e$ to reveal the subsequent
+decision node.
+A \emph{path} through time consists of a maximal sequence of connected nodes.
+That is sequences that start at the (unique) root node $\mathfrak{0}$ of the tree and
+end on a leaf (a node with no explicitly modelled future times).
+Let $\mc P$ denote the set of paths.
+
+\begin{example}[Irreversible risk]\label{eg-irreversible}
+   In our canonical example, where the focus is on net-zero emissions in the
+   year 2050, we identify the root with the current year, \eg~2022.
+   A leaf is then a state of the world at time 2050.
+   Each year between now and 2049, there is a small but positive probability of
+   a one-off, permanent productivity shock to output.
+   The following paths characterise the decision tree:
+   \begin{enumerate}[1]
+      \item the path where the shock happens between 2022 and 2023;
+      \item the path where the shock happens between 2023 and 2024;
+      \item[] \dots
+      \item[28] the path where the shock happens between 2049 and 2050.
+   \end{enumerate}
+   Each path identifies a distinct state of the world.
+   Although this stochastic process is as simple as flipping a coin
+   each year and the resulting state space consists of just 28 paths,
+   the irreversible nature of the shock yields a
+   \emph{nonstationary} (\ie~time inhomogeneous) economy with a nonunique
+   steady state.
+\end{example}
+
+%==============================================================================
+\paragraph{The objective function at each node}
+%==============================================================================
+At each decision node $n$ in $\mc N$, agents solve a forward-looking
+optimization problem of the form that we now describe.
+Let $T = 0, 1, \dots$ denote the set of look-ahead times and, as a matter of
+expedience, let $\countof T \equiv T$.
+The larger the set $T$ the more rational the agents in the economy: a point we
+discuss further in section \ref{sec-approximation}.
+In our canonical example and algorithm, we assume
+a representative agent maximises the social welfare of the economy subject to
+constraints.
+(Recasting the model in terms of equilibrium equations is straightforward:
+see \citet[Algorithm 2]{CJ}.)
+
+The objective of the social planner at node $n$ is to choose the action $a$
+that maximises the following forward-looking expression:
+\begin{align}\label{eq-objective}
+\hskip-3pt   \textup{obj}_{n}(a_{n}, \omega_{n}) \defeq
+   \textup{u}_{n + 0}(a_{n + 0}, \omega_{n + 0})
+    + \mbb{E}_{n}\left\{
+      \textup{u}_{n + 1}(a_{n + 1}, \omega_{n + 1}) + \cdots
+      + \textup{V}_{n + T}(\omega_{n + T})
+    \right\}
+  %\\
+  %\textup{s.t.} & \quad \omega_{n + t+1}
+  %  = g_{n + t}(\omega_{n + t}, a_{n + t}),
+  %    \quad t = 0, \dots, T
+  %\\
+  %  & \quad f_{n + t}(\omega_{n + t}, a_{n + t}) \geq 0, \quad t = 0, \dots, T.
+\end{align}
+We now explain the terms in expression \eqref{eq-objective} in detail.
+First, $\textup{V}_{n}$ is the value function at node $n$ and
+$\textup{V}_{n + T}$ is the \emph{terminal} or \emph{continuation value} of the
+optimization problem.
+The \emph{reward}/\emph{utility} function $\textup{u}_{n + t}$ extends
+$0 \leq t < T$ periods ahead from node $n$.
+The conditional expectation $\mbb{E}_{n}$ is defined on the set of functions
+that are measurable with respect to the information available to the agent at 
+node $n$.
+\footnote{
+   All these functions are scalar-valued.
+}
+The state $\omega_{n + t} $ is a pair of variables consisting  of capital
+$\textup{kap}_{n + t}$ and the productivity shock term
+\begin{equation}
+   \textup{shock}_{n + t} = \left\{
+      \begin{array}{ll}
+         0.9 & \textup{if the shock has happened}\\
+         1 & \textup{otherwise.}
+      \end{array}\right.
+\end{equation}
+We return to discuss capital in more detail below.
+The shock $\textup{shock}$ is therefore macroeconomic in the sense that
+its effect is uniform across regions $R$ and sectors $J$ in the economy.
+A more general shock will yield a larger state space and corresponding set of
+paths.\footnote{
+   This simplification is purely for expositional purposes.
+   In our code, this and other parameters that appear below are allowed to vary 
+   across regions and sectors.
+}
+
+Finally, in \eqref{eq-objective}, action $a_{n + t}$ is often referred to as
+the (set of) control variable(s).
+In our canonical example, it is a quadruple consisting of future consumption
+$\textup{con}_{n + t}$, labour $\textup{lab}_{n + t}$, investment
+$\textup{inv}_{n + t}$ and savings $\textup{sav}_{n + t}$.
+Note that $\textup{con}_{r, n + t}$, $\textup{lab}_{r, n + t}$ and
+$\textup{inv}_{r, n + t}$ are vectors on $J$ indexed by region.
+Similarly, we view $\textup{sav}_{r, n + t}$ as the $J\times J$ matrix-valued
+function of flows between regions that we define in \eqref{eq-ces-inv} (also
+indexed by region).
+It is this latter matrix of \emph{dynamic} flows that significantly increases
+the dimension of the problem: for 20 sectors, there are 400 flows; for 100
+sectors, there are 10,000.
+
+We now turn to the constraints, beginning with the transition laws/dynamics for
+capital before turning to feasibility constraints such as market clearing.
+%==============================================================================
+\paragraph{Constraints at each node: transition dynamics}
+%==============================================================================
+Capital $\textup{kap}_{n + t}: R \times J \rightarrow \R_+$ is a vector that
+evolves according to the standard equation for each time $t$ in $T$:
+\begin{equation}\label{eq-kapital}
+   \textup{kap}_{n + t + 1} = (1 - \delta) \cdot \textup{kap}_{n + t} +
+   \textup{inv}_{n + t}.
+\end{equation}
+Note that \eqref{eq-kapital} is a stochastic difference equation.
+This is because, for every $t$ in $T$, the set $N_t$ of nodes that are
+reachable in $t$ steps typically contains more than one node.
+In \eqref{eq-kapital}, $\delta$ is the depreciation rate and
+$\textup{inv}_{n + t}$ is a vector of constant elasticity of substitution (CES)
+functions of intermediate Long--Plosser flows.
+Suppressing regional subscripts and using the proportionality relation
+$\mrpropto$ to avoid introducing calibration factors at this stage,
+for every $j$ in $J$ and $n + t$ we have
+\begin{equation}\label{eq-ces-inv}
+    \textup{inv}_{j, n + t} \mrpropto \left(
+        \sum_{i} \sigma_{i j} \cdot \textup{sav}_{i j, n + t} ^ {\,\rho}
+      \right)
+      ^ {\frac{\kappa}{\rho}}.
+\end{equation}
+As usual, $\rho = \frac{\epsilon - 1}{\epsilon}$ is a parameter that
+captures the role of the elasticity of substitution $\epsilon \approx
+0.1$ across sectors of production. Finally, to ensure strict concavity
+of $\textup{inv}_{j, n + t}$ we assume that $\kappa$ is slightly less than $1$.
+In \citet[Theorem 2]{Kojic-Concavity} it is shown that a necessary and
+sufficient condition for strict concavity of $\textup{inv}_{j, n + t}$ in 
+$\left\{\textup{sav}_{ij, n + t}: j \in J\right\}$ is that $0< \kappa < 1$.
+
+Long--Plosser flows (between sectors and across regions) do not distinguish
+between flows of goods such as flour or water that are sometimes viewed as
+purely intermediate and flows such as machinery that are sometimes viewed pure
+capital.
+In \citet{Long_Plosser-Real_business_cycles}, inventories of flour are a form
+of capital and current usage of machinery is an intermediate input.
+Although this assumption is not essential to the methodology, it is reasonable
+given the available data.
+For although standard input-output tables report investment as separate from
+intermediate inputs, this is on the basis of accounting as opposed to economic
+principles.
+Moreover, recent attempts \citep{Elazaar_Raymond-Network} to estimate
+production networks using micro data (BLADE and GST data) do not distinguish
+between these two categories of flows.
+It is worth pointing out that although intermediate production is well-modelled
+in most CGE models, savings and investment do not contribute to future 
+utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
+
+%==============================================================================
+\paragraph{Constraints at each node: market clearing}
+%==============================================================================
+In our canonical model, there is a single market for each sector.
+This means that regions trade freely: as one would expect within Queensland or
+Australia.
+
+For every $r$ in $R$, $i$ in $J$, let
+$\textup{prod}_{r, i, n + t}: \nnreal^{2} \rightarrow \nnreal$ be a standard
+Cobb-Douglas production function of capital and labour respectively:
+\begin{equation}
+   \textup{prod}_{r, i, n + t} (x, y)
+   \mrpropto \textup{shock}_{n + t}
+     \cdot \left(x ^ {\alpha_{r, i}} \cdot y ^ {1 - \alpha_{r, i}}\right)
+     ^ {\kappa} .\footnote{
+        As in \cref{eq-ces-inv}, the scale parameter $\kappa$ is
+        approximately equal to, but less than one to ensure strict concavity.
+        The $\alpha_{r, i}$ capture the relative importance of capital and
+        labour in each region-sector pair.
+     }
+\end{equation}
+Let $\text{adj}_{r, i}: \nnreal^{2} \rightarrow \R$ be the quadratic cost of
+adjusting capital:
+\begin{equation}
+   \textup{adj}_{r, i}(x, x^{\mplus}) \mrpropto  
+   \frac{(x^{\mplus} - x)^2}{x}.
+\end{equation}
+Finally, the key feasibility condition is that the following expression (where
+we have suppressed reference to $n + t$), for total production minus total
+usage, is nonnegative for every $i$ in $J$:
+\begin{equation}
+   \sum_{r \,\in\, R} \left\{
+  \textup{prod}_{r, i}(\textup{kap}_{r, i}, \textup{lab}_{r, i})
+  - \textup{con}_{r, i} - \sum_{j \,\in\, J}\left\{ \textup{sav}_{r, ij}\right\}
+  - \textup{adj}_{r, i}(\textup{kap}_{r, i}, \textup{kap}_{r, i} ^ {\mplus})
+\right\}.
+\end{equation}
+The market clearing property itself then follows by virtue of the fact that
+the reward function $\textup{u}_{n + t}$ is strictly increasing in the
+consumption of every good.
+\paragraph{Reward and Terminal Value functions at each node}
+Beyond strictly increasing, we take the reward function $\textup{u}_{n + t}$
+to be strictly concave in consumption and labour for each node $n$ and time
+$t$.
+For the consumption and labour components of utility such as those we find in
+\citet{Atalay-Sectoral_shocks}, for each region $r$:
+\begin{equation}
+   \textup{u}_{r, n + t} \mrpropto \beta^{t} \cdot \left(
+   \sum_{i \,\in\, J} \gamma_{r, i} \cdot \textup{con}_{r, i, n + t} ^ {\,\rho}
+   \right) ^ {\frac{\kappa}{\rho}}
+   - \sum_{i \,\in\, J} \lambda_{r, i} \cdot \textup{lab}_{r, i, n + t}^{2}
+\end{equation}
+where $0 < \beta < 1$ is the parameter that describes how agents discount
+future consumption and work; the consumption shares $\gamma_{r, i}$ reflect
+the amount spent on sector-$i$ goods in region $r$; the labour shares
+$\lambda_{r, i}$ reflect the proportion of sector-$i$ workers in region $r$.
+For $0 < \kappa < 1$, and $\rho$ defined as for \cref{eq-ces-inv},
+$\textup{u}_{r, n + t}$ is strictly concave.
+The weighted sum across regions (with weights determined by population) of such
+regional reward functions yields the ``global''/``whole-of-economy'' reward
+functions $\textup{u}_{n + t}$ we find in the objective function
+\eqref{eq-objective} each node.
+This, together with standard assumptions \citep[Theorem
+12.2.12]{Stachurski-Economic_dynamics} are sufficient for strict concavity of the
+terminal value function $\textup{V}_{n + T}$ in the state vector
+$\omega_{n + t}$.
+Together with the structure we have imposed on the transition laws and
+feasibility constraints, the social welfare Lagrangian $\mc L_{n}$ is
+strictly concave function of the control vector $a_{n}$ for every $n$ in
+$\mc N$.
+\footnote{
+Recall that the Lagrangian is the sum of the objective and each of the
+constraints scaled by the \emph{dual} variables (also known as Lagrange
+multipliers).
+}
+\begin{remark*}
+As usual, the Lagrange multipliers of market clearing constraints are also the
+competitive market prices.
+The AMPL language has features for constraining prices where necessary.
+\end{remark*}
+\paragraph{Well-posedness of the optimization problem at each node}
+The above conditions ensure that the solving for the general equilibrium of the
+economy is equivalent to solving a strictly concave program at each node.
+This implies that the equilibrium at each node is unique.
+The first-order (necessary) conditions for are also sufficient and we can
+tackle the problem with local (nonlinear optimization) solvers such as Conopt
+or Ipopt which are many times faster than global solvers such as Baron.
+
+\paragraph{Constructing the empirical distribution on paths}
+Let us first define the strong solution we obtain from the above node-specific
+optimization problems.
+For a given decision tree $\mc T = (\mc N, \mc E)$ and corresponding set of
+paths $\mc P$, let
+\[
+   \textup{StrongSol}(\mc P) \defeq \left\{
+      (\omega^{*}_{p}, a^{*}_{p}) : p \in \mc P
+   \right\}
+\]
+where the superscript $*$ denotes the optimal state-policy values
+for each decision node $n$ along a given path $p$.
+Note that $\textup{StrongSol}(\mc P)$ only contains the realised initial
+state-policy values since, for each $n$, the look-ahead values
+$\left\{(\omega^{*}_{n + t}, a^{*}_{n + t}) : t > 0 \right\}$ are only used to
+formulate the plan at node $n$.
+This notion of solution is strong in the sense that, assuming the model is
+fully-specified, it tells us precisely what will happen once the economy
+reaches a given node.
+Moreover, in simple cases, such as example \ref{eg-irreversible} where there
+are just $28$ paths, $\textup{StrongSol}(\mc P)$ can also be viewed as a
+complete contingent plan of action and future capital.
+Another sense in which the solution is strong when $\countof \mc P$
+is small is that we are able to observe the entire sample space: we are able to
+observe the true distribution of optimal paths through time.
+
+\paragraph{Weak solutions}
+Beyond simple examples such as \cref{eg-irreversible}, we can only hope to
+partially observe the sample space.
+The set of optimal solution paths that we have derived is then a subsample and,
+since our collection of nodes is incomplete, we can no longer refer to our
+solution as strong.
+The only sense in which we can speak of a solution is in terms of the empirical
+distribution over paths. 
+From this we can estimate the expected path, the variance, and so on.
+We now formalise this weaker notion of solution.
+
+Let $\mathfrak{0}$ denote the root node of the decision tree.
+Recalling that we assume the decision tree has paths of uniform length, let $S$
+denote the set of \emph{path times}: for each $s$ in $S$ the node $p_s$ is $s$
+steps into the future from $\mathfrak{0}$ along path $p$.
+We begin by constructing the empirical distribution associated with
+$\mathfrak{0} + s$ for each $s \in S$.
+Let $N_s$ denote the set of nodes that are $s$ steps into the future from
+$\mathfrak{0}$.\footnote{
+   That is $N_{s} = \left\{ p_{s} \in \mc N : p \in \mc P\right\}$.
+}
+
+For any $s$ in $S$ note that $\textup{con}_{r, i, \mathfrak{0} + s}$ is a
+scalar-valued random variable on $N_s$. 
+Moreover, for each $n$ in $N_s$, let $\textup{CON}_{r, i, n}$ denote a
+realisation of this random variable.
+By realisation, we mean a strong solution to this particular variable.
+For any of our policy or state variables $x_{\mathfrak{0}+s}$ let $X_n$ denote
+the realisation associated with node $n$.
+Then the empirical distribution generated by $\left\{X_n: n \in N_s\right\}$ is
+the function
+$F_{x_{s}} : \R \rightarrow [0, 1]$,
+\begin{equation}\label{eq-empirical-dbn}
+   F_{x_s}(z) = \frac{1}{\countof N_{s}}
+   \cdot \sum_{n \,\in\, N_{s}} 1_{X_n \,\leq\, z}.
+\end{equation}
+
+The weak solution for a given policy or state variable $x$ is simply the
+sequence $F_{x} = \left\{F_{x_{s}}: s \in S\right\}$ of empirical distributions.
+$F_{x}$ is the empirical distribution of the path-valued random variable $x$.
+For instance, $F_{\textup{con}_{r, i}}$ is the empirical distribution for the
+path of consumption of sector-$i$ goods in region $r$.
+
+In turn, the weak solution for the entire problem is the joint empirical
+distribution $F_{\mathfrak{0}}$ we obtain by taking the product of the
+marginals.
+(This is the case because all these probability measures are push-forwards that
+are dependent on the same source of uncertainty.)
+\paragraph{Measuring accuracy in terms of the Euler error}
+One normative measure of the accuracy of our weak solutions is the Euler error
+that is associated with the (intertemporal) Euler equation.
+This equation is a necessary condition for optimality of the stochastic dynamic
+program \citet{Stokey_Lucas-Recursive}.
+In the present setting the derivation of Euler equation is complicated by the
+fact that the number of control variables exceeds the number of state variables.
+To address this issue, for each $n$, we follow \citet{Gonzalez_Hernandez-Euler}
+appeal to the envelope theorem to obtain an indirect utility function
+$\textup{v}_{n}$ as a function of current and next-period states $\omega_{n}$
+and $\omega_{n^{\mplus}}$.
+\begin{align*}
+   \textup{v}_{n}(\omega_{n}, \omega_{n^{\mplus}}) \defeq
+   \max_{a_{n}}  \quad \textup{u}_{n}(\omega_{n}, a_{n}) \quad &
+     \textup{subject to}\\
+   \quad \omega_{n^{\mplus}} = \textup{tran}_{n}(\omega_{n}, a_{n}) \quad
+   \textup{and} & \quad \textup{feas}_{n}(\omega_{n}, a_{n}) \geq 0
+\end{align*}
+where the transition and feasibility constraints are those we have described
+above.
+As a matter of expedience, we follow the AMPL convention of identifying
+Lagrange multipliers with their corresponding constraint nomenclature.
+Thus $\textup{tran}_{s}$ and $\textup{feas}_{s}$ will denote the (random)
+Lagrange multipliers $s$ steps into the future from the root node
+$\mathfrak{0}$.
+For models with exogenous uncertainty (where actions do not affect transition
+probabilities), the Euler error associated with step $s$ is
+\begin{equation}
+\frac{
+  \beta \cdot \mathbb{E}_{\mathfrak{0}} \left\{
+    \nabla_{\textup{kap}_{s+1}} \textup{v}_{s+1}(\omega_{s+1}, \omega_{s+2})
+  \right\}
+  }{\mathbb{E}_{\mathfrak{0}} \left\{
+    \nabla_{\textup{kap}_{s+1}} \textup{v}_{s}(\omega_{s}, \omega_{s+1})
+  \right\}
+  } + 1
+\end{equation}
+It requires that the marginal loss (the denominator is negative) associated
+with foregoing today's consumption (by increasing tomorrow's capital) is
+balanced against the marginal benefit of increasing consumption tomorrow.
+Note that the expectation $\mbb E_{\mathfrak{0}}$ in the expression for
+Euler error is the empirical one we have derived as part of our weak solution.
+In other words, our condition for accuracy demands that the empirical Euler
+error is small.
+As \citet{CJ} show for a wide variety of settings, the worst case of this error
+across $s$ in $S$ is less than $1\%$.
+
+We note that, since there is no explicit form for the indirect utility function
+$\textup{v}$, we build on \citet{Scheidegger_Bilionis-Gaussian_processes} to
+use gaussian processes to generate an approximation.
+That is, we introduce uncertainty of type \ref{rum}.
+This brings us to the next section.
+%==============================================================================
+\subsection{Types \ref{aub} and \ref{rum} uncertainty: approximations}
+\label{sec-approximation}
+%==============================================================================
+In MAIWAR, weak solutions allow us to accommodate uncertainty of type \ref{aub}
+and \ref{rum} without sacrificing theoretically appealing
+solution properties such as the \emph{intertemporal Euler equation} a feature
+that is absent from CGE models: see \cite{Dixon_Rimmer-Euler_CGE} for a recent
+attempt to introduce this concept into the CoPS methodology.\footnote{
+   This paper provided inspiration for our efforts.
+}
+Our agents (and modellers) strive to ensure that the marginal benefits of
+current consumption against the marginal benefits of uncertain future
+production.
+
+Yet in order to arrive at a tractable and fast method for deriving a weak
+solution, we will need to approximate.
+By this we do not only mean the inevitable partial sampling of the set of
+paths we have already highighted in the previous section, we mean:
+\begin{enumerate}
+\item approximating the terminal value function (see 
+\citet{Bertsekas-Reinforcement_learning} for a detailed exposition of this
+matter in the setting of reinforcement learning);
+\item  by using certainty-equivalent projections (see \citet{CJ} and
+   \citet{CJS-Certainty_equivalent} for a detailed exposition of this concept).
+\end{enumerate}
+
+Our first departure from canonical expected utility maximisation, where agents
+form a complete contingent plans of action, is as follows.
+At each decision node, agents solve a nonlinear program where errors
+associated with future type \ref{aue} uncertain variables are replaced with
+some convex combination of the best and worst case scenario.
+Abundant evidence from the literature on behavioural economics shows
+that agents adopt similar heuristic approaches to dealing with complex
+decisions in the face of uncertainty.
+The ``\emph{certainty equivalent}'' projection of \cite{CJ} is one such
+heuristic. 
+Aside from tractability, the inbuilt flexibility and scope for improvement in
+aspect of the model is one reason for adopting the methodology of \cite{CJ}.
+That is say, we view this, not only as an approximation, but also a reasonable
+behavioural feature.
+
+A second form of type \ref{aub} uncertainty arises because economic agents
+struggle with long time horizons: indeed, isn't this why policy makers appeal 
+to CGE models in the first place?
+Evidence shows that agents focus their attention on the next few periods.
+This motivates the finite look-ahead feature of our model.
+Our agents focus on the near future as opposed to the far-flung steady states
+at the heart of other approaches.
+
+In MAIWAR there is a useful alignment between modeller's interests and the type
+\ref{aub} uncertainties we have just outlined.
+For although there are well-established methods for implementing large-scale
+linear stochastic programs, the tools for large-scale nonlinear stochastic
+programming are less evolved \citet{Rehfeldt-PETSc}.
+Furthermore, although the time horizon of our agents is indefinite (and
+typically modelled as infinite), most methods for dealing with such time
+horizons assume stationarity or provide a linear approximation around the
+nonstochastic steady state.
+Nor is there an obvious way to model 2050 net-zero emissions without proper
+modelling of the medium term.
+Constraints that will bind in 28 years time, but have implications today are
+poorly suited to steady-state approximations and standard policy/value
+function iteration methods.
+\footnote{
+   In our experience, "global" value and policy function iteration methods
+   are also slow and unstable in the setting of multi-sectoral models with
+   medium-term constraints.
+   See \citet{CJ} for a related discussion.
+}
+
+In summary, our agents solve finite sequences of nonlinear programs each with a
+finite horizon and an approximation for the terminal value function. 
+This is an approximation in the sense that normative agents solve nonlinear
+stochastic programs each with an infinite horizon or the true terminal value
+function.
+We argue that our approximations are well-aligned with behaviour or agents in
+practice.
+Moreover, the weak solution that we derive explicitly accommodates our
+approximation methods.
+Finally, since this weak solution is an empirical distribution we can verify 
+that the solution is accurate to within a $1\%$ Euler error approximation. 
+The same measure is typical of ``global approaches''.
+For instance, in the deep neural network approach of
+\citet{Scheidegger_et_al-DEQN} the policy iteration process is successful once
+the Euler error term converges to a sufficiently small number.
+Our investigations of this approach yielded slow and unstable results.
+The notion of a weak solution recognizes the fact that our modeller is
+typically facing substantial type \ref{rum} uncertainty.
+Parametric uncertainty is a feature of the model and a central part of the
+solution.
+
+\subsection{Computation and software}
+
+The uncertainty we model is facilitated and expedited by the fact that we have
+in place the software infrastructure to ensure that simple model sweeps are
+easy to conduct on the local HPC cluster.
+The unit for parallelisation is paths: each path is passed to a single core.
+This means that most desktop computers can easily parallelise.
+For example, consider our canonical example of irreversible risk: where there
+are 28 paths (each of length 28 years), and assume 7 regions and 20 sectors.
+For the functions we specify above, each step along a path takes $20$ seconds
+on average.
+Thus a path takes $28\times \frac{1}{3} \approx 9$ minutes to solve.
+For a desktop with 4 available cores, we are able to assign 7 paths to each
+core and complete the generate the full empirical distribution in
+$7\times 9 \approx 1$ hour.
+
+After an exhaustive search, we chose AMPL (A modelling language for
+mathematical programming) \citet{Fourer_Gay_Kernighan-AMPL} as the language and 
+ecosystem for communicating with solvers.
+AMPL is used for pre-processing/pre-solving: the stage before the nonlinear
+optimization problem is passed to the solver.
+The goal of pre-solving is to ensure the solver stage is faster and more
+reliable.
+Pre-solving includes the generation of automatic, sparse derivatives as well as
+domain/variable reduction.
+AMPL syntax is much closer to standard mathematics relative to GAMS and we have
+found it to produce faster total solve times than GAMS.\footnote{
+\citet{CJ} find that GAMS is substantially faster than Matlab.
+}
+We spent a lot of time trying purely open source options in Python, Julia and
+to lesser extent C++.
+This experimentation also involved machine learning tools (based on
+Scheidegger's work).
+We found that, overall, combining the \citet{CJ} methodology with AMPL
+pre-solving yields unrivalled modelling performance, flexibility and
+reliability.
+
+
+We have found three nonlinear solvers to be most useful.
+Conopt which is proprietary and based on the reduced-gradient method (itself
+based on the robust simplex method).
+The open source Ipopt (pronounced ``eye-pea-opt"). This is celebrated
+application of the interior point by \citet{Wachter_Biegler-Ipopt}.
+Knitro which is tries a number of approaches and, unlike Conopt and Ipopt can
+handle integer-valued variables. 
+We have tried other solvers as well, but the above are outstanding, with Conopt
+being the most robust.
+
+Future improvements to our methodology relate to tuning MAIWAR model
+parameters and improving on our existing framework for parallel computing.
+In particular, to enable simple automated parallelisation even desktop
+computers, we will use the Python API for AMPL along with nextflow.
+Currently this process is manual and automatic tuning of parameters using
+machine learning is  step in the development of MAIWAR.
+Many of the tools that we worked on in the second half of last year (first six
+months of SMaRT) will serve us well in this respect.
+
+\subsection{Nonlinearity and (non)steady-state methods}
+
+\citet{Atalay-Sectoral_shocks} estimates to be approximately $0.1$ so that
+$\rho \approx -9$.
+\\
+Such approximations are even less appealing for nonlinear production networks
+that arise when elasticities of substition are below one.
+\\
+Impressive recent work using Hamiltonian methods still fails to capture
+the central economic theme of uncertainty.
+
+
+\bibliographystyle{apalike} \bibliography{references}
+\end{document}
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
