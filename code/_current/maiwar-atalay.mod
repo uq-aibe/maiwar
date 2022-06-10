@@ -58,6 +58,8 @@ param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
 param GAMMA 'intertemporal elasticity of subst.' {Regions} default 5e-1 >= 0;
 param ETA 'Frisch elasticity of labour supply'{Regions} default 5e-1 >= 0;
 param EoS_INV 'elasticity of substitution for kapital flows' default 1e-1 > 0; 
+param EoS_CON 'elasticity of substitution for consumption flows'
+  default 1e-1 > 0; 
 param EoS_OUT 'elasticity of substitution for output components'
   default 5e-1 > 0; 
 param EoS_INT 'elasticity of substitution for intermediate flows'
@@ -114,18 +116,23 @@ param EULER_INTEGRAND 'Euler error integrand'
   {Regions, Sectors, PathTimesClosure} default 1; # in (-OSup, OSup);
 param EULER_RATIO 'Expected Euler ratio'
   {Regions, Sectors, PathTimes} default 1; # in (-1e+2, 1e+2);
-param SCALE 'economies of scale: ensures concavity' default 95e-2; # in (0, 1);
+param SCALE 'economies of scale: ensures concavity' default 90e-2; # in (0, 1);
 /*=============================================================================
 Computed parameters
 =============================================================================*/
 param GAMMA_HAT 'utility parameter' {r in Regions}, = 1 - 1 / GAMMA[r];
 param ETA_HAT 'utility parameter'{r in Regions}, = 1 + 1 / ETA[r];
-param RHO_INV 'exponent of the ces function', = (EoS_INV - 1) / EoS_INV; 
+param RHO_INV 'exponent of the investment ces aggregator',
+  = (EoS_INV - 1) / EoS_INV; 
 param RHO_INV_HAT 'inverse of RHO_INV', = 1 / RHO_INV;
-param RHO_INT 'exponent of the ces function', = (EoS_INV - 1) / EoS_INV; 
+param RHO_INT 'exponent of the intermediate ces aggregator',
+  = (EoS_INV - 1) / EoS_INV; 
 param RHO_INT_HAT 'inverse of RHO_INT', = 1 / RHO_INT;
-param RHO_OUT 'exponent of the ces function', = (EoS_OUT - 1) / EoS_OUT; 
+param RHO_OUT 'exponent of the output ces aggregator',
+  = (EoS_OUT - 1) / EoS_OUT; 
 param RHO_OUT_HAT 'inverse of RHO_OUT', = 1 / RHO_OUT;
+param RHO_CON 'exponent of the CON ces aggregator', = (EoS_CON - 1) / EoS_CON; 
+param RHO_CON_HAT 'inverse of RHO_CON', = 1 / RHO_OUT;
 #-----------output component shares for CES functions
 param SHR_KAP_OUT_CES 'importance of kapital in production' {i in Sectors}
   = SHR_KAP_OUT[i] ^ EoS_OUT;
@@ -138,10 +145,12 @@ param SHR_INT_OUT_CES 'importance of intermediates in production'
 #-----------productivity and relative importance of labour in utility
 param A 'productivity trend' {i in Sectors}
   default (1 - (1 - DELTA[i]) * BETA) / (SHR_KAP_OUT_CES[i] * BETA) >= 0;
-param B 'relative weight of consumption and leisure in utility' 
+param B 'importance of disutility of labour (weight in utility function)' 
   {r in Regions, i in Sectors}
     default (1 - SHR_KAP_OUT_CES[i]) * A[i] * (A[i] - DELTA[i])
       ^ (-1 / GAMMA[r]) >= 0;
+param C 'importance of consumption in utility'
+  default 1;
 param CAL_FAC_TAIL 'Calibration factor for terminal value function'
   default 1;
 param CAL_FAC_INV 'Calibration factor for investment'
@@ -230,7 +239,7 @@ var con_sec_CD 'Cobb-Douglas consumption aggregate (across sectors)'
 var con_sec_CES 'Const. Elast. Subst. consumption aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = (sum{i in Sectors} CON_SHR_CES[r, i] * con[r, i, t] ^ RHO_INV)
-    ^ (RHO_INV_HAT * SCALE);
+    ^ (RHO_INV_HAT * SCALE) * C;
 var con_sec_SumPow 'Sum of power consumption aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = sum{i in Sectors}
@@ -304,6 +313,10 @@ var utility_CD_F 'Cobb-Douglas and Frisch instantaneous utility'
   {t in LookForward}
   = sum{r in Regions}
       REG_WGHT[r] * (con_sec_CD[r, t] - lab_sec_F[r, t]);
+var utility_CES_F 'Cobb-Douglas and Frisch instantaneous utility'
+  {t in LookForward}
+  = sum{r in Regions}
+      REG_WGHT[r] * (con_sec_CES[r, t] - lab_sec_F[r, t]);
 var utility_CES_Q 'Const. Elast. Subst. and Quadratic instantaneous utility'
   {t in LookForward}
   = sum{r in Regions}
@@ -353,9 +366,10 @@ var tail_val_CDutl_F_CESout
   = (sum{r in Regions}(
       REG_WGHT[r] * prod{i in Sectors}(
         TAIL_CON_SHR * A[i] * (
-          SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ^ RHO_INV
-             + SHR_LAB_OUT_CES[i] * 1 ^ RHO_INV
-        ) ^ (RHO_INV_HAT * SCALE * CON_SHR[r, i])
+          SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ^ RHO_OUT
+          + SHR_INT_OUT_CES[i] * 1 ^ RHO_OUT
+          + SHR_LAB_OUT_CES[i] * 1 ^ RHO_OUT
+        ) ^ (RHO_OUT_HAT * SCALE * CON_SHR[r, i])
       ) 
         - sum{i in Sectors} B[r, i] * 1 ^ ETA_HAT[r] / ETA_HAT[r]
     )) / (1 - BETA);
@@ -373,7 +387,7 @@ var adj_cost_kap 'current adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward}
     = adj_cost_kap_Q[r, i, t];
 var utility 'current intermediate variable for utility'
-  {t in LookForward} = utility_CD_F[t]; 
+  {t in LookForward} = utility_CES_F[t]; 
 var tail_val 'current intermediate variable for tail value function'
   = tail_val_CDutl_F_CESout * CAL_FAC_TAIL;
 /*=============================================================================
@@ -411,8 +425,8 @@ data;
 #set Regions := SEQ RoQ;
 #set Sectors := Agrc Frst;
 #-----------2x3 model
-set Regions := SEQ RoQ;
-set Sectors := A Mnfc PbSc;
+#set Regions := SEQ RoQ;
+#set Sectors := A Mnfc PbSc;
 #-----------2x4 model
 #set Regions := SEQ RoQ;
 #set Sectors := Agrc Frst Mnfc Srvc;
@@ -421,7 +435,7 @@ set Sectors := A Mnfc PbSc;
 #set Sectors := Agrc Frst Mnfc Srvc;
 #-----------3x5 model
 #set Regions := SEQ RoQ RoA;
-#set Sectors := Agrc Frst Mnfc Srvc Trns;
+#set Sectors := A Frst Mnfc Srvc PbSc;
 #-----------3x6 model
 #set Regions := SEQ RoQ RoA;
 #set Sectors := Agrc Frst Mnfc Srvc Trns Utlt;
@@ -444,8 +458,8 @@ set Sectors := A Mnfc PbSc;
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := A B C D E F G H I PbSc;
 #-----------7x20
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
-#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 ##-----------7x40
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
@@ -458,24 +472,29 @@ set Sectors := A Mnfc PbSc;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 158;
+let LSup := 38;
 let PSup := 18;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 display A;
 for {i in Sectors}{
-  let A[i] := 9500e-2 * A[i];
+  let A[i] := 11900e-2 * A[i];
   let DELTA[i] := 10e-2;
+  let PHI_ADJ[i] := 199e-2;
   };
 display A, B;
-for {r in Regions, i in Sectors}{let B[r, i] := 40e-2 * B[r, i];};
+for {r in Regions, i in Sectors}{let B[r, i] := 180e-2 * B[r, i];};
 display B;
-let TAIL_CON_SHR := 0.95;
-let CAL_FAC_INV := 099e-2;
-let CAL_FAC_INT := 101e-2;
-let CAL_FAC_TAIL := 99e-2;
-let EoS_INV := 50e-2;
+let C := 30999e-2;
+let TAIL_CON_SHR := 100e-2;
+let CAL_FAC_INV := 999e-2;
+let CAL_FAC_INT := 120e-2;
+let CAL_FAC_TAIL := 000001e-15;
+let EoS_INV := 12e-2;
+let EoS_INT := 20e-2;
+let EoS_CON := 20e-2;
+let SCALE := 75e-2;
 #-----------display some parameter values:
 display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   SHR_SEC_INV['SEQ', 'A', 'PbSc'];
@@ -548,8 +567,8 @@ for {s in PathTimes}{
 #-----------Euler integrand for CES production
     let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
       + DUAL_MCL[i, s] * (
-        SHR_KAP_OUT_CES[i] * A[i] ^ RHO_INV
-          * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_INV - 1)
+        SHR_KAP_OUT_CES[i] * A[i] ^ RHO_OUT
+          * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ^ (RHO_OUT - 1)
         - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ^ 2)
       );
     if s > PInf then 
