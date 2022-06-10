@@ -408,14 +408,14 @@ let PSup := 18;
 display A;
 for {i in Sectors}{
   let A[i] := 2000e-2 * A[i];
-  let DELTA[i] := 5e-2;
+  let DELTA[i] := 8e-2;
   };
 display A, B;
 for {r in Regions, i in Sectors}{let B[r, i] := 30e-2 * B[r, i];};
 display B;
-let TAIL_CON_SHR := 0.45;
-let CAL_FAC_INV := 300e-2;
-let EoS_KAP := 15e-2;
+let TAIL_CON_SHR :=73e-2;
+let CAL_FAC_INV := 330e-2;
+let EoS_KAP := 14e-2;
 #-----------display some parameter values:
 display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   INV_SHR['SEQ', 'A', 'PbSc'];
