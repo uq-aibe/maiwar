@@ -114,7 +114,7 @@ param EULER_INTEGRAND 'Euler error integrand'
   {Regions, Sectors, PathTimesClosure} default 1; # in (-OSup, OSup);
 param EULER_RATIO 'Expected Euler ratio'
   {Regions, Sectors, PathTimes} default 1; # in (-1e+2, 1e+2);
-param SCALE 'economies of scale: ensures concavity' default 90e-2; # in (0, 1);
+param SCALE 'economies of scale: ensures concavity' default 95e-2; # in (0, 1);
 /*=============================================================================
 Computed parameters
 =============================================================================*/
@@ -458,21 +458,21 @@ set Sectors := A Mnfc PbSc;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 18;
+let LSup := 158;
 let PSup := 18;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 display A;
 for {i in Sectors}{
-  let A[i] := 999e-2 * A[i];
-  let DELTA[i] := 05e-2;
+  let A[i] := 9500e-2 * A[i];
+  let DELTA[i] := 10e-2;
   };
 display A, B;
-for {r in Regions, i in Sectors}{let B[r, i] := 99e-2 * B[r, i];};
+for {r in Regions, i in Sectors}{let B[r, i] := 40e-2 * B[r, i];};
 display B;
-let TAIL_CON_SHR := 0.45;
-let CAL_FAC_INV := 999e-2;
+let TAIL_CON_SHR := 0.95;
+let CAL_FAC_INV := 099e-2;
 let CAL_FAC_INT := 101e-2;
 let CAL_FAC_TAIL := 99e-2;
 let EoS_INV := 50e-2;
@@ -531,6 +531,7 @@ for {s in PathTimes}{
       E_OUTPUT[rr, i, s] 
       - CON[rr, i, s]
       - INV_SUM[rr, i, s] 
+      - INT_SUM[rr, i, s]
       - ADJ_COST_KAP[rr, i, s]
       );
     let DUAL_MCL[i, s] := market_clearing[i, LInf];
