@@ -129,7 +129,7 @@ param RHO_INV 'exponent of the investment ces aggregator',
   = (EoS_INV - 1) / EoS_INV; 
 param RHO_INV_HAT 'inverse of RHO_INV', = 1 / RHO_INV;
 param RHO_INT 'exponent of the intermediate ces aggregator',
-  = (EoS_INV - 1) / EoS_INV; 
+  = (EoS_INT - 1) / EoS_INT; 
 param RHO_INT_HAT 'inverse of RHO_INT', = 1 / RHO_INT;
 param RHO_OUT 'exponent of the output ces aggregator',
   = (EoS_OUT - 1) / EoS_OUT; 
@@ -147,11 +147,11 @@ param SHR_INT_OUT_CES 'importance of intermediates in production'
   {i in Sectors} = SHR_INT_OUT[i] ** EoS_OUT;
 #-----------productivity and relative importance of labour in utility
 param A 'productivity trend' {i in Sectors}
-  default (1 - (1 - DELTA[i]) * BETA) / (SHR_KAP_OUT_CES[i] * BETA) >= 0;
+  default 1; #(1 - (1 - DELTA[i]) * BETA) / (SHR_KAP_OUT_CES[i] * BETA) >= 0;
 param B 'importance of disutility of labour (weight in utility function)' 
   {r in Regions, i in Sectors}
-    default (1 - SHR_KAP_OUT_CES[i]) * A[i] * (A[i] - DELTA[i])
-      ** (-1 / GAMMA[r]) >= 0;
+    default 1;
+  #(1 - SHR_KAP_OUT_CES[i]) * A[i] * (A[i] - DELTA[i]) ** (-1 / GAMMA[r]) >= 0;
 param C 'importance of consumption in utility'
   default 1;
 param CAL_FAC_TAIL 'Calibration factor for terminal value function'
@@ -431,9 +431,8 @@ subject to market_clearing 'market clearing for each sector and time'
 #          * (inv[r, ii, j, t] / SHR_SEC_INV[r, ii, j])
 #          * SHR_SEC_INV[r, i, j];
 /*=============================================================================
-The_data
+The_data section
 =============================================================================*/
-update data Regions, Sectors;
 data;
 #-----------2x2 model
 #set Regions := SEQ RoQ;
@@ -493,27 +492,28 @@ let PSup := 18;
 -----------------------------------------------------------------------------*/
 display A;
 for {i in Sectors}{
-  let A[i] := 66000e-2 * A[i];
+  let A[i] := 4850e-2 * card(Sectors) / 20;
   let DELTA[i] := 08e-2;
   let PHI_ADJ[i] := 100e-2;
   };
 display A, B;
-for {r in Regions, i in Sectors}{let B[r, i] := 400e-2 * B[r, i];};
+for {r in Regions, i in Sectors}{let B[r, i] := 04e-2;};
 display B;
-let C := 4100e-2;
-let TAIL_CON_SHR := 075e-2;
-let CAL_FAC_INV := 100e-2;
-let CAL_FAC_INT := 100e-2;
-let CAL_FAC_TAIL := 100e-2;
-let EoS_INV := 12e-2;
-let EoS_INT := 20e-2;
+let C := 4300e-2;
+let CAL_FAC_TAIL := 660e-2;
+
+let TAIL_CON_SHR := 045e-2;
+let CAL_FAC_INV := 120e-2;
+let CAL_FAC_INT := 200e-2;
+let EoS_INV := 20e-2;
+let EoS_INT := 10e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
-let SCALE_CON := 90e-2;
+let SCALE_CON := 70e-2;
+let SCALE_INV := 90e-2;
 let SCALE_INT := 60e-2;
-#-----------display some parameter values:
-display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
-  SHR_SEC_INV['SEQ', 'A', 'PbSc'];
+
+update data;
 /*=============================================================================
 Solving the model
 =============================================================================*/
@@ -524,6 +524,12 @@ option show_stats 1;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
   display s;
+#-----------display some parameter values:
+display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
+  SHR_SEC_INV['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
+display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
+  RHO_INV, EoS_INT, RHO_INT, EoS_CON, RHO_CON, EoS_OUT, RHO_OUT,
+  SCALE_CON, SCALE_INV, SCALE_INT;
 #-----------update kapital (CJ call this the simulation step)
   fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
 #-----------in this algorithm other variables automatically get warm start
