@@ -472,12 +472,12 @@ data;
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := A B C D E F G H I PbSc;
 #-----------7x20
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
-#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
-##-----------7x40
 set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
-set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
-  A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 PbSc1 P1 Q1 R1 T1 U1;
+set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+##-----------7x40
+#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
+#  A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 PbSc1 P1 Q1 R1 T1 U1;
 ##-----------7x60
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
@@ -486,14 +486,14 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 38;
+let LSup := 28;
 let PSup := 18;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 display A;
 for {i in Sectors}{
-  let A[i] := 19999e-2 * A[i];
+  let A[i] := 66000e-2 * A[i];
   let DELTA[i] := 08e-2;
   let PHI_ADJ[i] := 100e-2;
   };
@@ -503,13 +503,12 @@ display B;
 let C := 4100e-2;
 let TAIL_CON_SHR := 075e-2;
 let CAL_FAC_INV := 100e-2;
-let CAL_FAC_INT := 300e-2;
-let CAL_FAC_TAIL := 900e-2;
+let CAL_FAC_INT := 100e-2;
+let CAL_FAC_TAIL := 100e-2;
 let EoS_INV := 12e-2;
 let EoS_INT := 20e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
-let SCALE_INV := 95e-2;
 let SCALE_CON := 90e-2;
 let SCALE_INT := 60e-2;
 #-----------display some parameter values:
