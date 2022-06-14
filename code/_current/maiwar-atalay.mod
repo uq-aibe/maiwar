@@ -378,13 +378,13 @@ var tail_val_CDutl_F_CESout
   )) / (1 - BETA);
 var tail_val_CESutl_F_CESout
   'continuation value from time LSup + LInf onwards'
-  = (sum{r in Regions} REG_WGHT[r] * (
-    (sum{i in Sectors} CON_SHR_CES[r, i] * (TAIL_CON_SHR * A[i] * (
-        SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ** RHO_OUT
-        + SHR_INT_OUT_CES[i] * 1 ** RHO_OUT
-        + SHR_LAB_OUT_CES[i] * 1 ** RHO_OUT
-      )) ** (RHO_OUT_HAT * SCALE_OUT)
-    ) ** (RHO_CON * SCALE_CON) 
+  = (sum{r in Regions} REG_WGHT[r] * ( C * (
+    sum{i in Sectors} CON_SHR_CES[r, i] * (TAIL_CON_SHR * A[i] * (
+      SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ** RHO_OUT
+      + SHR_INT_OUT_CES[i] * 1 ** RHO_OUT
+      + SHR_LAB_OUT_CES[i] * 1 ** RHO_OUT
+    ) ** (RHO_OUT_HAT * SCALE_OUT)) ** (RHO_CON_HAT * SCALE_CON) 
+  ) ** (RHO_CON_HAT * SCALE_CON) 
     - sum{i in Sectors} B[r, i] * 1 ** ETA_HAT[r] / ETA_HAT[r]
   )) / (1 - BETA);
 /*=============================================================================
@@ -451,16 +451,16 @@ data;
 #set Sectors := A Frst Mnfc Srvc PbSc;
 #-----------3x6 model
 #set Regions := SEQ RoQ RoA;
-#set Sectors := Agrc Frst Mnfc Srvc Trns Utlt;
+#set Sectors := A Frst Mnfc Srvc PbSc Utlt;
 ##-----------4x4
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := Agrc Frst Mnfc Srvc;# Trns Utlt;
 ##-----------4x5
 #set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc Frst Mnfc Srvc Utlt;
+#set Sectors := A Frst Mnfc PbSc Utlt;
 ##-----------4x6
 #set Regions := SEQ RoQ RoA RoW;
-#set Sectors := Agrc Elct Frst Mnfc Srvc Trns Utlt;
+#set Sectors := A Elct Frst Mnfc Srvc PbSc Utlt;
 ##-----------4x7
 #set Regions := SEQ RoQ RoA RoW;
 #set Sectors := A B C D E F PbSc;
@@ -473,6 +473,10 @@ data;
 #-----------7x20
 set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+#-----------7x21
+#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
+#  Al;
 ##-----------7x40
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U
@@ -492,20 +496,18 @@ let PSup := 18;
 -----------------------------------------------------------------------------*/
 display A;
 for {i in Sectors}{
-  let A[i] := 4850e-2 * card(Sectors) / 20;
+  let A[i] := 5300e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
   let DELTA[i] := 08e-2;
   let PHI_ADJ[i] := 100e-2;
   };
-display A, B;
-for {r in Regions, i in Sectors}{let B[r, i] := 04e-2;};
-display B;
-let C := 4300e-2;
-let CAL_FAC_TAIL := 660e-2;
+for {r in Regions, i in Sectors}{let B[r, i] := 001e-2;};
+let C := 62000e-2;
+let CAL_FAC_TAIL := 100e-2;
 
-let TAIL_CON_SHR := 045e-2;
-let CAL_FAC_INV := 120e-2;
-let CAL_FAC_INT := 200e-2;
-let EoS_INV := 20e-2;
+let TAIL_CON_SHR := 035e-2;
+let CAL_FAC_INV := 075e-2;
+let CAL_FAC_INT := 100e-2;
+let EoS_INV := 25e-2;
 let EoS_INT := 10e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
@@ -518,16 +520,16 @@ update data;
 Solving the model
 =============================================================================*/
 param InstanceName symbolic;
-option solver conopt;
 option solver knitro;
 option show_stats 1;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
   display s;
+  if s <= 10 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
-display  CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
+  display  A['PbSc'], CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   SHR_SEC_INV['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
-display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
+  display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
   RHO_INV, EoS_INT, RHO_INT, EoS_CON, RHO_CON, EoS_OUT, RHO_OUT,
   SCALE_CON, SCALE_INV, SCALE_INT;
 #-----------update kapital (CJ call this the simulation step)
@@ -563,9 +565,9 @@ display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
   };
 #    let TAIL_CON_SHR := (sum{r in Regions, i in Sectors} CON[r, i, s])
 #      / (sum{r in Regions, i in Sectors} E_OUTPUT[r, i, s]);
-  display E_OUTPUT, CON, INV_SUM, INT_SUM, ADJ_COST_KAP, LAB, KAP;
-  display max {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
-  display min {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
+  #display E_OUTPUT, CON, INV_SUM, INT_SUM, ADJ_COST_KAP, LAB, KAP;
+  #display max {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
+  #display min {r in Regions, i in Sectors} DUAL_KAP[r, i, s];
   for {i in Sectors}{
 #-----------save actual path values of market clearing to parameter
     let MKT_CLR[i, s] := sum{rr in Regions}(
@@ -599,8 +601,25 @@ display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
         := BETA * EULER_INTEGRAND[r, i, s] / DUAL_KAP[r, i, s - 1];
   };
   display GROWTH_KAP, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
-  display max{i in Sectors} abs(MKT_CLR[i, s]),
-    min{i in Sectors} DUAL_MCL[i, s];
+  display 
+    min{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
+    max{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
+    min{r in Regions, i in Sectors} CON[r, i, s],
+    max{r in Regions, i in Sectors} CON[r, i, s],
+    min{r in Regions, i in Sectors} INV_SUM[r, i, s],
+    max{r in Regions, i in Sectors} INV_SUM[r, i, s],
+    min{r in Regions, i in Sectors} INT_SUM[r, i, s],
+    max{r in Regions, i in Sectors} INT_SUM[r, i, s],
+    max{r in Regions, i in Sectors} ADJ_COST_KAP[r, i, s],
+    max{i in Sectors} abs(MKT_CLR[i, s]),
+    min{i in Sectors} DUAL_MCL[i, s],
+    min{r in Regions, i in Sectors} LAB[r, i, s],
+    max{r in Regions, i in Sectors} LAB[r, i, s],
+    min{r in Regions, i in Sectors} KAP[r, i, s + 1],
+    max{r in Regions, i in Sectors} KAP[r, i, s + 1],
+    min{r in Regions, i in Sectors} GROWTH_KAP[r, i, s],
+    max{r in Regions, i in Sectors} GROWTH_KAP[r, i, s],
+    min{r in Regions, i in Sectors} DUAL_KAP[r, i, s];
   display utility, tail_val, pres_disc_val;
   display (sum{r in Regions, i in Sectors} con[r, i, LInf])
     / (sum{r in Regions, i in Sectors} E_output[r, i, LInf]);
