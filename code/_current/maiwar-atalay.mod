@@ -504,14 +504,14 @@ for {r in Regions, i in Sectors}{let B[r, i] := 001e-2;};
 let C := 62000e-2;
 let CAL_FAC_TAIL := 100e-2;
 
-let TAIL_CON_SHR := 035e-2;
+let TAIL_CON_SHR := 045e-2;
 let CAL_FAC_INV := 075e-2;
 let CAL_FAC_INT := 100e-2;
 let EoS_INV := 25e-2;
 let EoS_INT := 10e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
-let SCALE_CON := 70e-2;
+let SCALE_CON := 90e-2;
 let SCALE_INV := 90e-2;
 let SCALE_INT := 60e-2;
 
@@ -525,7 +525,7 @@ option show_stats 1;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
   display s;
-  if s <= 10 then option solver knitro; else option solver conopt;
+  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
   display  A['PbSc'], CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   SHR_SEC_INV['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
