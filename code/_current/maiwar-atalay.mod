@@ -525,9 +525,8 @@ param InstanceName symbolic;
 option solver knitro;
 option show_stats 1;
 #-----------solve the model for a given point on a given path
-for {s in PathTimes}{
-  
-  display s;
+for {s in PathTimes}{ 
+  display ctime(), s;
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
   display  A['PbSc'], CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
@@ -549,7 +548,7 @@ for {s in PathTimes}{
   #solution (InstanceName & ".sol");
   display ctime(), _ampl_elapsed_time, _total_solve_time,
   _total_solve_system_time, _total_solve_user_time
-  >> (InstanceName & "-results.txt");
+  >> (InstanceName & "results-timing.txt");
 #-----------display step values
   display E_output["SEQ", "PbSc", LInf], con["SEQ", "PbSc", LInf],
   inv_sec["SEQ", "PbSc", LInf], kap["SEQ", "PbSc", LInf],
