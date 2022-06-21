@@ -44,7 +44,7 @@ param StrtTm 'start time for each step on each path' {PathTimes, PathSpace}
   default time();
 param EndTm 'start time for each step on each path' {PathTimes, PathSpace}
   default time();
-param BETA 'discount factor', in (0, 1), default .98; 
+param BETA 'discount factor', in (0, 1), default .975; 
 param DELTA 'rate of depreciation for kapital' {Sectors} default .025 >= 0;
 param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
 param GAMMA 'intertemporal elasticity of subst.' {Regions} default 5e-1 >= 0;
@@ -504,6 +504,7 @@ let PSup := 5;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
+let BETA := 975e-3
 display A;
 for {i in Sectors}{
   let A[i] := 105e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
@@ -521,8 +522,8 @@ let CAL_FAC_TAIL := 100e-2;
 let TAIL_CON_SHR := 045e-2;
 let CAL_FAC_INV := 065e-2;
 let CAL_FAC_INT := 100e-2;
-let EoS_INV := 25e-2;
-let EoS_INT := 10e-2;
+let EoS_INV := 24e-2;
+let EoS_INT := 11e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
 let SCALE_CON := 90e-2;
@@ -540,10 +541,10 @@ option solver knitro;
 option show_stats 1;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
-  display s;
+  display s, ctime();
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
-  display  A['PbSc'], CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
+  display BETA, A['PbSc'], CON_SHR['SEQ', 'PbSc'], LAB_SHR['SEQ', 'PbSc'],
   SEC_SHR_INV_CES['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
   display C, TAIL_CON_SHR, CAL_FAC_INV, CAL_FAC_INT, CAL_FAC_TAIL, EoS_INV,
   RHO_INV, EoS_INT, RHO_INT, EoS_CON, RHO_CON, EoS_OUT, RHO_OUT,
@@ -642,7 +643,7 @@ for {s in PathTimes}{
   display utility, tail_val, pres_disc_val;
   display (sum{r in Regions, i in Sectors} con[r, i, LInf])
     / (sum{r in Regions, i in Sectors} E_output[r, i, LInf]);
-  display s, _ampl_elapsed_time, _total_solve_time;
+  display s, _ampl_elapsed_time, _total_solve_time, ctime();
 #  for {r in Regions, i in Sectors}{
 #  if s > PInf then display EULER_RATIO[r, i, s] - EULER_RATIO[r, i, s - 1];
 #  };
