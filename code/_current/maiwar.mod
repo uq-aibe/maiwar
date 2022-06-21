@@ -504,7 +504,7 @@ let PSup := 5;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
-let BETA := 975e-3
+let BETA := 950e-3;
 display A;
 for {i in Sectors}{
   let A[i] := 105e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
@@ -522,7 +522,7 @@ let CAL_FAC_TAIL := 100e-2;
 let TAIL_CON_SHR := 045e-2;
 let CAL_FAC_INV := 065e-2;
 let CAL_FAC_INT := 100e-2;
-let EoS_INV := 24e-2;
+let EoS_INV := 26e-2;
 let EoS_INT := 11e-2;
 let EoS_CON := 20e-2;
 let EoS_OUT := 10e-2;
