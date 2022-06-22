@@ -1,0 +1,30 @@
+#!/bin/bash
+##
+## This "Embedded Nimrod" NSH script
+## Author: Patrick
+## Date: The script was created on 05/05/2022
+#
+## We use PBS job script syntax for the information required to set up the job in PBS Pro
+#
+## Set the name for the job here (15 characters max- no spaces or unusual punctuation)
+#PBS -N Shock_and_Awe
+#
+##Do not bother keeping the o file (it is Nimrod diagnostic messages)
+#PBS -R o
+#
+#
+#####################
+# RESOURCE SETTINGS #
+#####################
+
+#PBS -l select=1:ncpus=1:mem=3GB:ompthreads=1
+#PBS -l walltime=1:00:00
+#PBS -A UQ-AIBE
+
+WORKDIR="/scratch/project/smart/simple"
+cd $WORKDIR
+
+# this is the key step that feeds the instructions to the command line
+
+module load ampl
+ampl maiwar.mod >> $WORKDIR/results.txt
