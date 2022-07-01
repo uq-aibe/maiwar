@@ -110,7 +110,7 @@ param MKT_CLR 'observed output' {Sectors, PathTimes}
   default 0; # in (-1e-4, 1e-4); 
 param DUAL_KAP 'lagrange multiplier for kapital accumulation'
   {Regions, Sectors, PathTimes} default 1e+0; # in (-OSup, OSup);
-param DUAL_MCL 'lagrange multiplier for market clearing constraint'
+param DUAL_MKT_CLR 'lagrange multiplier for market clearing constraint'
   {Sectors, PathTimes} default 1e+0;# in [0, OSup);
 param GROWTH_KAP 'lagrange multiplier for market clearing constraint'
   {Regions, Sectors, PathTimes} default 5e-2; # in (-1, 1);
@@ -231,7 +231,7 @@ Computed variables for paths
 #  = (kap[r, i, LFwd + 1] - KAP[r, i, LFwd]) / KAP[r, i, s];
 ##-----------Euler integrand for CES production
 #    let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
-#      + DUAL_MCL[i, s] * (
+#      + DUAL_MKT_CLR[i, s] * (
 #        SHR_KAP_OUT_CES[i] * (KAP[r, i, s] / E_OUTPUT[r, i, s]) ** (RHO_INV - 1)
 #        - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ** 2)
 #      );
@@ -500,7 +500,7 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
 let LSup := 18;
-let PSup := 5;
+let PSup := 3;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
@@ -531,7 +531,6 @@ let SCALE_INV := 99e-2;
 let SCALE_INT := 45e-2;
 let SCALE_OUT := 110e-2;
 
-
 update data;
 /*=============================================================================
 Solving the model
@@ -558,9 +557,9 @@ for {s in PathTimes}{
   let InstanceName := ("maiwar"
     & card(Regions) & "x" & card(Sectors)
     & "x" & card(LookForward) & "x");
-  #write ("b" & InstanceName);
+  write ("b" & InstanceName);
 #-----------call the solver
-  solve;
+  #solve;
   #solution (InstanceName & ".sol");
   display ctime(), _ampl_elapsed_time, _total_solve_time,
   _total_solve_system_time, _total_solve_user_time
@@ -597,20 +596,20 @@ for {s in PathTimes}{
       - INT_SUM[rr, i, s]
       - ADJ_COST_KAP[rr, i, s]
       );
-    let DUAL_MCL[i, s] := market_clearing[i, LInf];
+    let DUAL_MKT_CLR[i, s] := market_clearing[i, LInf];
   };
 #-----------growth rate of capital as a parameter
   for {r in Regions, i in Sectors}{
     let GROWTH_KAP[r, i, s] := (KAP[r, i, s + 1] - KAP[r, i, s]) / KAP[r, i, s];
 #-----------Euler integrand for Cobb-Douglas production
     #let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
-    #  + DUAL_MCL[i, s] * (
+    #  + DUAL_MKT_CLR[i, s] * (
     #    SHR_KAP_OUT[i] * (KAP[r, i, s] / LAB[r, i, s]) ** (SHR_KAP_OUT[i] - 1)
     #    - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ** 2)
     #  );
 #-----------Euler integrand for CES production
     let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
-      + DUAL_MCL[i, s] * (
+      + DUAL_MKT_CLR[i, s] * (
         SCALE_OUT * SHR_KAP_OUT_CES[i] * A[i] ** (RHO_OUT/SCALE_OUT)
           * E_OUTPUT[r, i, s]  ** (1 - RHO_OUT/SCALE_OUT)
           * KAP[r, i, s] **(RHO_OUT - 1)
@@ -632,7 +631,7 @@ for {s in PathTimes}{
     max{r in Regions, i in Sectors} INT_SUM[r, i, s],
     max{r in Regions, i in Sectors} ADJ_COST_KAP[r, i, s],
     max{i in Sectors} abs(MKT_CLR[i, s]),
-    min{i in Sectors} DUAL_MCL[i, s],
+    min{i in Sectors} DUAL_MKT_CLR[i, s],
     min{r in Regions, i in Sectors} LAB[r, i, s],
     max{r in Regions, i in Sectors} LAB[r, i, s],
     min{r in Regions, i in Sectors} KAP[r, i, s + 1],
