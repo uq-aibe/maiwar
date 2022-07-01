@@ -1,0 +1,107 @@
+\begin{thebibliography}{}
+
+\bibitem[Atalay, 2017]{Atalay-Sectoral_shocks}
+Atalay, E. (2017).
+\newblock How important are sectoral shocks?
+\newblock {\em American Economic Journal: Macroeconomics}, 9(4):254--80.
+
+\bibitem[Azinovic et~al., 2019]{Scheidegger_et_al-DEQN}
+Azinovic, M., Gaegauf, L., and Scheidegger, S. (2019).
+\newblock Deep equilibrium nets.
+\newblock {\em Available at SSRN 3393482}.
+
+\bibitem[Bertsekas, 2019]{Bertsekas-Reinforcement_learning}
+Bertsekas, D. (2019).
+\newblock {\em Reinforcement learning and optimal control}.
+\newblock Athena Scientific.
+
+\bibitem[Cai et~al., 2017]{CJS-Certainty_equivalent}
+Cai, Y., Judd, K., and Steinbuks, J. (2017).
+\newblock A nonlinear certainty equivalent approximation method for dynamic
+  stochastic problems.
+\newblock {\em Quantitative Economics}, 8(1):117--147.
+
+\bibitem[Cai and Judd, 2021]{CJ}
+Cai, Y. and Judd, K.~L. (2021).
+\newblock A simple but powerful simulated certainty equivalent approximation
+  method for dynamic stochastic problems.
+\newblock Technical report, National Bureau of Economic Research.
+
+\bibitem[Dixon and R., 2020]{Dixon_Rimmer-Euler_CGE}
+Dixon, P.~B. and R., R.~M. (2020).
+\newblock Developing a dsge consumption function for a cge model.
+
+\bibitem[Fourer et~al., 1990]{Fourer_Gay_Kernighan-AMPL}
+Fourer, R., Gay, D.~M., and Kernighan, B.~W. (1990).
+\newblock A modeling language for mathematical programming.
+\newblock {\em Management Science}, 36(5):519--554.
+
+\bibitem[Gonz{\'a}lez-S{\'a}nchez and Hern{\'a}ndez-Lerma,
+  2014]{Gonzalez_Hernandez-Euler}
+Gonz{\'a}lez-S{\'a}nchez, D. and Hern{\'a}ndez-Lerma, O. (2014).
+\newblock On the euler equation approach to discrete--time nonstationary
+  optimal control problems.
+\newblock {\em Journal of Dynamics \& Games}, 1(1):57.
+
+\bibitem[Hosoe et~al., 2010]{Hosoe_et_al-CGE_textbook}
+Hosoe, N., Gasawa, K., and Hashimoto, H. (2010).
+\newblock {\em Textbook of computable general equilibrium modeling: programming
+  and simulations}.
+\newblock Springer.
+
+\bibitem[Koji{\'c}, 2021]{Kojic-Concavity}
+Koji{\'c}, V. (2021).
+\newblock A note on concavity conditions of cobb--douglas and ces production
+  function with at least two inputs.
+\newblock {\em Studies in Microeconomics}, 9(1):1--10.
+
+\bibitem[Long and Plosser, 1983]{Long_Plosser-Real_business_cycles}
+Long, J.~B. and Plosser, C.~I. (1983).
+\newblock Real business cycles.
+\newblock {\em Journal of political Economy}, 91(1):39--69.
+
+\bibitem[Owen, 2001]{Owen-Empirical_likelihood}
+Owen, A.~B. (2001).
+\newblock {\em Empirical likelihood}.
+\newblock Chapman and Hall/CRC.
+
+\bibitem[Raymond et~al., 2022]{Elazaar_Raymond-Network}
+Raymond, H., Elazaar, D., and Norden, I. (2022).
+\newblock Modelling production networks and supply chain disruption.
+
+\bibitem[Rehfeldt et~al., 2022]{Rehfeldt-PETSc}
+Rehfeldt, D., Hobbie, H., Sch{\"o}nheit, D., Koch, T., M{\"o}st, D., and
+  Gleixner, A. (2022).
+\newblock A massively parallel interior-point solver for lps with generalized
+  arrowhead structure, and applications to energy system models.
+\newblock {\em European Journal of Operational Research}, 296(1):60--71.
+
+\bibitem[Reiss and Wolak, 2007]{Reiss_Wolak-Structural_econometrics}
+Reiss, P.~C. and Wolak, F.~A. (2007).
+\newblock Structural econometric modeling: Rationales and examples from
+  industrial organization.
+\newblock {\em Handbook of econometrics}, 6:4277--4415.
+
+\bibitem[Scheidegger and Bilionis,
+  2019]{Scheidegger_Bilionis-Gaussian_processes}
+Scheidegger, S. and Bilionis, I. (2019).
+\newblock Machine learning for high-dimensional dynamic stochastic economies.
+\newblock {\em Journal of Computational Science}, 33:68--82.
+
+\bibitem[Stachurski, 2009]{Stachurski-Economic_dynamics}
+Stachurski, J. (2009).
+\newblock {\em Economic dynamics: theory and computation}.
+\newblock MIT Press.
+
+\bibitem[Stokey et~al., 1989]{Stokey_Lucas-Recursive}
+Stokey, N.~L., Lucas, R.~E., and C., P.~E. (1989).
+\newblock {\em Recursive methods in economic dynamics}.
+\newblock Harvard University Press.
+
+\bibitem[W{\"a}chter and Biegler, 2006]{Wachter_Biegler-Ipopt}
+W{\"a}chter, A. and Biegler, L.~T. (2006).
+\newblock On the implementation of an interior-point filter line-search
+  algorithm for large-scale nonlinear programming.
+\newblock {\em Mathematical programming}, 106(1):25--57.
+
+\end{thebibliography}
