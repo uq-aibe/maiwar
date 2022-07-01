@@ -23,6 +23,7 @@
 
 \usepackage{xr}
 
+\usepackage{sectsty}
 \usepackage{stmaryrd}
 %\usepackage{wasysym}
 \usepackage{appendix}
@@ -477,3 +478,159 @@
 \definecolor{patrickcolor4}{rgb}{0.5,1,0}
 
 %----------------------------------------end colors-------------------------
+%\input{../../bib/_addbibresource_Alphabetical_Aligned.tex}
+
+\linespread{1.41}
+
+\geometry{showframe=true}
+   \geometry{a4paper,margin=1.25in}%,footskip=.25in}
+   % left=1.25in,right=1.25in,top=1.25in,bottom=1.25in}
+% \addtolength{\oddsidemargin}{-.875in}
+% \addtolength{\evensidemargin}{-.875in}
+% \addtolength{\textwidth}{1.75in}
+
+%\usepackage[printwatermark]{xwatermark}
+%\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+%\renewcommand\Affilfont{\itshape\small}
+% \allsectionsfont{\mdseries\itshape}
+ \paragraphfont{\mdseries\scshape}
+ \makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+ \sectionfont{\normalsize\centering\mdseries\scshape}
+\usepackage[right]{lineno}
+%\nolinenumbers
+%\preto{\newpage}{\resetlinenumber}
+
+%\def\pagewiselinenumbers{\linenumbers\setpagewiselinenumbers}
+%\linenumbers
+\modulolinenumbers[5]
+\renewcommand\thelinenumber{\color{lightgray}\arabic{linenumber}}
+   % \makeatletter \newsavebox{\@linebox}
+   % \savebox{\@linebox}[3em][t]{\parbox[t]{3em}{%
+   %     \@tempcnta\@ne\relax
+   %     \loop{\scriptsize\the\@tempcnta}\\
+   %     \advance\@tempcnta by \@ne\ifnum\@tempcnta<47\repeat}}
+   % \usepackage{fancyhdr} \pagestyle{fancy} \fancyhead{} \fancyfoot{}1]
+% \fancyhead[CO]{\scriptsize How to Count Lines}
+% \fancyhead[RO,LE]{\footnotesize\thepage}
+%% insert this block within a conditional
+% \fancyhead[RE]{\footnotesize\thepage\begin{picture}(0,0)%
+%      \put(-26,-25){\usebox{\@linebox}}%
+%    \end{picture}}  
+% \fancyhead[RO]{%
+% \begin{picture}(0,0)%
+%   \put(12,-38){\usebox{\@linebox}}%
+%  \end{picture}}
+% %\fancyfoot[C]{\scriptsize Draft copy}
+% \makeatother
+%\medmuskip=4mu plus 2mu minus 2mu
+%\newcounter{nameOfYourChoice}
+\usepackage{bm}
+\makeatletter
+\newcommand{\srcsize}{\@setfontsize{\srcsize}{3pt}{3pt}}
+\makeatother
+\makeatletter
+\newcommand{\srcsizetwo}{\@setfontsize{\srcsizetwo}{2pt}{2pt}}
+\makeatother
+
+\newcommand{\smallgeq}{\mbox{\larger[-4]$\geq$}}
+\newcommand{\smallleq}{\mbox{\larger[-4]$\leq$}}
+\newcommand{\smallstrictlygr}{\mbox{\larger[-4]$>$}}
+\newcommand{\smallstrictlyless}{\mbox{\larger[-4]$<$}}
+\newcommand{\smallzero}{\mbox{\larger[-5]$0$}}
+\newcommand{\smallasterix}{\mbox{\larger[-4]$*$}}
+\newcommand{\smallplus}{\mbox{\larger[-4]$+$}}
+\newcommand{\nneg}{\smallgeq}
+\newcommand{\pos}{{\mdoubleplus}}
+\newcommand{\posint}{\mbb Z_{\mdoubleplus}}
+\newcommand{\nnint}{{\mbb Z}_{\mplus}}
+\newcommand{\posrat}{\mbb Q_{\mdoubleplus}}
+\newcommand{\posreal}{\mbb R_{\mdoubleplus}}
+\newcommand{\negreal}{\mbb R_{-}}
+\newcommand{\nnrat}{{\mbb Q}_{\mplus}}
+\newcommand{\nnreal}{{\mbb R}_{\mplus}}
+
+\newcommand\mdoubleplus{\text{\srcsize$+\mkern-2mu+$}}
+%\newcommand\mdoubleplus{\text{\srcsize$>$$0$}}
+\newcommand\mplus{\text{\srcsize$+$}}
+%\newcommand\mplus{\text{\srcsize$\geq$$0$}}
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!white}
+}
+\lightercolor{gray}{50}{lightgray}
+%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
+%\newcommand\doubleplus{+\kern-1.3ex+\kern0.8ex}
+%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
+%\newcommand\mdoubleplus{\text{\srcsize$*$$+$}}
+%\newcommand\mdoubleplus{\ensuremath{\mathbin{\bm{+}}}}
+%\newcommand\mdoubleplus{\ensuremath{\mathbin{\circ\mkern-12mu+}}}
+%\usepackage{cancel}
+\usepackage{accents}
+\newcommand*{\dt}[1]{%
+  \accentset{\mbox{\bfseries .}}{#1}}
+\usepackage{upgreek}
+\newcommand{\smallbot}{\text{\small$\hat{0}$}}
+
+\DeclareMathOperator{\dis}{d}
+\newcommand{\spann}{\operatorname{span}}
+\newcommand{\reg}{\operatorname{reg}}
+\newcommand*{\boldsymb}[1]{%
+  \textpdfrender{%
+    TextRenderingMode=FillStroke,%
+    LineWidth=.4pt,%
+  }{#1}%
+CCM}
+\newcommand{\countof}{\mathbin{\sharp}\hskip1pt}
+\newcommand{\xxp}{{(0,1)}}
+\newcommand{\xpx}{{(1,0)}}
+\newcommand{\xxpp}{{(0,2)}}
+\newcommand{\xpxpp}{{(1,2)}}
+\newcommand{\xppxp}{{(2,1)}}
+
+\renewcommand{\ij}{{(i, j)}}
+\newcommand{\ji}{{(j, i)}}
+
+\newcommand{\xy}{{(x, y)}}
+\newcommand{\yx}{{(y, x)}}
+
+\newcommand{\yz}{{(y,z)}}
+\newcommand{\zy}{{(z,y)}}
+
+\newcommand{\xz}{{(x,z)}}
+\newcommand{\zx}{{(z,x)}}
+
+\newcommand{\xw}{{(x,w)}}
+\newcommand{\wx}{{(w,x)}}
+
+\newcommand{\yw}{{(y,w)}}
+\newcommand{\wy}{{(w,y)}}
+
+\newcommand{\zw}{(z,w)}
+\newcommand{\wz}{(w,z)}
+
+\newcommand{\xpw}{(x^{\prime},w)}
+\newcommand{\wxp}{(x,x^{\prime})}
+
+\newcommand{\xpy}{(x^{\prime},y)}
+\newcommand{\yxp}{(y,x^{\prime})}
+
+\newcommand{\xpz}{(x^{\prime},z)}
+\newcommand{\zxp}{(z,x^{\prime})}
+
+\newcommand{\xyz}{{ (x,y,z) }}
+
+\newcommand{\dd}{{(\cdot,\cdot)}}
+\newcommand{\justdd}{\cdot\cdot}
+
+\newcommand{\ab}{{(a,b)}}
+\newcommand{\ba}{{(b,a)}}
+
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\closure}{closure}
+\DeclareMathOperator{\strict}{strict}
+\DeclareMathOperator{\equivset}{equiv}
+\DeclareMathOperator{\image}{image}
+\usepackage{blindtext}
+\DeclareMathOperator{\mrpropto}{\propto}

@@ -1,188 +1,7 @@
-% !TEX TS-program = pdflatexmk
-%\RequirePackage[l2tabu, orthodox]{nag}
-   \documentclass[12pt,a4paper,twoside, draft]{article}
+\documentclass[12pt,a4paper,twoside, draft]{article}
    % \documentclass[12pt]{article}
 \listfiles
 \usepackage{./preamble-files/paper-preamble}
-\usepackage{bm}
-%\input{../../bib/_addbibresource_Alphabetical_Aligned.tex}
-
-\linespread{1.41}
-
-\geometry{showframe=true}
-   \geometry{a4paper,margin=1.25in}%,footskip=.25in}
-   % left=1.25in,right=1.25in,top=1.25in,bottom=1.25in}
-% \addtolength{\oddsidemargin}{-.875in}
-% \addtolength{\evensidemargin}{-.875in}
-% \addtolength{\textwidth}{1.75in}
-
-%\usepackage[printwatermark]{xwatermark}
-%\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
-
-%\renewcommand\Affilfont{\itshape\small}
- \usepackage{sectsty}
-% \allsectionsfont{\mdseries\itshape}
- \paragraphfont{\mdseries\scshape}
- \makeatletter
-\def\@seccntformat#1{\csname the#1\endcsname.\quad}
-\makeatother
- \sectionfont{\normalsize\centering\mdseries\scshape}
-%\usepackage[right]{lineno}
-%\nolinenumbers
-%\preto{\newpage}{\resetlinenumber}
-
-%\def\pagewiselinenumbers{\linenumbers\setpagewiselinenumbers}
-%\linenumbers
-%\modulolinenumbers[5]
-\renewcommand\thelinenumber{\color{lightgray}\arabic{linenumber}}
-   % \makeatletter \newsavebox{\@linebox}
-   % \savebox{\@linebox}[3em][t]{\parbox[t]{3em}{%
-   %     \@tempcnta\@ne\relax
-   %     \loop{\scriptsize\the\@tempcnta}\\
-   %     \advance\@tempcnta by \@ne\ifnum\@tempcnta<47\repeat}}
-   % \usepackage{fancyhdr} \pagestyle{fancy} \fancyhead{} \fancyfoot{}1]
-% \fancyhead[CO]{\scriptsize How to Count Lines}
-% \fancyhead[RO,LE]{\footnotesize\thepage}
-%% insert this block within a conditional
-% \fancyhead[RE]{\footnotesize\thepage\begin{picture}(0,0)%
-%      \put(-26,-25){\usebox{\@linebox}}%
-%    \end{picture}}  
-% \fancyhead[RO]{%
-% \begin{picture}(0,0)%
-%   \put(12,-38){\usebox{\@linebox}}%
-%  \end{picture}}
-% %\fancyfoot[C]{\scriptsize Draft copy}
-% \makeatother
-%\medmuskip=4mu plus 2mu minus 2mu
-%\newcounter{nameOfYourChoice}
-
-\makeatletter
-\newcommand{\srcsize}{\@setfontsize{\srcsize}{3pt}{3pt}}
-\makeatother
-\makeatletter
-\newcommand{\srcsizetwo}{\@setfontsize{\srcsizetwo}{2pt}{2pt}}
-\makeatother
-
-\newcommand{\smallgeq}{\mbox{\larger[-4]$\geq$}}
-\newcommand{\smallleq}{\mbox{\larger[-4]$\leq$}}
-\newcommand{\smallstrictlygr}{\mbox{\larger[-4]$>$}}
-\newcommand{\smallstrictlyless}{\mbox{\larger[-4]$<$}}
-\newcommand{\smallzero}{\mbox{\larger[-5]$0$}}
-\newcommand{\smallasterix}{\mbox{\larger[-4]$*$}}
-\newcommand{\smallplus}{\mbox{\larger[-4]$+$}}
-\newcommand{\nneg}{\smallgeq}
-\newcommand{\pos}{{\mdoubleplus}}
-\newcommand{\posint}{\mbb Z_{\mdoubleplus}}
-\newcommand{\nnint}{{\mbb Z}_{\mplus}}
-\newcommand{\posrat}{\mbb Q_{\mdoubleplus}}
-\newcommand{\posreal}{\mbb R_{\mdoubleplus}}
-\newcommand{\negreal}{\mbb R_{-}}
-\newcommand{\nnrat}{{\mbb Q}_{\mplus}}
-\newcommand{\nnreal}{{\mbb R}_{\mplus}}
-
-\newcommand\mdoubleplus{\text{\srcsize$+\mkern-2mu+$}}
-%\newcommand\mdoubleplus{\text{\srcsize$>$$0$}}
-\newcommand\mplus{\text{\srcsize$+$}}
-%\newcommand\mplus{\text{\srcsize$\geq$$0$}}
-\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
-    \colorlet{#3}{#1!#2!white}
-}
-\lightercolor{gray}{50}{lightgray}
-%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
-%\newcommand\doubleplus{+\kern-1.3ex+\kern0.8ex}
-%\newcommand\mdoubleplus{\text{\tiny$*$\srcsize$+$}}
-%\newcommand\mdoubleplus{\text{\srcsize$*$$+$}}
-%\newcommand\mdoubleplus{\ensuremath{\mathbin{\bm{+}}}}
-%\newcommand\mdoubleplus{\ensuremath{\mathbin{\circ\mkern-12mu+}}}
-%\usepackage{cancel}
-\usepackage{accents}
-\newcommand*{\dt}[1]{%
-  \accentset{\mbox{\bfseries .}}{#1}}
-\usepackage{upgreek}
-\newcommand{\smallbot}{\text{\small$\hat{0}$}}
-
-\DeclareMathOperator{\dis}{d}
-\newcommand{\spann}{\operatorname{span}}
-\newcommand{\reg}{\operatorname{reg}}
-\newcommand*{\boldsymb}[1]{%
-  \textpdfrender{%
-    TextRenderingMode=FillStroke,%
-    LineWidth=.4pt,%
-  }{#1}%
-CCM}
-\newcommand{\countof}{\mathbin{\sharp}\hskip1pt}
-\newcommand{\xxp}{{(0,1)}}
-\newcommand{\xpx}{{(1,0)}}
-\newcommand{\xxpp}{{(0,2)}}
-\newcommand{\xpxpp}{{(1,2)}}
-\newcommand{\xppxp}{{(2,1)}}
-
-\renewcommand{\ij}{{(i, j)}}
-\newcommand{\ji}{{(j, i)}}
-
-\newcommand{\xy}{{(x, y)}}
-\newcommand{\yx}{{(y, x)}}
-
-\newcommand{\yz}{{(y,z)}}
-\newcommand{\zy}{{(z,y)}}
-
-\newcommand{\xz}{{(x,z)}}
-\newcommand{\zx}{{(z,x)}}
-
-\newcommand{\xw}{{(x,w)}}
-\newcommand{\wx}{{(w,x)}}
-
-\newcommand{\yw}{{(y,w)}}
-\newcommand{\wy}{{(w,y)}}
-
-\newcommand{\zw}{(z,w)}
-\newcommand{\wz}{(w,z)}
-
-\newcommand{\xpw}{(x^{\prime},w)}
-\newcommand{\wxp}{(x,x^{\prime})}
-
-\newcommand{\xpy}{(x^{\prime},y)}
-\newcommand{\yxp}{(y,x^{\prime})}
-
-\newcommand{\xpz}{(x^{\prime},z)}
-\newcommand{\zxp}{(z,x^{\prime})}
-
-\newcommand{\xyz}{{ (x,y,z) }}
-
-\newcommand{\dd}{{(\cdot,\cdot)}}
-\newcommand{\justdd}{\cdot\cdot}
-
-\newcommand{\ab}{{(a,b)}}
-\newcommand{\ba}{{(b,a)}}
-
-\newcommand{\fourpru}{\textit{4}-\textup{prudence}}
-\newcommand{\threepru}{\textit{3}-\textup{prudence}}
-\newcommand{\parthreediv}{\textup{partial-\textit{3}-diversity}}
-\newcommand{\Parthreediv}{\textup{Partial-\textit{3}-diversity}}
-\newcommand{\condtwodiv}{\textup{conditional-\textit{2}-diversity}}
-\newcommand{\Condtwodiv}{\textup{Conditional-\textit{2}-diversity}}
-\newcommand{\twodiv}{\textit{2}-\textup{diversity}}
-\newcommand{\twodivhash}{\textit{2}-\textup{Div}$^{\hash}$}
-\newcommand{\twodivstar}{\textit{2}-\textup{Div}$^{*}$}
-
-\newcommand{\fourdiv}{\textit{4}-\textup{diversity}}
-\newcommand{\fourdivhash}{\textit{4}-\textup{Div}$^{\hash}$}
-\newcommand{\fourdivstar}{\textit{4}-\textup{Div}$^{*}$}
-
-\newcommand{\threediv}{\textit{3}-\textup{diversity}}
-
-\newcommand{\fourjac}{\textup{\textit{4}-Jac}}
-\newcommand{\threejac}{\textup{\textit{3}-Jac}}
-\newcommand{\mrpropto}{\mathrel{\varpropto}}
-\newcommand{\half}{\frac{1}{2}}
-\DeclareMathOperator{\rank}{rank}
-\DeclareMathOperator{\rowrank}{rowrank}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\closure}{closure}
-\DeclareMathOperator{\strict}{strict}
-\DeclareMathOperator{\equivset}{equiv}
-\DeclareMathOperator{\image}{image}
-\usepackage{blindtext}
 \makeatletter
 \renewcommand\maketitle
   {\begin{center}\mdseries\large
@@ -340,7 +159,8 @@ model under certainty.
 Under certainty the solution is a unique path through time.
 In other words, the decision tree $\mc T$ simplifies to a chain or
 sequence of decision nodes.\footnote{
-   Formally, for each $n$ in $\mc T$, there is a unique $n^{\mplus}$ such that $(n, n^{\mplus})$ belongs to $\mc E$.
+   Formally, for each $n$ in $\mc T$, there is a unique $n^{\mplus}$ such that
+   $(n, n^{\mplus})$ belongs to $\mc E$.
 }
 
 \section{The normalised Euler error}
@@ -375,8 +195,8 @@ $n$.\footnote{
 Uncertainty at node $n$ unfolds along edge $e$ to reveal the subsequent
 decision node.
 A \emph{path} through time consists of a maximal sequence of connected nodes.
-That is sequences that start at the (unique) root node $\mathfrak{0}$ of the tree and
-end on a leaf (a node with no explicitly modelled future times).
+That is sequences that start at the (unique) root node $\mathfrak{0}$ of the
+tree and end on a leaf (a node with no explicitly modelled future times).
 Let $\mc P$ denote the set of paths.
 
 \begin{example}[Irreversible risk]\label{eg-irreversible}
@@ -591,8 +411,8 @@ regional reward functions yields the ``global''/``whole-of-economy'' reward
 functions $\textup{u}_{n + t}$ we find in the objective function
 \eqref{eq-objective} each node.
 This, together with standard assumptions \citep[Theorem
-12.2.12]{Stachurski-Economic_dynamics} are sufficient for strict concavity of the
-terminal value function $\textup{V}_{n + T}$ in the state vector
+12.2.12]{Stachurski-Economic_dynamics} are sufficient for strict concavity of
+the terminal value function $\textup{V}_{n + T}$ in the state vector
 $\omega_{n + t}$.
 Together with the structure we have imposed on the transition laws and
 feasibility constraints, the social welfare Lagrangian $\mc L_{n}$ is
