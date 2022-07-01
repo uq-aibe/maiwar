@@ -264,7 +264,7 @@ node $n$.
    All these functions are scalar-valued.
 }
 The state $\omega_{n + t} $ is a pair of variables consisting  of capital
-$\textup{kap}_{n + t}$ and the productivity shock term
+$\mathbf{kap}_{n + t}$ and the productivity shock term
 \begin{equation}
    \textup{shock}_{n + t} = \left\{
       \begin{array}{ll}
@@ -285,11 +285,11 @@ paths.\footnote{
 Finally, in \eqref{eq-objective}, action $a_{n + t}$ is often referred to as
 the (set of) control variable(s).
 In our canonical example, it is a quadruple consisting of future consumption
-$\textup{con}_{n + t}$, labour $\textup{lab}_{n + t}$, investment
-$\textup{inv}_{n + t}$ and savings $\textup{sav}_{n + t}$.
-Note that $\textup{con}_{r, n + t}$, $\textup{lab}_{r, n + t}$ and
+$\mathbf{con}_{n + t}$, labour $\mathbf{lab}_{n + t}$, investment
+$\textup{inv}_{n + t}$ and savings $\mathbf{sav}_{n + t}$.
+Note that $\mathbf{con}_{r, n + t}$, $\mathbf{lab}_{r, n + t}$ and
 $\textup{inv}_{r, n + t}$ are vectors on $J$ indexed by region.
-Similarly, we view $\textup{sav}_{r, n + t}$ as the $J\times J$ matrix-valued
+Similarly, we view $\mathbf{sav}_{r, n + t}$ as the $J\times J$ matrix-valued
 function of flows between regions that we define in \eqref{eq-ces-inv} (also
 indexed by region).
 It is this latter matrix of \emph{dynamic} flows that significantly increases
@@ -301,11 +301,12 @@ capital before turning to feasibility constraints such as market clearing.
 %==============================================================================
 \paragraph{Constraints at each node: transition dynamics}
 %==============================================================================
-Capital $\textup{kap}_{n + t}: R \times J \rightarrow \R_+$ is a vector that
+Capital $\mathbf{kap}_{n + t}: R \times J \rightarrow \R_+$ is a vector that
 evolves according to the standard equation for each time $t$ in $T$:
 \begin{equation}\label{eq-kapital}
-   \textup{kap}_{n + t + 1} = (1 - \delta) \cdot \textup{kap}_{n + t} +
-   \textup{inv}_{n + t}.
+   \mathbf{kap}_{r, i, n + t + 1} =
+     (1 - \delta_{r, i}) \cdot \mathbf{kap}_{r, i, n + t}
+       + \textup{inv}_{r, i, n + t}.
 \end{equation}
 Note that \eqref{eq-kapital} is a stochastic difference equation.
 This is because, for every $t$ in $T$, the set $N_t$ of nodes that are
@@ -313,40 +314,60 @@ reachable in $t$ steps typically contains more than one node.
 In \eqref{eq-kapital}, $\delta$ is the depreciation rate and
 $\textup{inv}_{n + t}$ is a vector of constant elasticity of substitution (CES)
 functions of intermediate gross fixed capital formation.
-Suppressing regional subscripts and using the proportionality relation
-$\mrpropto$ to avoid introducing calibration factors at this stage,
-for every $j$ in $J$ and $n + t$ we have
+Suppressing regional subscripts, for every $j$ in $J$ and $n + t$ we have
 \begin{equation}\label{eq-ces-inv}
-	\textup{inv}_{j, n + t} = A_{j}^{\textup{inv}} \cdot \left(
-        \sum_{i} \sigma_{i j} \cdot \textup{sav}_{i j, n + t} ^ {\,\rho}
-      \right)
-      ^ {\frac{\kappa}{\rho}}.
+	\textup{inv}_{j, n + t} = A_{j}^{\textup{inv}}
+    \cdot \left(\sum_{i}
+      \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{sav}_{i j,\, n + t}
+        ^ {\,\rho_{j} ^ {\textup{inv}}}
+    \right) ^ {\kappa_{j} ^ \textup{inv} / \rho_{j} ^ \textup{inv}}.
 \end{equation}
-As usual, $\rho = \frac{\epsilon - 1}{\epsilon}$ is a parameter that
-captures the role of the elasticity of substitution $\epsilon \approx
-0.1$ across sectors of production. Finally, to ensure strict concavity
-of $\textup{inv}_{j, n + t}$ we assume that $\kappa$ is slightly less than $1$.
+As usual, $\rho ^ \textup{inv}
+  = \frac{\epsilon ^ \textup{inv} - 1}{\epsilon ^ \textup{inv}}$
+is a parameter that captures the role of the elasticity of substitution
+$\epsilon ^ \textup{inv} \approx 0.1$ across sectors of production.
+Finally, to ensure strict concavity of $\textup{inv}_{j, n + t}$ we assume that
+$\kappa$ is slightly less than $1$.
 In \citet[Theorem 2]{Kojic-Concavity} it is shown that a necessary and
-sufficient condition for strict concavity of $\textup{inv}_{j, n + t}$ in 
-$\left\{\textup{sav}_{ij, n + t}: j \in J\right\}$ is that $0< \kappa < 1$.
+sufficient condition for strict concavity of the function
+$\left\{\mathbf{sav}_{ij, n + t}: i \in J\right\}
+\mapsto \textup{inv}_{j, n + t}$ is that $0< \kappa_{j}^\textup{inv} < 1$.
 
-Long--Plosser flows (between sectors and across regions) do not distinguish
-between flows of goods such as flour or water that are sometimes viewed as
-purely intermediate and flows such as machinery that are sometimes viewed pure
-capital.
-In \citet{Long_Plosser-Real_business_cycles}, inventories of flour are a form
-of capital and current usage of machinery is an intermediate input.
-Although this assumption is not essential to the methodology, it is reasonable
-given the available data.
-For although standard input-output tables report investment as separate from
-intermediate inputs, this is on the basis of accounting as opposed to economic
-principles.
-Moreover, recent attempts \citep{Elazaar_Raymond-Network} to estimate
-production networks using micro data (BLADE and GST data) do not distinguish
-between these two categories of flows.
-It is worth pointing out that although intermediate production is well-modelled
-in most CGE models, savings and investment do not contribute to future 
-utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
+%==============================================================================
+\paragraph{The production function}
+In addition to capital, labour is the other \emph{primary factor of
+production.}
+Labour resources also vary across regions, sectors and time.
+To simplify this exposition, we avoid notions of human capital.
+
+In addition to primary factors, we have intermediate inputs.
+As with investment, we specify intermediate-input bundles via a CES aggregator
+with its corresponding set of parameters. That is,
+\begin{equation}\label{eq-ces-int}
+  \textup{int}_{r, j, n + t} = A_{r, j, n + t} ^ \textup{int}
+    \cdot \textup{CES}_{r, j} ^ \textup{\,int}(
+      \mathbf{med}_{r, ij, n + t}: i \in J
+      )
+\end{equation}
+where, for each $r$, $n$ and $t$, $\{\textbf{med}_{r,ij,n + t} : i, j \in J\}$
+is a standard matrix of intermediate (input-output) flows prior to aggregation.
+%Long--Plosser flows (between sectors and across regions) do not distinguish
+%between flows of goods such as flour or water that are sometimes viewed as
+%purely intermediate and flows such as machinery that are sometimes viewed pure
+%capital.
+%In \citet{Long_Plosser-Real_business_cycles}, inventories of flour are a form
+%of capital and current usage of machinery is an intermediate input.
+%Although this assumption is not essential to the methodology, it is reasonable
+%given the available data.
+%For although standard input-output tables report investment as separate from
+%intermediate inputs, this is on the basis of accounting as opposed to economic
+%principles.
+%Moreover, recent attempts \citep{Elazaar_Raymond-Network} to estimate
+%production networks using micro data (BLADE and GST data) do not distinguish
+%between these two categories of flows.
+%It is worth pointing out that although intermediate production is well-modelled
+%in most CGE models, savings and investment do not contribute to future 
+%utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
 
 %==============================================================================
 \paragraph{Constraints at each node: market clearing}
@@ -355,33 +376,52 @@ In our canonical model, there is a single market for each sector.
 This implies free trade between regions.
 
 For every $r$ in $R$, $i$ in $J$, let
-$\textup{prod}_{r, i, n + t}: \nnreal^{2} \rightarrow \nnreal$ be a standard
-Cobb-Douglas production function of capital and labour respectively:
+$\textup{out}_{r, i, n + t}: \nnreal^{3} \rightarrow \nnreal$ be a standard
+CES function of capital, labour and the intermediate-input bundle respectively:
 \begin{equation}
-   \textup{prod}_{r, i, n + t} (x, y)
-   \mrpropto \textup{shock}_{n + t}
-     \cdot \left(x ^ {\alpha_{r, i}} \cdot y ^ {1 - \alpha_{r, i}}\right)
-     ^ {\kappa} .\footnote{
-        As in \cref{eq-ces-inv}, the scale parameter $\kappa$ is
-        approximately equal to, but less than one to ensure strict concavity.
-        The $\alpha_{r, i}$ capture the relative importance of capital and
-        labour in each region-sector pair.
-     }
+	\textup{out}_{r, i, n + t}
+    = A_{r, i, n + t} ^ \textup{out} \cdot \textup{CES}_{r, i}
+      ^ \textup{\,out}(
+        \mathbf{kap}_{r, i, n + t},
+        \mathbf{lab}_{r, i, n + t},
+        \textup{int}_{r, i, n + t}
+        )
 \end{equation}
-Let $\text{adj}_{r, i}: \nnreal^{2} \rightarrow \R$ be the quadratic cost of
-adjusting capital:
+%\begin{equation}
+%  \textup{CES}_{r, i, n + t} ^ {\textup{out}} (x, y, z)
+%	  = \left(
+%      \alpha_{r, i} ^ {\textup{out},x} \cdot x ^ {\,\rho ^ \textup{out}}
+%      + \alpha_{r, i} ^ {\textup{out},y} \cdot y ^ {\,\rho ^ \textup{out}}
+%      + \alpha_{r, i} ^ {\textup{out},z} \cdot z ^ {\,\rho ^ \textup{out}}
+%    \right) ^ {\, \frac{\kappa ^ {\textup{out}}}{\rho ^ \textup{out}}}
+%     .\footnote{
+%        As in \cref{eq-ces-inv}, the scale parameter $\kappa$ is
+%        approximately equal to, but less than one to ensure strict concavity.
+%        The $\alpha_{r, i}$ capture the relative importance of capital and
+%        labour in each region-sector pair.
+%     }
+%\end{equation}
+Let $\text{adj}_{r, i, n + t}: \nnreal^{2} \rightarrow \R$ be the quadratic
+cost of adjusting capital:
 \begin{equation}
-   \textup{adj}_{r, i}(x, x^{\mplus}) \mrpropto  
-   \frac{(x^{\mplus} - x)^2}{x}.
+  \textup{adj}_{r, i, n + t}
+    = A_{r, i} ^ \textup{adj} 
+      \cdot \frac{(\mathbf{kap}_{r, i, n + t + 1}
+      - \mathbf{kap}_{r, i, n + t})^2}
+        {\mathbf{kap}_{r, i}}.
 \end{equation}
 Finally, the key feasibility condition is that the following expression (where
 we have suppressed reference to $n + t$), for total production minus total
 usage, is nonnegative for every $i$ in $J$:
 \begin{equation}
    \sum_{r \,\in\, R} \left\{
-  \textup{prod}_{r, i}(\textup{kap}_{r, i}, \textup{lab}_{r, i})
-  - \textup{con}_{r, i} - \sum_{j \,\in\, J}\left\{ \textup{sav}_{r, ij}\right\}
-  - \textup{adj}_{r, i}(\textup{kap}_{r, i}, \textup{kap}_{r, i} ^ {\mplus})
+  \textup{out}_{r, i}
+  - \mathbf{con}_{r, i}
+  - \sum_{j \,\in\, J}\left\{
+      \mathbf{sav}_{r, ij}
+      + \mathbf{med}_{r, ij}
+      \right\}
+  - \textup{adj}_{r, i}
 \right\}.
 \end{equation}
 The market clearing property itself then follows by virtue of the fact that
@@ -395,9 +435,9 @@ For the consumption and labour components of utility such as those we find in
 \citet{Atalay-Sectoral_shocks}, for each region $r$:
 \begin{equation}
    \textup{u}_{r, n + t} \mrpropto \beta^{t} \cdot \left(
-   \sum_{i \,\in\, J} \gamma_{r, i} \cdot \textup{con}_{r, i, n + t} ^ {\,\rho}
+   \sum_{i \,\in\, J} \gamma_{r, i} \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho}
    \right) ^ {\frac{\kappa}{\rho}}
-   - \sum_{i \,\in\, J} \lambda_{r, i} \cdot \textup{lab}_{r, i, n + t}^{2}
+   - \sum_{i \,\in\, J} \lambda_{r, i} \cdot \mathbf{lab}_{r, i, n + t}^{2}
 \end{equation}
 where $0 < \beta < 1$ is the parameter that describes how agents discount
 future consumption and work; the consumption shares $\gamma_{r, i}$ reflect
@@ -483,7 +523,7 @@ $\mathfrak{0}$.\footnote{
    That is $N_{s} = \left\{ p_{s} \in \mc N : p \in \mc P\right\}$.
 }
 
-For any $s$ in $S$ note that $\textup{con}_{r, i, \mathfrak{0} + s}$ is a
+For any $s$ in $S$ note that $\mathbf{con}_{r, i, \mathfrak{0} + s}$ is a
 scalar-valued random variable on $N_s$. 
 Moreover, for each $n$ in $N_s$, let $\textup{CON}_{r, i, n}$ denote a
 realisation of this random variable.
@@ -501,7 +541,7 @@ $F_{x_{s}} : \R \rightarrow [0, 1]$,
 The weak solution for a given policy or state variable $x$ is simply the
 sequence $F_{x} = \left\{F_{x_{s}}: s \in S\right\}$ of empirical distributions.
 $F_{x}$ is the empirical distribution of the path-valued random variable $x$.
-For instance, $F_{\textup{con}_{r, i}}$ is the empirical distribution for the
+For instance, $F_{\mathbf{con}_{r, i}}$ is the empirical distribution for the
 path of consumption of sector-$i$ goods in region $r$.
 
 In turn, the weak solution for the entire problem is the joint empirical
@@ -542,10 +582,10 @@ with step $s$ is
 \begin{equation}
 \frac{
   \beta \cdot \mathbb{E}_{\mathfrak{0}} \left\{
-    \nabla_{\textup{kap}_{s+1}} \textup{v}_{s+1}(\omega_{s+1}, \omega_{s+2})
+    \nabla_{\mathbf{kap}_{s+1}} \textup{v}_{s+1}(\omega_{s+1}, \omega_{s+2})
   \right\}
   }{\mathbb{E}_{\mathfrak{0}} \left\{
-    \nabla_{\textup{kap}_{s+1}} \textup{v}_{s}(\omega_{s}, \omega_{s+1})
+    \nabla_{\mathbf{kap}_{s+1}} \textup{v}_{s}(\omega_{s}, \omega_{s+1})
   \right\}
   } + 1
 \end{equation}
