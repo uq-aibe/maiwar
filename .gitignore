@@ -1,5 +1,5 @@
 # ignore all logs
-*.log
-*.aux
-*.swp
-*pratenddefaultcategory*
+**.log
+**.aux
+**.swp
+**pratenddefaultcategory*
