@@ -304,9 +304,9 @@ capital before turning to feasibility constraints such as market clearing.
 Capital $\mathbf{kap}_{n + t}: R \times J \rightarrow \R_+$ is a vector that
 evolves according to the standard equation for each time $t$ in $T$:
 \begin{equation}\label{eq-kapital}
-   \mathbf{kap}_{r, i, n + t + 1} =
-     (1 - \delta_{r, i}) \cdot \mathbf{kap}_{r, i, n + t}
-       + \textup{inv}_{r, i, n + t}.
+   \mathbf{kap}_{r, j, n + t + 1} =
+     (1 - \delta_{r, j}) \cdot \mathbf{kap}_{r, j, n + t}
+       + \textup{inv}_{r, j, n + t}.
 \end{equation}
 Note that \eqref{eq-kapital} is a stochastic difference equation.
 This is because, for every $t$ in $T$, the set $N_t$ of nodes that are
@@ -314,24 +314,25 @@ reachable in $t$ steps typically contains more than one node.
 In \eqref{eq-kapital}, $\delta$ is the depreciation rate and
 $\textup{inv}_{n + t}$ is a vector of constant elasticity of substitution (CES)
 functions of intermediate gross fixed capital formation.
-Suppressing regional subscripts, for every $j$ in $J$ and $n + t$ we have
+In the following equation, we suppress regional subscripts. Thus, for every
+$j$ in $J$ and $n + t$, we have
 \begin{equation}\label{eq-ces-inv}
 	\textup{inv}_{j, n + t} = A_{j}^{\textup{inv}}
-    \cdot \left(\sum_{i}
+    \cdot \left(\sum
       \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{sav}_{i j,\, n + t}
-        ^ {\,\rho_{j} ^ {\textup{inv}}}
+        ^ {\,\rho_{j} ^ {\textup{inv}}} : i \in J
     \right) ^ {\kappa_{j} ^ \textup{inv} / \rho_{j} ^ \textup{inv}}.
 \end{equation}
-As usual, $\rho ^ \textup{inv}
-  = \frac{\epsilon ^ \textup{inv} - 1}{\epsilon ^ \textup{inv}}$
+As usual, $\rho_{r, j} ^ \textup{inv}
+  = \frac{\epsilon_{r, j} ^ \textup{inv} - 1}{\epsilon_{r, j} ^ \textup{inv}}$
 is a parameter that captures the role of the elasticity of substitution
-$\epsilon ^ \textup{inv} \approx 0.1$ across sectors of production.
+$\epsilon_{r, j} ^ \textup{inv} \approx 0.1$ across sectors of production.
 Finally, to ensure strict concavity of $\textup{inv}_{j, n + t}$ we assume that
 $\kappa$ is slightly less than $1$.
 In \citet[Theorem 2]{Kojic-Concavity} it is shown that a necessary and
-sufficient condition for strict concavity of the function
-$\left\{\mathbf{sav}_{ij, n + t}: i \in J\right\}
-\mapsto \textup{inv}_{j, n + t}$ is that $0< \kappa_{j}^\textup{inv} < 1$.
+sufficient condition for strict concavity of the fuction
+$\left(\mathbf{sav}_{r, ij, n + t}: i \in J\right)
+\mapsto \textup{inv}_{r, j, n + t}$ is that $0< \kappa_{r, j}^\textup{inv} < 1$.
 
 %==============================================================================
 \paragraph{The production function}
@@ -342,15 +343,19 @@ To simplify this exposition, we avoid notions of human capital.
 
 In addition to primary factors, we have intermediate inputs.
 As with investment, we specify intermediate-input bundles via a CES aggregator
-with its corresponding set of parameters. That is,
+$f_{r, j}^{\textup{int}}$ with its corresponding set of parameters
+$A_{r, j}^\textup{int}, \{\sigma_{r, ij}^\textup{int}: i \in J\},
+\rho_{r, j}^\textup{int}, \kappa_{r, j}^\textup{int} $ and
+$\epsilon_{r, j}^\textup{int}$. That is,
 \begin{equation}\label{eq-ces-int}
   \textup{int}_{r, j, n + t} = A_{r, j, n + t} ^ \textup{int}
-    \cdot \textup{CES}_{r, j} ^ \textup{\,int}(
+    \cdot f_{r, j} ^ \textup{\,int}(
       \mathbf{med}_{r, ij, n + t}: i \in J
       )
 \end{equation}
-where, for each $r$, $n$ and $t$, $\{\textbf{med}_{r,ij,n + t} : i, j \in J\}$
-is a standard matrix of intermediate (input-output) flows prior to aggregation.
+where, for each $r, j, n$ and $t$, $(\textbf{med}_{r,ij,n + t} : i \in J)$
+corresponds to the $j$th column of a standard input-output matrix of
+intermediate of intermediate flows.
 %Long--Plosser flows (between sectors and across regions) do not distinguish
 %between flows of goods such as flour or water that are sometimes viewed as
 %purely intermediate and flows such as machinery that are sometimes viewed pure
@@ -380,7 +385,7 @@ $\textup{out}_{r, i, n + t}: \nnreal^{3} \rightarrow \nnreal$ be a standard
 CES function of capital, labour and the intermediate-input bundle respectively:
 \begin{equation}
 	\textup{out}_{r, i, n + t}
-    = A_{r, i, n + t} ^ \textup{out} \cdot \textup{CES}_{r, i}
+    = A_{r, i, n + t} ^ \textup{out} \cdot f_{r, i}
       ^ \textup{\,out}(
         \mathbf{kap}_{r, i, n + t},
         \mathbf{lab}_{r, i, n + t},
@@ -388,7 +393,7 @@ CES function of capital, labour and the intermediate-input bundle respectively:
         )
 \end{equation}
 %\begin{equation}
-%  \textup{CES}_{r, i, n + t} ^ {\textup{out}} (x, y, z)
+%  f_{r, i, n + t} ^ {\textup{out}} (x, y, z)
 %	  = \left(
 %      \alpha_{r, i} ^ {\textup{out},x} \cdot x ^ {\,\rho ^ \textup{out}}
 %      + \alpha_{r, i} ^ {\textup{out},y} \cdot y ^ {\,\rho ^ \textup{out}}
@@ -414,14 +419,13 @@ Finally, the key feasibility condition is that the following expression (where
 we have suppressed reference to $n + t$), for total production minus total
 usage, is nonnegative for every $i$ in $J$:
 \begin{equation}
-   \sum_{r \,\in\, R} \left\{
+%   \sum_{r \,\in\, R} \left\{
+  \sum \left \{
   \textup{out}_{r, i}
   - \mathbf{con}_{r, i}
-  - \sum_{j \,\in\, J}\left\{
-      \mathbf{sav}_{r, ij}
-      + \mathbf{med}_{r, ij}
-      \right\}
-  - \textup{adj}_{r, i}
+%  - \sum_{j \,\in\, J}\left\{
+  - \sum\left \{ \mathbf{sav}_{r, ij} + \mathbf{med}_{r, ij} : j \in J \right\}
+  - \textup{adj}_{r, i} : r \in R
 \right\}.
 \end{equation}
 The market clearing property itself then follows by virtue of the fact that
@@ -434,10 +438,15 @@ $t$.
 For the consumption and labour components of utility such as those we find in
 \citet{Atalay-Sectoral_shocks}, for each region $r$:
 \begin{equation}
-   \textup{u}_{r, n + t} \mrpropto \beta^{t} \cdot \left(
-   \sum_{i \,\in\, J} \gamma_{r, i} \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho}
-   \right) ^ {\frac{\kappa}{\rho}}
-   - \sum_{i \,\in\, J} \lambda_{r, i} \cdot \mathbf{lab}_{r, i, n + t}^{2}
+  \textup{utl}_{r, n + t}
+    = \beta^{t} \cdot \left(
+	f_{r}^{\,\textup{utl}}(\mathbf{con}_{r, i, n + t}: i \in J)
+        - \sum \left\{ \lambda_{r, i} \cdot \mathbf{lab}_{r, i, n + t}^{2}
+        : i \in J \right\}
+        \right)
+%    \cdot \left(
+%  \sum_{i \,\in\, J} \gamma_{r, i} \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho}
+%	\right) ^ {\kappa^{\textup{utl}} /\rho^{\textup{utl}}}
 \end{equation}
 where $0 < \beta < 1$ is the parameter that describes how agents discount
 future consumption and work; the consumption shares $\gamma_{r, i}$ reflect
