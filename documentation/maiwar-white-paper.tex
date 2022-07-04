@@ -301,52 +301,87 @@ capital before turning to feasibility constraints such as market clearing.
 %==============================================================================
 \paragraph{Constraints at each node: transition dynamics}
 %==============================================================================
-Capital $\mathbf{kap}_{n + t}: R \times J \rightarrow \R_+$ is a vector that
-evolves according to the standard equation for each time $t$ in $T$:
+Capital $\mathbf{kap}_{n + t}$ is a positive vector with values
+$\R ^ {R\times J}$ that evolves according to the standard equation for each node
+$n$ and time $t$.
+Since the depreciation rate $\delta_{j}$ may depend on sector, we express this
+as a scalar-valued equation:
 \begin{equation}\label{eq-kapital}
    \mathbf{kap}_{r, j, n + t + 1} =
-     (1 - \delta_{r, j}) \cdot \mathbf{kap}_{r, j, n + t}
+     (1 - \delta_{j}) \cdot \mathbf{kap}_{r, j, n + t}
        + \textup{inv}_{r, j, n + t}.
 \end{equation}
 Note that \eqref{eq-kapital} is a stochastic difference equation.
-This is because, for every $t$ in $T$, the set $N_t$ of nodes that are
+This is because, for every $t$ in $T$, the set $N_{t}$ of nodes that are
 reachable in $t$ steps typically contains more than one node.
-In \eqref{eq-kapital}, $\delta$ is the depreciation rate and
-$\textup{inv}_{n + t}$ is a vector of constant elasticity of substitution (CES)
-functions of intermediate gross fixed capital formation.
-In the following equation, we suppress regional subscripts. Thus, for every
-$j$ in $J$ and $n + t$, we have
+In \eqref{eq-kapital}, 
+$\textup{inv}_{r, j, n + t}$ is an aggregator over the fixed capital formation
+vector $(\mathbf{sav}_{r, ij, n + t}: i \in J)$.
+Note that fixed capital formation is more general than savings.
+It includes, for instance, land reclaimed from forest or sea.
+We assume that fixed capital formation and investment are related via a
+constant elasticity of substitution (CES) function
 \begin{equation}\label{eq-ces-inv}
-	\textup{inv}_{j, n + t} = A_{j}^{\textup{inv}}
-    \cdot \left(\sum
-      \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{sav}_{i j,\, n + t}
-        ^ {\,\rho_{j} ^ {\textup{inv}}} : i \in J
+  \textup{inv}_{r, j, n + t} = A_{r, j}^{\textup{inv}}
+    \cdot \left(\sum_{i \, \in \, J}
+      \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{sav}_{r, i j,\, n + t}
+        ^ {\,\rho_{j} ^ {\textup{inv}}}
     \right) ^ {\kappa_{j} ^ \textup{inv} / \rho_{j} ^ \textup{inv}}.
 \end{equation}
-As usual, $\rho_{r, j} ^ \textup{inv}
-  = \frac{\epsilon_{r, j} ^ \textup{inv} - 1}{\epsilon_{r, j} ^ \textup{inv}}$
-is a parameter that captures the role of the elasticity of substitution
-$\epsilon_{r, j} ^ \textup{inv} \approx 0.1$ across sectors of production.
-Finally, to ensure strict concavity of $\textup{inv}_{j, n + t}$ we assume that
-$\kappa$ is slightly less than $1$.
-In \citet[Theorem 2]{Kojic-Concavity} it is shown that a necessary and
-sufficient condition for strict concavity of the fuction
-$\left(\mathbf{sav}_{r, ij, n + t}: i \in J\right)
-\mapsto \textup{inv}_{r, j, n + t}$ is that $0< \kappa_{r, j}^\textup{inv} < 1$.
+As usual, $\rho_{r, j}^\textup{inv}
+  = (\varepsilon_{r, j}^\textup{inv} - 1) / \varepsilon_{r, j}^\textup{inv}$,
+where the elasticity of substitution $\varepsilon_{r, j} ^ \textup{inv}$ is
+typically $ 0.1$.
+Thus, $\rho_{r, j}^\textup{inv} \approx -9$.
+Next, $(\sigma_{r, ij}^\textup{inv}: i \in J)$
+%= (\hat{\sigma}_{r, ij}^\textup{inv}) ^ {1 / \varepsilon_{r, j}^\textup{inv}}$
+is a vector of share parameters we obtain by taking a column of intermediate
+flows from a standard input-output table, normalising so that the column sum is
+one and applying the exponent $1/\varepsilon_{r, j}^\textup{inv}$ to each
+element.
+Finally, for strict concavity of the relation
+$\left(\mathbf{sav}_{r, ij, n + t} : i \in J\right)
+  \mapsto \textup{inv}_{r, j, n + t}$ we assume the scale parameter 
+$\kappa_j^\textup{inv}$ is slightly less than $1$.\footnote{
+  In \citet[Theorem 2]{Kojic-Concavity} (for instance) it is shown that a
+  necessary and sufficient condition for strict concavity is
+  $0 < \kappa_{r, j}^\textup{inv} < 1$.
+}
 
+We capture the cost $\textup{adj}_{r, j, n + t}$ of adjusting capital
+via the relation 
+\begin{equation}
+  \textup{adj}_{r, i, n + t}
+    = A_{r, i} ^ \textup{adj} 
+      \cdot \frac{(\mathbf{kap}_{r, i, n + t + 1}
+      - \mathbf{kap}_{r, i, n + t})^2}
+        {\mathbf{kap}_{r, i}}.
+\end{equation}
+Some form of inertia makes for more realistic rates of convergence between
+regions.
+For each region and each sector, this cost is deducted from time $n + t$ output
+to which we now turn.
 %==============================================================================
 \paragraph{The production function}
+%==============================================================================
 In addition to capital, labour is the other \emph{primary factor of
 production.}
 Labour resources also vary across regions, sectors and time.
 To simplify this exposition, we avoid notions of human capital.
 
 In addition to primary factors, we have intermediate inputs.
-As with investment, we specify intermediate-input bundles via a CES aggregator
-$f_{r, j}^{\textup{int}}$ with its corresponding set of parameters
-$A_{r, j}^\textup{int}, \{\sigma_{r, ij}^\textup{int}: i \in J\},
-\rho_{r, j}^\textup{int}, \kappa_{r, j}^\textup{int} $ and
-$\epsilon_{r, j}^\textup{int}$. That is,
+As with investment, we specify intermediate inputs to production via a CES
+aggregator $f_{r, j}^{\textup{int}}: \nnreal^{J} \rightarrow
+\nnreal$.\footnote{
+  The superscript in $f_{r, j}^{\cdot}$ indexes the variety of CES
+  aggregators in the model.
+  Each function $f_{r, j}^{\cdot}$ is characterised by a corresponding
+  set of parameters
+  $A_{r, j}^{\cdot}, (\sigma_{r, ij}^{\cdot}: i \in J),
+  \rho_{r, j}^{\cdot}, \kappa_{r, j}^{\cdot} $ and
+  $\varepsilon_{r, j}^{\cdot}$ as per \cref{eq-ces-inv}.
+}
+Thus,
 \begin{equation}\label{eq-ces-int}
   \textup{int}_{r, j, n + t} = A_{r, j, n + t} ^ \textup{int}
     \cdot f_{r, j} ^ \textup{\,int}(
@@ -355,7 +390,7 @@ $\epsilon_{r, j}^\textup{int}$. That is,
 \end{equation}
 where, for each $r, j, n$ and $t$, $(\textbf{med}_{r,ij,n + t} : i \in J)$
 corresponds to the $j$th column of a standard input-output matrix of
-intermediate of intermediate flows.
+intermediate flows.
 %Long--Plosser flows (between sectors and across regions) do not distinguish
 %between flows of goods such as flour or water that are sometimes viewed as
 %purely intermediate and flows such as machinery that are sometimes viewed pure
@@ -374,14 +409,9 @@ intermediate of intermediate flows.
 %in most CGE models, savings and investment do not contribute to future 
 %utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
 
-%==============================================================================
-\paragraph{Constraints at each node: market clearing}
-%==============================================================================
-In our canonical model, there is a single market for each sector.
-This implies free trade between regions.
 
 For every $r$ in $R$, $i$ in $J$, let
-$\textup{out}_{r, i, n + t}: \nnreal^{3} \rightarrow \nnreal$ be a standard
+$f_{r, i, n + t}^{\textup{out}}: \nnreal^{3} \rightarrow \nnreal$ be a standard
 CES function of capital, labour and the intermediate-input bundle respectively:
 \begin{equation}
 	\textup{out}_{r, i, n + t}
@@ -406,53 +436,58 @@ CES function of capital, labour and the intermediate-input bundle respectively:
 %        labour in each region-sector pair.
 %     }
 %\end{equation}
-Let $\text{adj}_{r, i, n + t}: \nnreal^{2} \rightarrow \R$ be the quadratic
-cost of adjusting capital:
-\begin{equation}
-  \textup{adj}_{r, i, n + t}
-    = A_{r, i} ^ \textup{adj} 
-      \cdot \frac{(\mathbf{kap}_{r, i, n + t + 1}
-      - \mathbf{kap}_{r, i, n + t})^2}
-        {\mathbf{kap}_{r, i}}.
-\end{equation}
+%==============================================================================
+\paragraph{Constraints at each node: market clearing}
+%==============================================================================
+In our canonical model, there is a single market for each sector.
+This implies free trade between regions.
 Finally, the key feasibility condition is that the following expression (where
 we have suppressed reference to $n + t$), for total production minus total
 usage, is nonnegative for every $i$ in $J$:
 \begin{equation}
-%   \sum_{r \,\in\, R} \left\{
-  \sum \left \{
+  \sum_{r \,\in\, R} \left\{
   \textup{out}_{r, i}
   - \mathbf{con}_{r, i}
-%  - \sum_{j \,\in\, J}\left\{
-  - \sum\left \{ \mathbf{sav}_{r, ij} + \mathbf{med}_{r, ij} : j \in J \right\}
-  - \textup{adj}_{r, i} : r \in R
+  - \sum_{j \,\in\, J}
+      \left\{\mathbf{sav}_{r, ij} + \mathbf{med}_{r, ij}\right\}
+  - \textup{adj}_{r, i}
 \right\}.
 \end{equation}
 The market clearing property itself then follows by virtue of the fact that
-the reward function $\textup{u}_{n + t}$ is strictly increasing in the
+the reward function $u_{n + t}$ is strictly increasing in the
 consumption of every good.
 \paragraph{Reward and Terminal Value functions at each node}
-Beyond strictly increasing, we take the reward function $\textup{u}_{n + t}$
-to be strictly concave in consumption and labour for each node $n$ and time
-$t$.
-For the consumption and labour components of utility such as those we find in
-\citet{Atalay-Sectoral_shocks}, for each region $r$:
+Beyond strictly increasing, we take the utility function
+\[
+u_{r, n + t}: \nnreal^{J \times J} \rightarrow \R, \quad
+  (\mathbf{con}_{r, n + t}, \mathbf{lab}_{r, n + t})
+    \mapsto \textup{utl}_{r, n + t},
+\]
+for each region, node and time
+to be strictly concave in consumption and labour.
+Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
 \begin{equation}
   \textup{utl}_{r, n + t}
-    = \beta^{t} \cdot \left(
-	f_{r}^{\,\textup{utl}}(\mathbf{con}_{r, i, n + t}: i \in J)
-        - \sum \left\{ \lambda_{r, i} \cdot \mathbf{lab}_{r, i, n + t}^{2}
-        : i \in J \right\}
-        \right)
-%    \cdot \left(
-%  \sum_{i \,\in\, J} \gamma_{r, i} \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho}
-%	\right) ^ {\kappa^{\textup{utl}} /\rho^{\textup{utl}}}
+    = \beta^{t}
+%%      \cdot \left(
+%%        \sum_{i \,\in\, J} \sigma_{r, i}^\textup{utl}
+%%          \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho_{r}^\textup{utl}}
+%%        \right) ^ {\kappa_{r}^{\textup{utl}} /\rho_{r}^{\textup{utl}}}
+      \cdot \left(
+        A_{r}^\textup{utl}
+          \cdot f_{r}^{\,\textup{utl}}(\mathbf{con}_{r, i, n + t}: i \in J)
+        - B_{r}^\textup{utl}
+          \cdot \left(\sum_{i \, \in \, J} \mathbf{lab}_{r, i, n + t}\right)
+          ^ {\eta_{r, i}}
+      \right)
 \end{equation}
 where $0 < \beta < 1$ is the parameter that describes how agents discount
-future consumption and work; the consumption shares $\gamma_{r, i}$ reflect
-the amount spent on sector-$i$ goods in region $r$; the labour shares
-$\lambda_{r, i}$ reflect the proportion of sector-$i$ workers in region $r$.
-For $0 < \kappa < 1$, and $\rho$ defined as for \cref{eq-ces-inv},
+future consumption and work;
+$\eta_{r, i} = 1 + 1 / \varepsilon_{r, i}^\textup{lab}$
+is the parameter that relates the Frisch elasticity
+$\varepsilon_{r, i}^\textup{lab}$  of labour supply to utility.
+If the scale parameter $\kappa_{r, n + t}^\textup{utl}$ of 
+$f_{r, n + t}^\textup{utl}$ 
 $\textup{u}_{r, n + t}$ is strictly concave.
 The weighted sum across regions (with weights determined by population) of such
 regional reward functions yields the ``global''/``whole-of-economy'' reward
