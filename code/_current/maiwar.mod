@@ -535,7 +535,7 @@ let EPS_OUT := 090e-2;
 let SCALE_CON := 085e-2;
 let SCALE_INV := 050e-2;
 let SCALE_INT := 050e-2;
-let SCALE_OUT := 029e-2;
+let SCALE_OUT := 030e-2;
 
 update data;
 /*=============================================================================
