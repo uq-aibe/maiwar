@@ -286,10 +286,10 @@ Finally, in \eqref{eq-objective}, action $a_{n + t}$ is often referred to as
 the (set of) control variable(s).
 In our canonical example, it is a quadruple consisting of future consumption
 $\mathbf{con}_{n + t}$, labour $\mathbf{lab}_{n + t}$, investment
-$\textup{inv}_{n + t}$ and savings $\mathbf{sav}_{n + t}$.
+$\textup{inv}_{n + t}$ and savings $\mathbf{inv}_{n + t}$.
 Note that $\mathbf{con}_{r, n + t}$, $\mathbf{lab}_{r, n + t}$ and
 $\textup{inv}_{r, n + t}$ are vectors on $J$ indexed by region.
-Similarly, we view $\mathbf{sav}_{r, n + t}$ as the $J\times J$ matrix-valued
+Similarly, we view $\mathbf{inv}_{r, n + t}$ as the $J\times J$ matrix-valued
 function of flows between regions that we define in \eqref{eq-ces-inv} (also
 indexed by region).
 It is this latter matrix of \emph{dynamic} flows that significantly increases
@@ -307,16 +307,24 @@ $n$ and time $t$.
 Since the depreciation rate $\delta_{j}$ may depend on sector, we express this
 as a scalar-valued equation:
 \begin{equation}\label{eq-kapital}
-   \mathbf{kap}_{r, j, n + t + 1} =
+   \textup{kap}_{r, j, n + t + 1} =
      (1 - \delta_{j}) \cdot \mathbf{kap}_{r, j, n + t}
-       + \textup{inv}_{r, j, n + t}.
+       + \textup{inv}_{r, j, n + t}\,.\footnote{
+  We present all \emph{basic variables} in \textbf{bold} font.
+  Basic, in this setting, means that the variable cannot be explicitly
+  written as a function of the other variables without recourse to
+  first-order or second-order conditions of the optimization (or equilibrium)
+  problem.
+  In this case, capital at $n + t + 1$ can be written as function of capital at
+  $n + t$ and investment at $n + t$.
+}
 \end{equation}
 Note that \eqref{eq-kapital} is a stochastic difference equation.
 This is because, for every $t$ in $T$, the set $N_{t}$ of nodes that are
 reachable in $t$ steps typically contains more than one node.
-In \eqref{eq-kapital}, 
-$\textup{inv}_{r, j, n + t}$ is an aggregator over the fixed capital formation
-vector $(\mathbf{sav}_{r, ij, n + t}: i \in J)$.
+In \eqref{eq-kapital}, $\textup{inv}_{r, j, n + t}$ is an aggregator over the
+\emph{basic} fixed capital formation vector
+$(\mathbf{inv}_{r, ij, n + t}: i \in J)$.
 Note that fixed capital formation is more general than savings.
 It includes, for instance, land reclaimed from forest or sea.
 We assume that fixed capital formation and investment are related via a
@@ -324,7 +332,7 @@ constant elasticity of substitution (CES) function
 \begin{equation}\label{eq-ces-inv}
   \textup{inv}_{r, j, n + t} = A_{r, j}^{\textup{inv}}
     \cdot \left(\sum_{i \, \in \, J}
-      \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{sav}_{r, i j,\, n + t}
+      \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{inv}_{r, i j,\, n + t}
         ^ {\,\rho_{j} ^ {\textup{inv}}}
     \right) ^ {\kappa_{j} ^ \textup{inv} / \rho_{j} ^ \textup{inv}}.
 \end{equation}
@@ -340,7 +348,7 @@ flows from a standard input-output table, normalising so that the column sum is
 one and applying the exponent $1/\varepsilon_{r, j}^\textup{inv}$ to each
 element.
 Finally, for strict concavity of the relation
-$\left(\mathbf{sav}_{r, ij, n + t} : i \in J\right)
+$\left(\mathbf{inv}_{r, ij, n + t} : i \in J\right)
   \mapsto \textup{inv}_{r, j, n + t}$ we assume the scale parameter 
 $\kappa_j^\textup{inv}$ is slightly less than $1$.\footnote{
   In \citet[Theorem 2]{Kojic-Concavity} (for instance) it is shown that a
@@ -353,7 +361,7 @@ via the relation
 \begin{equation}
   \textup{adj}_{r, i, n + t}
     = A_{r, i} ^ \textup{adj} 
-      \cdot \frac{(\mathbf{kap}_{r, i, n + t + 1}
+      \cdot \frac{(\textup{kap}_{r, i, n + t + 1}
       - \mathbf{kap}_{r, i, n + t})^2}
         {\mathbf{kap}_{r, i}}.
 \end{equation}
@@ -371,7 +379,7 @@ To simplify this exposition, we avoid notions of human capital.
 
 In addition to primary factors, we have intermediate inputs.
 As with investment, we specify intermediate inputs to production via a CES
-aggregator $f_{r, j}^{\textup{int}}: \nnreal^{J} \rightarrow
+aggregator $f_{r, j}^{\textup{med}}: \nnreal^{J} \rightarrow
 \nnreal$.\footnote{
   The superscript in $f_{r, j}^{\cdot}$ indexes the variety of CES
   aggregators in the model.
@@ -383,8 +391,8 @@ aggregator $f_{r, j}^{\textup{int}}: \nnreal^{J} \rightarrow
 }
 Thus,
 \begin{equation}\label{eq-ces-int}
-  \textup{int}_{r, j, n + t} = A_{r, j, n + t} ^ \textup{int}
-    \cdot f_{r, j} ^ \textup{\,int}(
+  \textup{med}_{r, j, n + t} = A_{r, j, n + t} ^ \textup{med}
+    \cdot f_{r, j} ^ \textup{med}(
       \mathbf{med}_{r, ij, n + t}: i \in J
       )
 \end{equation}
@@ -419,7 +427,7 @@ CES function of capital, labour and the intermediate-input bundle respectively:
       ^ \textup{\,out}(
         \mathbf{kap}_{r, i, n + t},
         \mathbf{lab}_{r, i, n + t},
-        \textup{int}_{r, i, n + t}
+        \textup{med}_{r, i, n + t}
         )
 \end{equation}
 %\begin{equation}
@@ -449,9 +457,8 @@ usage, is nonnegative for every $i$ in $J$:
   \textup{out}_{r, i}
   - \mathbf{con}_{r, i}
   - \sum_{j \,\in\, J}
-      \left\{\mathbf{sav}_{r, ij} + \mathbf{med}_{r, ij}\right\}
-  - \textup{adj}_{r, i}
-\right\}.
+      \left\{\mathbf{inv}_{r, ij} + \mathbf{med}_{r, ij}\right\}
+  - \textup{adj}_{r, i} \right\}.
 \end{equation}
 The market clearing property itself then follows by virtue of the fact that
 the reward function $u_{n + t}$ is strictly increasing in the
@@ -493,10 +500,10 @@ The weighted sum across regions (with weights determined by population) of such
 regional reward functions yields the ``global''/``whole-of-economy'' reward
 functions $\textup{u}_{n + t}$ we find in the objective function
 \eqref{eq-objective} each node.
-This, together with standard assumptions \citep[Theorem
-12.2.12]{Stachurski-Economic_dynamics} are sufficient for strict concavity of
-the terminal value function $\textup{V}_{n + T}$ in the state vector
-$\omega_{n + t}$.
+This, together with standard assumptions
+\citep[Theorem 12.2.12]{Stachurski-Economic_dynamics}, is sufficient for strict
+concavity of the terminal value function $\textup{V}_{n + T}$ in the state
+vector $\omega_{n + t}$.
 Together with the structure we have imposed on the transition laws and
 feasibility constraints, the social welfare Lagrangian $\mc L_{n}$ is
 strictly concave function of the control vector $a_{n}$ for every $n$ in
