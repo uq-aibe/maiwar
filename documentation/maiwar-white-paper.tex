@@ -333,14 +333,17 @@ constant elasticity of substitution (CES) function
   \textup{inv}_{r, j, n + t} = A_{r, j}^{\textup{inv}}
     \cdot \left(\sum_{i \, \in \, J}
       \sigma_{i j} ^ {\textup{inv}} \cdot \mathbf{inv}_{r, i j,\, n + t}
-        ^ {\,\rho_{j} ^ {\textup{inv}}}
-    \right) ^ {\kappa_{j} ^ \textup{inv} / \rho_{j} ^ \textup{inv}}.
+        ^ {\,\rho_{r, j} ^ {\textup{inv}}}
+    \right) ^ {\kappa_{r, j} ^ \textup{inv} / \rho_{r, j} ^ \textup{inv}}.
 \end{equation}
 As usual, $\rho_{r, j}^\textup{inv}
-  = (\varepsilon_{r, j}^\textup{inv} - 1) / \varepsilon_{r, j}^\textup{inv}$,
-where the elasticity of substitution $\varepsilon_{r, j} ^ \textup{inv}$ is
-typically $ 0.1$.
-Thus, $\rho_{r, j}^\textup{inv} \approx -9$.
+  = 1 - 1 / \varepsilon_{r, j}^\textup{inv}$ is decreasing in the elasticity of
+  substitution $\varepsilon_{r, j} ^ \textup{inv}$ and the latter typically
+  lies in the range $ 0.1 $ to $0.9$.
+%Thus, $\rho_{r, j}^\textup{inv} $ lies in the range $-9$ to $-1.1$.
+The investment aggregator is Leontief when $\varepsilon_{r, j}^\textup{inv}$
+tends to zero and  ``linear'' / Cobb--Douglas when
+$\varepsilon_{r, j}^\textup{inv}$ tends to one.
 Next, $(\sigma_{r, ij}^\textup{inv}: i \in J)$
 %= (\hat{\sigma}_{r, ij}^\textup{inv}) ^ {1 / \varepsilon_{r, j}^\textup{inv}}$
 is a vector of share parameters we obtain by taking a column of intermediate
@@ -470,7 +473,7 @@ u_{r, n + t}: \nnreal^{J \times J} \rightarrow \R, \quad
   (\mathbf{con}_{r, n + t}, \mathbf{lab}_{r, n + t})
     \mapsto \textup{utl}_{r, n + t},
 \]
-for each region, node and time
+for each fregion, node and time,
 to be strictly concave in consumption and labour.
 Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
 \begin{equation}
@@ -481,21 +484,26 @@ Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
 %%          \cdot \mathbf{con}_{r, i, n + t} ^ {\,\rho_{r}^\textup{utl}}
 %%        \right) ^ {\kappa_{r}^{\textup{utl}} /\rho_{r}^{\textup{utl}}}
       \cdot \left(
-        A_{r}^\textup{utl}
-          \cdot f_{r}^{\,\textup{utl}}(\mathbf{con}_{r, i, n + t}: i \in J)
-        - B_{r}^\textup{utl}
-          \cdot \left(\sum_{i \, \in \, J} \mathbf{lab}_{r, i, n + t}\right)
-          ^ {\eta_{r, i}}
+        A_{r}^\textup{con}
+          \cdot f_{r}^{\textup{con}}(\mathbf{con}_{r, i, n + t}: i \in J)
+        + A_{r}^\textup{lab}
+          \cdot f_{r}^{\textup{lab}}(\mathbf{lab}_{r, i, n + t}: i \in J)
       \right)
 \end{equation}
 where $0 < \beta < 1$ is the parameter that describes how agents discount
-future consumption and work;
-$\eta_{r, i} = 1 + 1 / \varepsilon_{r, i}^\textup{lab}$
-is the parameter that relates the Frisch elasticity
-$\varepsilon_{r, i}^\textup{lab}$  of labour supply to utility.
+the future.
+The utility weight $A_{r}^{\textup{lab}}$ is distinguished by the property that
+it is typically negative to reflect the disutility of labour.
+To ensure concavity of utility in its arguments, one further distinguishing
+feature of the aggregator for labour is that elasticity parameter is of the
+form
+$\rho_{r, i}^{\textup{lab}} = 1 + 1 / \varepsilon_{r, i}^{\textup{lab}}$
+so that, unlike the other $\rho$ parameters of the model, it is always
+positive, greater than one and decreasing in $\varepsilon_{r, i}^\textup{lab}$
+where the latter is the Frisch elasticity of labour supply.
+
 If the scale parameter $\kappa_{r, n + t}^\textup{utl}$ of 
-$f_{r, n + t}^\textup{utl}$ 
-$\textup{u}_{r, n + t}$ is strictly concave.
+$f_{r, n + t}^\textup{utl}$ $\textup{u}_{r, n + t}$ is strictly concave.
 The weighted sum across regions (with weights determined by population) of such
 regional reward functions yields the ``global''/``whole-of-economy'' reward
 functions $\textup{u}_{n + t}$ we find in the objective function
