@@ -41,7 +41,7 @@ MAIWAR (Modelling Australian Industry with Weak-solutions, AMPL and Regions)
       creation of the MAIWAR model.
       I thank Alex Yelkhovski for valuable conversations at an early stage. 
       Last, but certainly not least, I thank the members of the SMaRT project
-      panel: Hurriyet Babacan, Bego\~{n}a Dominguez, Flavio Menezes, Alicia
+      panel: Hurriyet Babacan, Bego\~{d}a Dominguez, Flavio Menezes, Alicia
       Rambaldi and Martie-Louise Verreynne.
       This version has time stamp \currenttime~(AEST), \today. The most recent
       version (as well as past versions) can be found at
@@ -114,7 +114,7 @@ consider the case of multi-sectoral investment flows that is central to MAIWAR.
 Beyond the short-term, economic theory provides the lens through which
 policy-makers peer into the future. 
 In medium term, the economy is unlikely to reach its steady state. 
-Moreover, in models with multiple sectors recent research has highlighted
+Moreovei, rn models with multiple sectors recent research has highlighted
 the importance of nonlinear effects.
 For such problems, first-order steady-state approximations are ill-suited.
 Yet this is the solution method that is most commonly applied today.
@@ -155,19 +155,381 @@ satisfies an optimality criteria such as the intertemporal Euler equation.
 
 Before turning to a more detailed example with uncertainty, we explain the
 model under certainty.
-\section{A canonical example without uncertainty}\label{sec-certainty}
-Under certainty the solution is a unique path through time.
-In other words, the decision tree $\mc T$ simplifies to a chain or
-sequence of decision nodes.\footnote{
-   Formally, for each $n$ in $\mc T$, there is a unique $n^{\mplus}$ such that
-   $(n, n^{\mplus})$ belongs to $\mc E$.
+%==============================================================================
+\section{The model under certainty}\label{sec-certainty}
+%==============================================================================
+Certainty is characterised by a unique path through time.
+Each step along this path is a node where economic decisions are made.
+%Decisions regarding the resources that are to be consumed today and those
+%that are to be invested in the future.
+Let $\nodes$ denote the set of decision nodes or \emph{starting} nodes.
+Under certainty, the unique path induces a natural ordering on
+$\nodes$.\footnote{
+  Formally, for each $\node$ in $\mc T$, there is a unique
+  $\node^{\mplus}$ such that the \emph{edge} $\edge = (\node, \node^{\mplus})$
+  belongs to the set $\edges$ of edges formed with members of $\nodes$.
+}
+At each $\node$ in $\nodes$, the economic agent(s) look ahead and make a plan
+that extends into the future indexed by the set $T$ of look-ahead
+times.\footnote{\citet{CJ} allow the set $T$ to vary across $\nodes$ whereas we
+assume it is constant to simplify the exposition.}
+The agent(s) formulate plans that ensure resources are optimally allocated
+throughout $T$.
+
+\begin{example}[2050 Net-zero carbon emissions target]
+  Consider a government that wishes to acheive a net-zero carbon emissions
+  target by 2050.
+  Under certainty and some form of adjustment costs, it is natural to
+  assume a gradual transition is optimal: one that spreads the discounted cost
+  of transition to clean energy evenly across time.
+  
+  In this setting, each $\node$ in $\nodes$ might be years between the present
+  and $2050$ when the target is met.
+  $T$ might extend much further into the future \eg\ $\sup T = \infty$.
+  Alternatively, if planning is costly, agent(s) might adopt some suitably
+  small, finite time.
+\end{example}
+
+%==============================================================================
+\paragraph{The objective function at each node}
+%==============================================================================
+%At each $\node$ in $\nodes$, agents solve a forward-looking
+%optimization problem of the form that we now describe.
+%Let $T = 0, 1, \dots$ denote the set of look-ahead times and,
+As a minor matter of expedience, take $\countof T \equiv T$.
+The larger the set $T$ the more rational the agents in the economy: a point we
+discuss further in section \ref{sec-approximation}.
+%We assume
+%a representative agent maximises the social welfare of the economy subject to
+%constraints.
+%(Recasting the model in terms of equilibrium equations is straightforward:
+%see \citet[Algorithm 2]{CJ}.)
+
+Under certainty, the objective of the social planner at node $\node$ is to
+choose the action $\mathbf{a}$ that maximises the following forward-looking expression:
+\begin{align}\label{eq-objective} \hskip-3pt   
+  \textup{obj}_{\node}(\mathbf{a}_{\node}, \boldsymbol{\omega}_{\node}) \defeq
+%    \sum_{t = 0}^{T}
+    \sum\left\{
+      {u}_{\node + t}(\mathbf{a}_{\node + t}, \boldsymbol{\omega}_{\node + t})
+      : t = 0, \dots, T
+    \right\}
+%    + \mbb{E}_{\node}\left\{
+%     + \cdots
+%     + {u}_{\node + T - 1}(\mathbf{a}_{\node + T - 1}, \boldsymbol{\omega}_{\node + T - 1})
+    + {V}_{\node + T + 1}(\boldsymbol{\omega}_{\node + T + 1})
+%    \right\}
+  %\\
+  %\textup{s.t.} & \quad \boldsymbol{\omega}_{\node + t+1}
+  %  = g_{\node + t}(\boldsymbol{\omega}_{\node + t}, \mathbf{a}_{\node + t}),
+  %    \quad t = 0, \dots, T
+  %\\
+  %  & \quad f_{\node + t}(\boldsymbol{\omega}_{\node + t}, \mathbf{a}_{\node + t}) \geq 0, \quad t = 0, \dots, T.
+\end{align}
+We now explain the terms in expression \eqref{eq-objective} in detail.
+First, ${V}_{\node}$ is the value function at node $\node$ and
+${V}_{\node + T}$ is the \emph{terminal} or \emph{continuation value} of the
+optimization problem.
+The \emph{reward}/\emph{utility} function ${u}_{\node + t}$ extends
+$0 \leq t < T$ periods ahead from node $\node$.
+The conditional expectation $\mbb{E}_{\node}$ is defined on the set of functions
+that are measurable with respect to the information available to the agent at 
+node $\node$.\footnote{
+   All these functions are scalar-valued.
+}
+The state $\boldsymbol{\omega}_{\node + t} $ is a pair of variables consisting  of capital
+$\mathbf{K}_{\node + t}$ and the productivity shock term
+\begin{equation}
+  \textup{shock}_{\node + t} = \left\{
+    \begin{array}{ll}
+       0.9 & \textup{if the shock has happened}\\
+       1 & \textup{otherwise.}
+    \end{array}\right.
+\end{equation}
+We return to discuss capital in more detail below.
+The shock $\textup{shock}$ is therefore macroeconomic in the sense that
+its effect is uniform across regions $R$ and sectors $J$ in the economy.
+A more general shock will yield a larger state space and corresponding set of
+paths.\footnote{
+   This simplification is purely for expositional purposes.
+   In our code, this and other parameters that appear below are allowed to vary 
+   across regions and sectors.
 }
 
+Finally, in \eqref{eq-objective}, action $\mathbf{a}_{\node + t}$ is often referred to as
+the (set of) control variable(s).
+In our canonical example, it is a quadruple consisting of future consumption
+$\mathbf{C}_{\node + t}$, labour $\mathbf{L}_{\node + t}$, investment
+$\textup{N}_{\node + t}$ and savings $\mathbf{N}_{\node + t}$.
+Note that $\mathbf{C}_{r, \node + t}$, $\mathbf{L}_{r, \node + t}$ and
+$\textup{N}_{r, \node + t}$ are vectors on $J$ indexed by region.
+Similarly, we view $\mathbf{N}_{r, \node + t}$ as the $J\times J$ matrix-valued
+function of flows between regions that we define in \eqref{eq-ces-inv} (also
+indexed by region).
+It is this latter matrix of \emph{dynamic} flows that significantly increases
+the dimension of the problem: for 20 sectors, there are 400 flows; for 100
+sectors, there are 10,000.
+
+We now turn to the constraints, beginning with the transition laws/dynamics for
+capital before turning to feasibility constraints such as market clearing.
+%==============================================================================
+\paragraph{Constraints at each node: transition dynamics}
+%==============================================================================
+Capital $\mathbf{K}_{\node + t}$ is a positive vector with values
+$\R ^ {R\times J}$ that evolves according to the standard equation for each node
+$\node$ and time $t$.
+Since the depreciation rate $\delta_{j}$ may depend on sector, we express this
+as a scalar-valued equation:
+\begin{equation}\label{eq-kapital}
+  \textup{K}_{j, r, \node + t + 1}
+    = (1 - \delta_{j}) \cdot \mathbf{K}_{j, r, \node + t}
+      + \textup{N}_{j, r, \node + t}\,.\footnote{
+  We present all \emph{basic variables} in \textbf{bold} font.
+  Basic, in this setting, means that the variable cannot be explicitly
+  written as a function of the other variables without recourse to
+  first-order or second-order conditions of the optimization (or equilibrium)
+  problem.
+  In this case, capital at $\node + t + 1$ can be written as function of capital at
+  $\node + t$ and investment at $\node + t$.
+}
+\end{equation}
+Note that \eqref{eq-kapital} is a stochastic difference equation.
+This is because, for every $t$ in $T$, the set $\textup{D}_{t}$ of nodes that
+are reachable in $t$ steps from node $\node$ typically contains multiple elements.
+In \eqref{eq-kapital}, investment $\textup{N}_{j, r, \node + t}$ is an aggregator
+over the \emph{basic} fixed capital formation vector
+$(\mathbf{N}_{ij, r, \node + t}: i \in J)$.
+Note that fixed capital formation is more general than savings.
+It includes, for instance, land reclaimed from forest or sea.
+We assume that fixed capital formation and investment are related via a
+constant elasticity of substitution (CES) function
+\begin{equation}\label{eq-ces-inv}
+  \textup{N}_{j, r, \node + t} = A_{j, r}^{\textup{inv}}
+    \cdot \left(\sum_{i \, \in \, J}
+      \grave \sigma_{i, r j}^{\textup{inv}} \cdot \mathbf{N}_{i, r j,\, \node + t}
+        ^ {\,\rho_{j, r} ^ {\textup{inv}}}
+    \right) ^ {\kappa_{j, r}^{\textup{inv}} / \rho_{j, r}^{\textup{inv}}}.
+\end{equation}
+where $A_{j, r}^{\textup{inv}}$ is the technology or productivity parameter for
+transforming other goods into type-$j$ capital;
+where
+\[
+  \grave \sigma_{ij, r}^{\textup{inv}}
+  = \left( \sigma_{ij, r}^{\textup{inv}} \right)
+    ^ {1 / \varepsilon_{j, r}^{\textup{inv}}}
+\]
+%= (\hat{\sigma}_{ij, r}^{\textup{inv}}) ^ {1 / \varepsilon_{j, r}^{\textup{inv}}}$
+and where $\sigma_{ij, r}^{\textup{inv}}$ is the normalised \emph{share}
+parameter of good $i$ in $j$'s combined investment good.
+It is common to derive $\sigma_{ij, r}^{\textup{inv}}$ by taking a
+column of intermediate flows from a standard input-output table and
+normalising so that the column sum is one.\footnote{
+  In input-output analysis, we refer to $\sigma_{ij, r}^{\textup{inv}}$ 
+  as technical coefficients.
+}
+As usual, $\rho_{j, r}^{\textup{inv}}
+  = 1 - 1 / \varepsilon_{j, r}^{\textup{inv}}$ is decreasing in the elasticity of
+  substitution $\varepsilon_{j, r}^{\textup{inv}}$ and the latter typically
+  lies in the range $ 0.1 $ to $0.9$.
+%Thus, $\rho_{j, r}^{\textup{inv}} $ lies in the range $-9$ to $-1.1$.
+Finally, for strict concavity of the relation
+$\left(\mathbf{N}_{ij, r, \node + t} : i \in J\right)
+  \mapsto \textup{N}_{j, r, \node + t}$ we assume the scale parameter 
+$\kappa_{j, r}^\textup{inv}$ is slightly less than $1$.\footnote{
+  In \citet[Theorem 2]{Kojic-Concavity} (for instance) it is shown that a
+  necessary and sufficient condition for strict concavity is
+  $0 < \kappa_{j, r}^\textup{N} < 1$.
+}
+
+\begin{remark}[CES aggregators]
+  Functions of the form of \cref{eq-ces-inv} are common in the present
+  model. 
+  For this reason, we let $f_{j, r}^{\textup{inv}}$ denote the function mapping
+\[
+  (\mathbf{N}_{ij, r, \node + t} : i \in J)
+  \mapsto \textup{N}_{j, r, \node + t} / A_{j, r}^{\textup{inv}}.
+\]
+  A CES aggregator is Leontief when its elasticity
+  parameter tends to zero and ``linear'' (\ie\ Cobb--Douglas) when its
+  elasticity parameter tends to one.
+  
+\end{remark}
+We capture the cost $\textup{adj}_{j, r, \node + t}$ of adjusting capital
+via the relation 
+\begin{equation}
+  \textup{adj}_{i, r, \node + t}
+    = A_{i, r} ^ \textup{adj} 
+      \cdot \frac{(\textup{K}_{i, r, \node + t + 1}
+      - \mathbf{K}_{i, r, \node + t})^2}
+        {\mathbf{K}_{i, r, \node + t}}.
+\end{equation}
+This form of inertia makes for more realistic rates of convergence between
+regions.
+For each region and each sector, this cost is deducted from time $\node + t$ output
+to which we now turn.
+%==============================================================================
+\paragraph{The production function}
+%==============================================================================
+In addition to capital, labour is the other \emph{primary factor of
+production.}
+Labour resources also vary across regions, sectors and time.
+To simplify this exposition, we avoid notions of human capital.
+
+In addition to primary factors, we have intermediate inputs.
+As with investment, we specify intermediate inputs to production via a CES
+aggregator $f_{j, r}^{\textup{M}}: \nnreal^{J} \rightarrow
+\nnreal$.\footnote{
+  The superscript in $f_{j, r}^{\cdot}$ indexes the variety of CES
+  aggregators in the model.
+  Each function $f_{j, r}^{\cdot}$ is characterised by a corresponding
+  set of parameters
+  $A_{j, r}^{\cdot}, (\sigma_{ij, r}^{\cdot}: i \in J),
+  \rho_{j, r}^{\cdot}, \kappa_{j, r}^{\cdot} $ and
+  $\varepsilon_{j, r}^{\cdot}$ as per \cref{eq-ces-inv}.
+}
+Thus,
+\begin{equation}\label{eq-ces-int}
+  \textup{M}_{j, r, \node + t} = A_{j, r, \node + t}^{\textup{med}}
+    \cdot f_{j, r}^{\textup{med}}(
+      \mathbf{M}_{ij, r, \node + t}: i \in J
+      )
+\end{equation}
+where, for each $j, r, n$ and $t$, $(\textbf{M}_{r,ij,\node + t} : i \in J)$
+corresponds to the $j$th column of a standard input-output matrix of
+intermediate flows.
+%Long--Plosser flows (between sectors and across regions) do not distinguish
+%between flows of goods such as flour or water that are sometimes viewed as
+%purely intermediate and flows such as machinery that are sometimes viewed pure
+%capital.
+%In \citet{Long_Plosser-Real_business_cycles}, inventories of flour are a form
+%of capital and current usage of machinery is an intermediate input.
+%Although this assumption is not essential to the methodology, it is reasonable
+%given the available data.
+%For although standard input-output tables report investment as separate from
+%intermediate inputs, this is on the basis of accounting as opposed to economic
+%principles.
+%Moreover, recent attempts \citep{Elazaar_Raymond-Network} to estimate
+%production networks using micro data (BLADE and GST data) do not distinguish
+%between these two categories of flows.
+%It is worth pointing out that although intermediate production is well-modelled
+%in most CGE models, savings and investment do not contribute to future 
+%utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
+
+
+For every $r$ in $R$, $i$ in $J$, let
+$f_{i, r}^{\textup{out}}: \nnreal^{3} \rightarrow \nnreal$ be a standard
+CES function of capital, labour and the intermediate-input bundle respectively:
+\begin{equation}
+	\textup{Y}_{i, r, \node + t}
+    = A_{i, r, \node + t}^{\textup{out}} \cdot f_{i, r}
+      ^ \textup{out}(
+        \mathbf{K}_{i, r, \node + t},
+        \mathbf{L}_{i, r, \node + t},
+        \textup{M}_{i, r, \node + t}
+        )
+\end{equation}
+%\begin{equation}
+%  f_{i, r, \node + t} ^ {\textup{out}} (x, y, z)
+%	  = \left(
+%      \alpha_{i, r} ^ {\textup{Y},x} \cdot x ^ {\,\rho^{\textup{out}}}
+%      + \alpha_{i, r} ^ {\textup{Y},y} \cdot y ^ {\,\rho^{\textup{out}}}
+%      + \alpha_{i, r} ^ {\textup{Y},z} \cdot z ^ {\,\rho^{\textup{out}}}
+%    \right) ^ {\, \frac{\kappa ^ {\textup{out}}}{\rho^{\textup{out}}}}
+%     .\footnote{
+%        As in \cref{eq-ces-inv}, the scale parameter $\kappa$ is
+%        approximately equal to, but less than one to ensure strict concavity.
+%        The $\alpha_{i, r}$ capture the relative importance of capital and
+%        labour in each region-sector pair.
+%     }
+%\end{equation}
+%==============================================================================
+\paragraph{Constraints at each node: market clearing}
+%==============================================================================
+In our canonical model, there is a single market for each sector.
+This implies free trade between regions.
+Finally, the key feasibility condition is that the following expression (where
+we have suppressed reference to $\node + t$), for total production minus total
+usage, is nonnegative for every $i$ in $J$:
+\begin{equation}
+  \sum_{r \,\in\, R} \left\{
+  \textup{Y}_{i, r}
+  - \mathbf{C}_{i, r}
+  - \sum_{j \,\in\, J}
+      \left\{\mathbf{N}_{ij, r} + \mathbf{M}_{ij, r}\right\}
+  - \textup{adj}_{i, r} \right\}.
+\end{equation}
+The market clearing property itself then follows by virtue of the fact that
+the reward function $u_{\node + t}$ is strictly increasing in the
+consumption of every good.
+\paragraph{Reward and Terminal Value functions at each node}
+Beyond strictly increasing, we take the utility function
+\[
+u_{r, \node + t}: \nnreal^{J \times J} \rightarrow \R, \quad
+  (\mathbf{C}_{r, \node + t}, \mathbf{L}_{r, \node + t})
+    \mapsto \textup{utl}_{r, \node + t},
+\]
+for each fregion, node and time,
+to be strictly concave in consumption and labour.
+Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
+\begin{equation}
+  \textup{utl}_{r, \node + t}
+    = \beta^{t}
+%%      \cdot \left(
+%%        \sum_{i \,\in\, J} \sigma_{i, r}^\textup{utl}
+%%          \cdot \mathbf{C}_{i, r, \node + t} ^ {\,\rho_{r}^\textup{utl}}
+%%        \right) ^ {\kappa_{r}^{\textup{utl}} /\rho_{r}^{\textup{utl}}}
+      \cdot \left(
+        A_{r}^\textup{con}
+          \cdot f_{r}^{\textup{con}}(\mathbf{C}_{i, r, \node + t}: i \in J)
+        + A_{r}^{\textup{lab}}
+          \cdot f_{r}^{{\textup{lab}}}(\mathbf{L}_{i, r, \node + t}: i \in J)
+      \right)
+\end{equation}
+where $0 < \beta < 1$ is the parameter that describes how agents discount
+the future.
+The utility weight $A_{r}^{{\textup{lab}}}$ is distinguished by the property that
+it is typically negative to reflect the disutility of labour.
+To ensure concavity of utility in its arguments, a
+feature of the aggregator for labour is that the $\rho^{\textup{inv}}$ parameter
+is of the form
+$\rho_{i, r}^{{\textup{lab}}} = 1 + 1 / \varepsilon_{i, r}^{{\textup{lab}}}$
+so that, unlike every other $\rho$ parameters of the model: it is always
+positive, greater than one and decreasing in $\varepsilon_{i, r}^{\textup{lab}}$.
+The latter is the Frisch elasticity of labour supply.
+As a default, we If the scale parameter $\kappa_{r, \node + t}^\textup{con}$ of 
+$f_{r, \node + t}^\textup{utl}$ ${u}_{r, \node + t}$ is strictly concave.
+The weighted sum across regions (with weights determined by population) of such
+regional reward functions yields the ``global''/``whole-of-economy'' reward
+functions ${u}_{\node + t}$ we find in the objective function
+\eqref{eq-objective} each node.
+This, together with standard assumptions
+\citep[Theorem 12.2.12]{Stachurski-Economic_dynamics}, is sufficient for strict
+concavity of the terminal value function ${V}_{n + T}$ in the state
+vector $\boldsymbol{\omega}_{\node + t}$.
+Together with the structure we have imposed on the transition laws and
+feasibility constraints, the social welfare Lagrangian $\mc L_{\node}$ is
+strictly concave function of the control vector $\mathbf{a}_{\node}$ for every $\node$ in
+$\mc N$.
+\footnote{
+Recall that the Lagrangian is the sum of the objective and each of the
+constraints scaled by the \emph{dual} variables (also known as Lagrange
+multipliers).
+}
+\begin{remark*}
+As usual, the Lagrange multipliers of market clearing constraints are also the
+competitive market prices.
+The AMPL language has features for constraining prices where necessary.
+\end{remark*}
+\paragraph{Well-posedness of the optimization problem at each node}
+The above conditions ensure that the solving for the general equilibrium of the
+economy is equivalent to solving a strictly concave program at each node.
+This implies that the equilibrium at each node is unique.
+The first-order (necessary) conditions for are also sufficient and we can
+tackle the problem with local (nonlinear optimization) solvers such as Conopt
+or Ipopt which are many times faster than global solvers such as Baron.
 \section{The normalised Euler error}
 We now derive the normalised Euler error for the example in
 \cref{sec-certainty}.
-
-
 
 \section{Uncertainty}
 As in structural econometric modelling
@@ -182,17 +544,20 @@ following kinds of uncertainty:
 \subsection{Type \ref{aue} uncertainty}
 %==============================================================================
 In MAIWAR, type \ref{aue} uncertainty is captured using a decision tree.
-A decision tree $\mc T$ is a pair $(\mc N, \mc E)$ of nodes and directed
+A decision tree $\mc T$ is a pair $(\nodes, \edges)$ of nodes and directed
 arcs/edges connecting future nodes to preceding ones.
-A \emph{node} $n$ is where agents make decisions.
-An \emph{edge} $e$ is a pair $(n, n^{\mplus})$ of nodes that are connected in
-the sense that $n$ immediately precedes $n^{\mplus}$.
+A \emph{node} $\node$ is where agents make decisions.
+An \emph{edge} $\edge$ is a pair $(\node, \node^{\mplus})$
+of nodes that are connected in the sense that $\node$ immediately
+precedes $\node^{\mplus}$.
 Uncertainty arises when there is more than one edge emanating from some node
-$n$.\footnote{
-   Since $\mc T$ is a tree, for every $e = (n , n^{\mplus}) \in \mc E$ if 
-   $e' = (n', n^{\mplus}) \in \mc E$, then $n' = n$.
+$\node$.\footnote{
+  Since $\mc T$ is a tree, for every
+  $\textfrak{e} = (\node, \node^{\mplus}) \in \textfrak{E}$
+  if $e' = (\node', \node^{\mplus}) \in \mc E$,
+  then $\node' = \node$.
 }
-Uncertainty at node $n$ unfolds along edge $e$ to reveal the subsequent
+Uncertainty at node $\node$ unfolds along edge $e$ to reveal the subsequent
 decision node.
 A \emph{path} through time consists of a maximal sequence of connected nodes.
 That is sequences that start at the (unique) root node $\mathfrak{0}$ of the
@@ -219,341 +584,6 @@ Let $\mc P$ denote the set of paths.
    \emph{nonstationary} (\ie~time inhomogeneous) economy with a nonunique
    steady state.
 \end{example}
-
-%==============================================================================
-\paragraph{The objective function at each node}
-%==============================================================================
-At each decision node $n$ in $\mc N$, agents solve a forward-looking
-optimization problem of the form that we now describe.
-Let $T = 0, 1, \dots$ denote the set of look-ahead times and, as a matter of
-expedience, let $\countof T \equiv T$.
-The larger the set $T$ the more rational the agents in the economy: a point we
-discuss further in section \ref{sec-approximation}.
-In our canonical example and algorithm, we assume
-a representative agent maximises the social welfare of the economy subject to
-constraints.
-(Recasting the model in terms of equilibrium equations is straightforward:
-see \citet[Algorithm 2]{CJ}.)
-
-The objective of the social planner at node $n$ is to choose the action $a$
-that maximises the following forward-looking expression:
-\begin{align}\label{eq-objective}
-\hskip-3pt   \textup{obj}_{n}(a_{n}, \omega_{n}) \defeq
-   \textup{u}_{n + 0}(a_{n + 0}, \omega_{n + 0})
-    + \mbb{E}_{n}\left\{
-      \textup{u}_{n + 1}(a_{n + 1}, \omega_{n + 1}) + \cdots
-      + \textup{V}_{n + T}(\omega_{n + T})
-    \right\}
-  %\\
-  %\textup{s.t.} & \quad \omega_{n + t+1}
-  %  = g_{n + t}(\omega_{n + t}, a_{n + t}),
-  %    \quad t = 0, \dots, T
-  %\\
-  %  & \quad f_{n + t}(\omega_{n + t}, a_{n + t}) \geq 0, \quad t = 0, \dots, T.
-\end{align}
-We now explain the terms in expression \eqref{eq-objective} in detail.
-First, $\textup{V}_{n}$ is the value function at node $n$ and
-$\textup{V}_{n + T}$ is the \emph{terminal} or \emph{continuation value} of the
-optimization problem.
-The \emph{reward}/\emph{utility} function $\textup{u}_{n + t}$ extends
-$0 \leq t < T$ periods ahead from node $n$.
-The conditional expectation $\mbb{E}_{n}$ is defined on the set of functions
-that are measurable with respect to the information available to the agent at 
-node $n$.
-\footnote{
-   All these functions are scalar-valued.
-}
-The state $\omega_{n + t} $ is a pair of variables consisting  of capital
-$\mathbf{K}_{n + t}$ and the productivity shock term
-\begin{equation}
-   \textup{shock}_{n + t} = \left\{
-      \begin{array}{ll}
-         0.9 & \textup{if the shock has happened}\\
-         1 & \textup{otherwise.}
-      \end{array}\right.
-\end{equation}
-We return to discuss capital in more detail below.
-The shock $\textup{shock}$ is therefore macroeconomic in the sense that
-its effect is uniform across regions $R$ and sectors $J$ in the economy.
-A more general shock will yield a larger state space and corresponding set of
-paths.\footnote{
-   This simplification is purely for expositional purposes.
-   In our code, this and other parameters that appear below are allowed to vary 
-   across regions and sectors.
-}
-
-Finally, in \eqref{eq-objective}, action $a_{n + t}$ is often referred to as
-the (set of) control variable(s).
-In our canonical example, it is a quadruple consisting of future consumption
-$\mathbf{C}_{n + t}$, labour $\mathbf{L}_{n + t}$, investment
-$\textup{N}_{n + t}$ and savings $\mathbf{N}_{n + t}$.
-Note that $\mathbf{C}_{r, n + t}$, $\mathbf{L}_{r, n + t}$ and
-$\textup{N}_{r, n + t}$ are vectors on $J$ indexed by region.
-Similarly, we view $\mathbf{N}_{r, n + t}$ as the $J\times J$ matrix-valued
-function of flows between regions that we define in \eqref{eq-ces-inv} (also
-indexed by region).
-It is this latter matrix of \emph{dynamic} flows that significantly increases
-the dimension of the problem: for 20 sectors, there are 400 flows; for 100
-sectors, there are 10,000.
-
-We now turn to the constraints, beginning with the transition laws/dynamics for
-capital before turning to feasibility constraints such as market clearing.
-%==============================================================================
-\paragraph{Constraints at each node: transition dynamics}
-%==============================================================================
-Capital $\mathbf{K}_{n + t}$ is a positive vector with values
-$\R ^ {R\times J}$ that evolves according to the standard equation for each node
-$n$ and time $t$.
-Since the depreciation rate $\delta_{j}$ may depend on sector, we express this
-as a scalar-valued equation:
-\begin{equation}\label{eq-kapital}
-   \textup{K}_{r, j, n + t + 1} =
-     (1 - \delta_{j}) \cdot \mathbf{K}_{r, j, n + t}
-       + \textup{N}_{r, j, n + t}\,.\footnote{
-  We present all \emph{basic variables} in \textbf{bold} font.
-  Basic, in this setting, means that the variable cannot be explicitly
-  written as a function of the other variables without recourse to
-  first-order or second-order conditions of the optimization (or equilibrium)
-  problem.
-  In this case, capital at $n + t + 1$ can be written as function of capital at
-  $n + t$ and investment at $n + t$.
-}
-\end{equation}
-Note that \eqref{eq-kapital} is a stochastic difference equation.
-This is because, for every $t$ in $T$, the set $N_{t}$ of nodes that are
-reachable in $t$ steps typically contains more than one node.
-In \eqref{eq-kapital}, $\textup{N}_{r, j, n + t}$ is an aggregator over the
-\emph{basic} fixed capital formation vector
-$(\mathbf{N}_{r, ij, n + t}: i \in J)$.
-Note that fixed capital formation is more general than savings.
-It includes, for instance, land reclaimed from forest or sea.
-We assume that fixed capital formation and investment are related via a
-constant elasticity of substitution (CES) function
-\begin{equation}\label{eq-ces-inv}
-  \textup{N}_{r, j, n + t} = A_{r, j}^{\textup{inv}}
-    \cdot \left(\sum_{i \, \in \, J}
-      \grave \sigma_{r, i j}^{\textup{inv}} \cdot \mathbf{N}_{r, i j,\, n + t}
-        ^ {\,\rho_{r, j} ^ {\textup{inv}}}
-    \right) ^ {\kappa_{r, j}^{\textup{inv}} / \rho_{r, j}^{\textup{inv}}}.
-\end{equation}
-where $A_{r, j}^{\textup{inv}}$ is the technology or productivity parameter for
-transforming other goods into type-$j$ capital;
-where
-\[
-  \grave \sigma_{r, ij}^{\textup{inv}}
-  = \left( \sigma_{r, ij}^{\textup{inv}} \right)
-    ^ {1 / \varepsilon_{r, j}^{\textup{inv}}}
-\]
-%= (\hat{\sigma}_{r, ij}^{\textup{inv}}) ^ {1 / \varepsilon_{r, j}^{\textup{inv}}}$
-and where $\sigma_{r, ij}^{\textup{inv}}$ is the normalised \emph{share}
-parameter of good $i$ in $j$'s combined investment good.
-It is common to derive $\sigma_{r, ij}^{\textup{inv}}$ by taking a
-column of intermediate flows from a standard input-output table and
-normalising so that the column sum is one.\footnote{
-  In input-output analysis, we refer to $\sigma_{r, ij}^{\textup{inv}}$ 
-  as technical coefficients.
-}
-As usual, $\rho_{r, j}^{\textup{inv}}
-  = 1 - 1 / \varepsilon_{r, j}^{\textup{inv}}$ is decreasing in the elasticity of
-  substitution $\varepsilon_{r, j}^{\textup{inv}}$ and the latter typically
-  lies in the range $ 0.1 $ to $0.9$.
-%Thus, $\rho_{r, j}^{\textup{inv}} $ lies in the range $-9$ to $-1.1$.
-Finally, for strict concavity of the relation
-$\left(\mathbf{N}_{r, ij, n + t} : i \in J\right)
-  \mapsto \textup{N}_{r, j, n + t}$ we assume the scale parameter 
-$\kappa_{r, j}^\textup{inv}$ is slightly less than $1$.\footnote{
-  In \citet[Theorem 2]{Kojic-Concavity} (for instance) it is shown that a
-  necessary and sufficient condition for strict concavity is
-  $0 < \kappa_{r, j}^\textup{N} < 1$.
-}
-
-\begin{remark}[CES aggregators]
-  Functions of the form of \cref{eq-ces-inv} are common in the present
-  model. 
-  For this reason, we let $f_{r, j}^{\textup{inv}}$ denote the function mapping
-\[
-  (\mathbf{N}_{r, ij, n + t} : i \in J)
-  \mapsto \textup{N}_{r, j, n + j} / A_{r, j}^{\textup{inv}}.
-\]
-  A CES aggregator is Leontief when its elasticity
-  parameter tends to zero and ``linear'' (\ie\ Cobb--Douglas) when its
-  elasticity parameter tends to one.
-  
-\end{remark}
-We capture the cost $\textup{adj}_{r, j, n + t}$ of adjusting capital
-via the relation 
-\begin{equation}
-  \textup{adj}_{r, i, n + t}
-    = A_{r, i} ^ \textup{adj} 
-      \cdot \frac{(\textup{K}_{r, i, n + t + 1}
-      - \mathbf{K}_{r, i, n + t})^2}
-        {\mathbf{K}_{r, i}}.
-\end{equation}
-Some form of inertia makes for more realistic rates of convergence between
-regions.
-For each region and each sector, this cost is deducted from time $n + t$ output
-to which we now turn.
-%==============================================================================
-\paragraph{The production function}
-%==============================================================================
-In addition to capital, labour is the other \emph{primary factor of
-production.}
-Labour resources also vary across regions, sectors and time.
-To simplify this exposition, we avoid notions of human capital.
-
-In addition to primary factors, we have intermediate inputs.
-As with investment, we specify intermediate inputs to production via a CES
-aggregator $f_{r, j}^{\textup{M}}: \nnreal^{J} \rightarrow
-\nnreal$.\footnote{
-  The superscript in $f_{r, j}^{\cdot}$ indexes the variety of CES
-  aggregators in the model.
-  Each function $f_{r, j}^{\cdot}$ is characterised by a corresponding
-  set of parameters
-  $A_{r, j}^{\cdot}, (\sigma_{r, ij}^{\cdot}: i \in J),
-  \rho_{r, j}^{\cdot}, \kappa_{r, j}^{\cdot} $ and
-  $\varepsilon_{r, j}^{\cdot}$ as per \cref{eq-ces-inv}.
-}
-Thus,
-\begin{equation}\label{eq-ces-int}
-  \textup{M}_{r, j, n + t} = A_{r, j, n + t}^{\textup{med}}
-    \cdot f_{r, j}^{\textup{med}}(
-      \mathbf{M}_{r, ij, n + t}: i \in J
-      )
-\end{equation}
-where, for each $r, j, n$ and $t$, $(\textbf{M}_{r,ij,n + t} : i \in J)$
-corresponds to the $j$th column of a standard input-output matrix of
-intermediate flows.
-%Long--Plosser flows (between sectors and across regions) do not distinguish
-%between flows of goods such as flour or water that are sometimes viewed as
-%purely intermediate and flows such as machinery that are sometimes viewed pure
-%capital.
-%In \citet{Long_Plosser-Real_business_cycles}, inventories of flour are a form
-%of capital and current usage of machinery is an intermediate input.
-%Although this assumption is not essential to the methodology, it is reasonable
-%given the available data.
-%For although standard input-output tables report investment as separate from
-%intermediate inputs, this is on the basis of accounting as opposed to economic
-%principles.
-%Moreover, recent attempts \citep{Elazaar_Raymond-Network} to estimate
-%production networks using micro data (BLADE and GST data) do not distinguish
-%between these two categories of flows.
-%It is worth pointing out that although intermediate production is well-modelled
-%in most CGE models, savings and investment do not contribute to future 
-%utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
-
-
-For every $r$ in $R$, $i$ in $J$, let
-$f_{r, i}^{\textup{out}}: \nnreal^{3} \rightarrow \nnreal$ be a standard
-CES function of capital, labour and the intermediate-input bundle respectively:
-\begin{equation}
-	\textup{Y}_{r, i, n + t}
-    = A_{r, i, n + t}^{\textup{out}} \cdot f_{r, i}
-      ^ \textup{out}(
-        \mathbf{K}_{r, i, n + t},
-        \mathbf{L}_{r, i, n + t},
-        \textup{M}_{r, i, n + t}
-        )
-\end{equation}
-%\begin{equation}
-%  f_{r, i, n + t} ^ {\textup{out}} (x, y, z)
-%	  = \left(
-%      \alpha_{r, i} ^ {\textup{Y},x} \cdot x ^ {\,\rho^{\textup{out}}}
-%      + \alpha_{r, i} ^ {\textup{Y},y} \cdot y ^ {\,\rho^{\textup{out}}}
-%      + \alpha_{r, i} ^ {\textup{Y},z} \cdot z ^ {\,\rho^{\textup{out}}}
-%    \right) ^ {\, \frac{\kappa ^ {\textup{out}}}{\rho^{\textup{out}}}}
-%     .\footnote{
-%        As in \cref{eq-ces-inv}, the scale parameter $\kappa$ is
-%        approximately equal to, but less than one to ensure strict concavity.
-%        The $\alpha_{r, i}$ capture the relative importance of capital and
-%        labour in each region-sector pair.
-%     }
-%\end{equation}
-%==============================================================================
-\paragraph{Constraints at each node: market clearing}
-%==============================================================================
-In our canonical model, there is a single market for each sector.
-This implies free trade between regions.
-Finally, the key feasibility condition is that the following expression (where
-we have suppressed reference to $n + t$), for total production minus total
-usage, is nonnegative for every $i$ in $J$:
-\begin{equation}
-  \sum_{r \,\in\, R} \left\{
-  \textup{Y}_{r, i}
-  - \mathbf{C}_{r, i}
-  - \sum_{j \,\in\, J}
-      \left\{\mathbf{N}_{r, ij} + \mathbf{M}_{r, ij}\right\}
-  - \textup{adj}_{r, i} \right\}.
-\end{equation}
-The market clearing property itself then follows by virtue of the fact that
-the reward function $u_{n + t}$ is strictly increasing in the
-consumption of every good.
-\paragraph{Reward and Terminal Value functions at each node}
-Beyond strictly increasing, we take the utility function
-\[
-u_{r, n + t}: \nnreal^{J \times J} \rightarrow \R, \quad
-  (\mathbf{C}_{r, n + t}, \mathbf{L}_{r, n + t})
-    \mapsto \textup{utl}_{r, n + t},
-\]
-for each fregion, node and time,
-to be strictly concave in consumption and labour.
-Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
-\begin{equation}
-  \textup{utl}_{r, n + t}
-    = \beta^{t}
-%%      \cdot \left(
-%%        \sum_{i \,\in\, J} \sigma_{r, i}^\textup{utl}
-%%          \cdot \mathbf{C}_{r, i, n + t} ^ {\,\rho_{r}^\textup{utl}}
-%%        \right) ^ {\kappa_{r}^{\textup{utl}} /\rho_{r}^{\textup{utl}}}
-      \cdot \left(
-        A_{r}^\textup{con}
-          \cdot f_{r}^{\textup{con}}(\mathbf{C}_{r, i, n + t}: i \in J)
-        + A_{r}^{\textup{lab}}
-          \cdot f_{r}^{{\textup{lab}}}(\mathbf{L}_{r, i, n + t}: i \in J)
-      \right)
-\end{equation}
-where $0 < \beta < 1$ is the parameter that describes how agents discount
-the future.
-The utility weight $A_{r}^{{\textup{lab}}}$ is distinguished by the property that
-it is typically negative to reflect the disutility of labour.
-To ensure concavity of utility in its arguments, a
-feature of the aggregator for labour is that the $\rho^{\textup{inv}}$ parameter
-is of the form
-$\rho_{r, i}^{{\textup{lab}}} = 1 + 1 / \varepsilon_{r, i}^{{\textup{lab}}}$
-so that, unlike every other $\rho$ parameters of the model: it is always
-positive, greater than one and decreasing in $\varepsilon_{r, i}^{\textup{lab}}$.
-The latter is the Frisch elasticity of labour supply.
-As a default, we If the scale parameter $\kappa_{r, n + t}^\textup{con}$ of 
-$f_{r, n + t}^\textup{utl}$ $\textup{u}_{r, n + t}$ is strictly concave.
-The weighted sum across regions (with weights determined by population) of such
-regional reward functions yields the ``global''/``whole-of-economy'' reward
-functions $\textup{u}_{n + t}$ we find in the objective function
-\eqref{eq-objective} each node.
-This, together with standard assumptions
-\citep[Theorem 12.2.12]{Stachurski-Economic_dynamics}, is sufficient for strict
-concavity of the terminal value function $\textup{V}_{n + T}$ in the state
-vector $\omega_{n + t}$.
-Together with the structure we have imposed on the transition laws and
-feasibility constraints, the social welfare Lagrangian $\mc L_{n}$ is
-strictly concave function of the control vector $a_{n}$ for every $n$ in
-$\mc N$.
-\footnote{
-Recall that the Lagrangian is the sum of the objective and each of the
-constraints scaled by the \emph{dual} variables (also known as Lagrange
-multipliers).
-}
-\begin{remark*}
-As usual, the Lagrange multipliers of market clearing constraints are also the
-competitive market prices.
-The AMPL language has features for constraining prices where necessary.
-\end{remark*}
-\paragraph{Well-posedness of the optimization problem at each node}
-The above conditions ensure that the solving for the general equilibrium of the
-economy is equivalent to solving a strictly concave program at each node.
-This implies that the equilibrium at each node is unique.
-The first-order (necessary) conditions for are also sufficient and we can
-tackle the problem with local (nonlinear optimization) solvers such as Conopt
-or Ipopt which are many times faster than global solvers such as Baron.
-
 \paragraph{Constructing the empirical distribution on paths}
 Let us first define the strong solution we obtain from the above node-specific
 optimization problems.
@@ -561,19 +591,19 @@ For a given decision tree $\mc T = (\mc N, \mc E)$ and corresponding set of
 paths $\mc P$, let
 \[
    \textup{StrongSol}(\mc P) \defeq \left\{
-      (\omega^{*}_{p}, a^{*}_{p}) : p \in \mc P
+      (\boldsymbol{\omega}^{*}_{p}, a^{*}_{p}) : p \in \mc P
    \right\}
 \]
 where the superscript $*$ denotes the optimal state-policy values
-for each decision node $n$ along a given path $p$.
+for each decision node $\node$ along a given path $p$.
 Note that $\textup{StrongSol}(\mc P)$ only contains the realised initial
-state-policy values since, for each $n$, the look-ahead values
-$\left\{(\omega^{*}_{n + t}, a^{*}_{n + t}) : t > 0 \right\}$ are only used to
-formulate the plan at node $n$.
+state-policy values since, for each $\node$, the look-ahead values
+$\left\{(\boldsymbol{\omega}^{*}_{\node + t}, a^{*}_{\node + t}) : t > 0 \right\}$ are only used to
+formulate the plan at node $\node$.
 This notion of solution is strong in the sense that, assuming the model is
 fully-specified, it tells us precisely what will happen once the economy
 reaches a given node.
-Moreover, in simple cases, such as example \ref{eg-irreversible} where there
+Moreovei, rn simple cases, such as example \ref{eg-irreversible} where there
 are just $28$ paths, $\textup{StrongSol}(\mc P)$ can also be viewed as a
 complete contingent plan of action and future capital.
 Another sense in which the solution is strong when $\countof \mc P$
@@ -597,30 +627,30 @@ denote the set of \emph{path times}: for each $s$ in $S$ the node $p_s$ is $s$
 steps into the future from $\mathfrak{0}$ along path $p$.
 We begin by constructing the empirical distribution associated with
 $\mathfrak{0} + s$ for each $s \in S$.
-Let $N_s$ denote the set of nodes that are $s$ steps into the future from
+Let $D_s$ denote the set of nodes that are $s$ steps into the future from
 $\mathfrak{0}$.\footnote{
    That is $N_{s} = \left\{ p_{s} \in \mc N : p \in \mc P\right\}$.
 }
 
-For any $s$ in $S$ note that $\mathbf{C}_{r, i, \mathfrak{0} + s}$ is a
-scalar-valued random variable on $N_s$. 
-Moreover, for each $n$ in $N_s$, let $\textup{CON}_{r, i, n}$ denote a
+For any $s$ in $S$ note that $\mathbf{C}_{i, r, \mathfrak{0} + s}$ is a
+scalar-valued random variable on $D_s$. 
+Moreover, for each $\node$ in $D_s$, let $\textup{CON}_{i, r, n}$ denote a
 realisation of this random variable.
 By realisation, we mean a strong solution to this particular variable.
-For any of our policy or state variables $x_{\mathfrak{0}+s}$ let $X_n$ denote
-the realisation associated with node $n$.
-Then the empirical distribution generated by $\left\{X_n: n \in N_s\right\}$ is
+For any of our policy or state variables $x_{\mathfrak{0}+s}$ let $X_d$ denote
+the realisation associated with node $\node$.
+Then the empirical distribution generated by $\left\{X_{d'}: d' \in D_s\right\}$ is
 the function
 $F_{x_{s}} : \R \rightarrow [0, 1]$,
 \begin{equation}\label{eq-empirical-dbn}
    F_{x_s}(z) = \frac{1}{\countof N_{s}}
-   \cdot \sum_{n \,\in\, N_{s}} 1_{X_n \,\leq\, z}.
+   \cdot \sum_{n \,\in\, N_{s}} 1_{X_d \,\leq\, z}.
 \end{equation}
 
 The weak solution for a given policy or state variable $x$ is simply the
 sequence $F_{x} = \left\{F_{x_{s}}: s \in S\right\}$ of empirical distributions.
 $F_{x}$ is the empirical distribution of the path-valued random variable $x$.
-For instance, $F_{\mathbf{C}_{r, i}}$ is the empirical distribution for the
+For instance, $F_{\mathbf{C}_{i, r}}$ is the empirical distribution for the
 path of consumption of sector-$i$ goods in region $r$.
 
 In turn, the weak solution for the entire problem is the joint empirical
@@ -636,17 +666,17 @@ program \citet{Stokey_Lucas-Recursive}.
 In the present setting the derivation of Euler equation is complicated by two
 factors: the number of control variables exceeds the number of state variables;
 and there is no explicit form for
-To address this issue, for each $n$, we appeal to the envelope theorem.
+To address this issue, for each $\node$, we appeal to the envelope theorem.
 In particular, we follow \citet{Gonzalez_Hernandez-Euler}
 and derive an indirect utility function
-$\textup{v}_{n}$ as a function of current and next-period states $\omega_{n}$
-and $\omega_{n^{\mplus}}$.
+$\textup{v}_{\node}$ as a function of current and next-period states $\boldsymbol{\omega}_{\node}$
+and $\boldsymbol{\omega}_{\node^{\mplus}}$.
 \begin{align*}
-   \textup{v}_{n}(\omega_{n}, \omega_{n^{\mplus}}) \defeq
-   \max_{a_{n}}  \quad \textup{u}_{n}(\omega_{n}, a_{n}) \quad &
+   \textup{v}_{\node}(\boldsymbol{\omega}_{\node}, \boldsymbol{\omega}_{\node^{\mplus}}) \defeq
+   \max_{\mathbf{a}_{\node}}  \quad {u}_{\node}(\boldsymbol{\omega}_{\node}, \mathbf{a}_{\node}) \quad &
      \textup{subject to}\\
-   \quad \omega_{n^{\mplus}} = \textup{tran}_{n}(\omega_{n}, a_{n}) \quad
-   \textup{and} & \quad \textup{feas}_{n}(\omega_{n}, a_{n}) \geq 0
+   \quad \boldsymbol{\omega}_{\node^{\mplus}} = \textup{tran}_{\node}(\boldsymbol{\omega}_{\node}, a_{\node}) \quad
+   \textup{and} & \quad \textup{feas}_{\node}(\boldsymbol{\omega}_{\node}, \mathbf{a}_{\node}) \geq 0
 \end{align*}
 where the transition and feasibility constraints are those we have described
 above.
@@ -661,10 +691,10 @@ with step $s$ is
 \begin{equation}
 \frac{
   \beta \cdot \mathbb{E}_{\mathfrak{0}} \left\{
-    \nabla_{\mathbf{K}_{s+1}} \textup{v}_{s+1}(\omega_{s+1}, \omega_{s+2})
+    \nabla_{\mathbf{K}_{s+1}} \textup{v}_{s+1}(\boldsymbol{\omega}_{s+1}, \boldsymbol{\omega}_{s+2})
   \right\}
   }{\mathbb{E}_{\mathfrak{0}} \left\{
-    \nabla_{\mathbf{K}_{s+1}} \textup{v}_{s}(\omega_{s}, \omega_{s+1})
+    \nabla_{\mathbf{K}_{s+1}} \textup{v}_{s}(\boldsymbol{\omega}_{s}, \boldsymbol{\omega}_{s+1})
   \right\}
   } + 1
 \end{equation}

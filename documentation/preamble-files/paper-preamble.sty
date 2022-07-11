@@ -280,6 +280,11 @@
 %\newcommand{\subscript}[2]{$#1 _ #2$}
 %----------------------------------------end environments-------------------------
 %----------------------------------------begin math notation and shorthand-------------------------
+\newcommand{\boldcdot}{\boldsymbol{\cdot}}
+\newcommand{\node}{\mathfrak{s}}
+\newcommand{\nodes}{\mathcal{S}}
+\newcommand{\edge}{\mathfrak{e}}
+\newcommand{\edges}{\mathcal{E}}
 \newcommand*{\medcap}{\mathbin{\scalebox{.85}{\ensuremath{\bigcap}}}}%
 \newcommand*\mcap{\mathbin{\mathpalette\mcapinn\relax}}
 \newcommand*\mcapinn[2]{\vcenter{\hbox{$\mathsurround=0pt
@@ -315,6 +320,29 @@
 
 \newcommand\barabove[1]{\stackon[1.2pt]{$#1$}{\rule{1ex}{.1ex}}}
 
+\makeatletter
+\newcommand*{\bigcdot}{}% Check if undefined
+\DeclareRobustCommand*{\bigcdot}{%
+  \mathbin{\mathpalette\bigcdot@{}}%
+}
+\newcommand*{\bigcdot@scalefactor}{.5}
+\newcommand*{\bigcdot@widthfactor}{1.15}
+\newcommand*{\bigcdot@}[2]{%
+  % #1: math style
+  % #2: unused
+  \sbox0{$#1\vcenter{}$}% math axis
+  \sbox2{$#1\cdot\m@th$}%
+  \hbox to \bigcdot@widthfactor\wd2{%
+    \hfil
+    \raise\ht0\hbox{%
+      \scalebox{\bigcdot@scalefactor}{%
+        \lower\ht0\hbox{$#1\bullet\m@th$}%
+      }%
+    }%
+    \hfil
+  }%
+}
+\makeatother
 %----------begin--ThisStyle---for-overstar
 \makeatletter
 \def\SavedSubStyle{\csname @mstyle\s@switch\endcsname}
@@ -375,12 +403,6 @@
 \DeclareMathOperator{\gr}{gr}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\range}{Ran}
-
-%\DeclareMathOperator{\id}{id}
-\makeatletter
-\newcommand*\bigcdot{\mathpalette\bigcdot@{.55}}
-\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
-\makeatother
 
 
 \makeatletter
