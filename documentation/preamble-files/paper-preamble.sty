@@ -280,8 +280,9 @@
 %\newcommand{\subscript}[2]{$#1 _ #2$}
 %----------------------------------------end environments-------------------------
 %----------------------------------------begin math notation and shorthand-------------------------
+\newcommand{\med}{\textup{m}\overline{\textup{e}}\textup{d}}
 \newcommand{\boldcdot}{\boldsymbol{\cdot}}
-\newcommand{\node}{\mathfrak{s}}
+\newcommand{\node}{{s}}
 \newcommand{\nodes}{\mathcal{S}}
 \newcommand{\edge}{\mathfrak{e}}
 \newcommand{\edges}{\mathcal{E}}
@@ -325,8 +326,8 @@
 \DeclareRobustCommand*{\bigcdot}{%
   \mathbin{\mathpalette\bigcdot@{}}%
 }
-\newcommand*{\bigcdot@scalefactor}{.5}
-\newcommand*{\bigcdot@widthfactor}{1.15}
+\newcommand*{\bigcdot@scalefactor}{.65}
+\newcommand*{\bigcdot@widthfactor}{2.00}
 \newcommand*{\bigcdot@}[2]{%
   % #1: math style
   % #2: unused
