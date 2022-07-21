@@ -27,11 +27,11 @@ set Sectors ordered;
 #-----------lower values of LFwd are more myopic; longer satisfy Euler Eqn.
 set LookForward 'planning set' = {LInf .. LSup + LInf - 1} ordered;
 set LookForwardClosure 'includes extra time for closing out the problem'
-  = LookForward union {LSup + LInf} ordered;
+  = {LInf .. LSup + LInf} ordered;
 #-----------Each path is a state of the world and has the following structure:
-set PathTimes 'times along a path' = {PInf .. PSup - 1} ordered;
+set PathTimes 'times along a path' = {PInf .. PSup + PInf - 1} ordered;
 set PathTimesClosure 'includes extra time for closing out the problem'
-  = LookForward union {PSup} ordered;
+  = {PInf .. PSup + PInf} ordered;
 #-----------The set of paths are indexed by
 set PathSpace 'path space: the set of paths'
   # for default we adopt a two-state Markov chain with unique absorbing state
@@ -44,6 +44,8 @@ param StrtTm 'start time for each step on each path' {PathTimes, PathSpace}
   default time();
 param EndTm 'start time for each step on each path' {PathTimes, PathSpace}
   default time();
+param ALPHA 'trend growth factor', >= 1, default 100e-2; 
+param ALPHA_0 'initial trend growth factor', >= 1, default 100e-2; 
 param BETA 'discount factor', in (0, 1), default .975; 
 param DELTA 'rate of depreciation for kapital' {Sectors} default .025 >= 0;
 param PHI_ADJ 'kapital adjustment cost' {Sectors} default 5e-1 >= 0;
@@ -114,7 +116,9 @@ param DUAL_KAP 'lagrange multiplier for kapital accumulation'
   {Regions, Sectors, PathTimes} default 1e+0; # in (-OSup, OSup);
 param DUAL_MKT_CLR 'lagrange multiplier for market clearing constraint'
   {Sectors, PathTimes} default 1e+0;# in [0, OSup);
-param GROWTH_KAP 'lagrange multiplier for market clearing constraint'
+param GROWTH_KAP 'observed growth rate for kapital'
+  {Regions, Sectors, PathTimes} default 5e-2; # in (-1, 1);
+param GROWTH_OUT 'observed growth rate for output'
   {Regions, Sectors, PathTimes} default 5e-2; # in (-1, 1);
 param EULER_INTEGRAND 'Euler error integrand'
   {Regions, Sectors, PathTimesClosure} default 1; # in (-OSup, OSup);
@@ -315,7 +319,7 @@ var E_output_CES 'Constant Elasticity of Substitution output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i] * (
     SHR_KAP_OUT_CES[i] * kap[r, i, t] ** RHO_OUT
-    + SHR_LAB_OUT_CES[i] * lab[r, i, t] ** RHO_OUT 
+    + SHR_LAB_OUT_CES[i] * (lab[r, i, t] * ALPHA * ALPHA_0 ** (t + 1)) ** RHO_OUT 
     + SHR_INT_OUT_CES[i] * int_sec_CES[r, i, t] ** RHO_OUT
     ) ** (RHO_OUT_HAT * SCALE_OUT);
 var E_output_ATA 'Atalay output transformation'
@@ -427,7 +431,7 @@ var tail_val_CESutl_caveF_CESout
     sum{i in Sectors} SHR_CON_CES[r, i] * (TAIL_SHR_CON * A[i] * (
       SHR_KAP_OUT_CES[i] * kap[r, i, LSup + LInf] ** RHO_OUT
       + SHR_INT_OUT_CES[i] * 1 ** RHO_OUT
-      + SHR_LAB_OUT_CES[i] * 1 ** RHO_OUT
+      + SHR_LAB_OUT_CES[i] * (1 * ALPHA * ALPHA_0 ** (LSup + LInf)) ** RHO_OUT
     ) ** (RHO_OUT_HAT * SCALE_OUT)) ** RHO_CON
   ) ** (RHO_CON_HAT * SCALE_CON) 
     + A_LAB[r] * (
@@ -486,11 +490,11 @@ data;
 #set Regions := SEQ RoQ;
 #set Sectors := Agrc Frst;
 #-----------2x3 model
-set Regions := SEQ RoQ;
-set Sectors := A Mnfc PbSc;
+#set Regions := SEQ RoQ;
+#set Sectors := A Mnfc PbSc;
 #-----------2x4 model
 #set Regions := SEQ RoQ;
-#set Sectors := Agrc Frst Mnfc Srvc;
+#set Sectors := A Frst Mnfc PbSc;
 #-----------3x4 model
 #set Regions := SEQ RoQ RoA;
 #set Sectors := Agrc Frst Mnfc Srvc;
@@ -522,8 +526,8 @@ set Sectors := A Mnfc PbSc;
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R;
 #-----------7x20
-#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
-#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 #-----------7x21
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U Al;
@@ -539,15 +543,17 @@ set Sectors := A Mnfc PbSc;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 398;
-let PSup := 3;
+let LSup := 50;
+let PSup := 62;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
+let ALPHA := 271828182846e-11;
+let ALPHA_0 := 271828182846e-11;
 let BETA := 950e-3;
 display A;
 for {i in Sectors}{
-  let A[i] := 060e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
+  let A[i] := 012e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
   let DELTA[i] := 05e-2;
   let PHI_ADJ[i] := 010e-2;
   let SHR_KAP_OUT[i] := 33e-2;
@@ -556,45 +562,50 @@ for {r in Regions, i in Sectors}{
   let A_LAB[r] := -100e-2;
   let KAP[r, i, PInf] := 1;
 };
-let A_CON := 0900e-2; #increase this to reduce consumption share
-let A_INV := 0070e-2;
-let A_INT := 0070e-2;
-let A_VAL := 0120e-2;
+let A_CON := 9100e-2; #increase this to increase labour
+let A_INV := 0100e-2;
+let A_INT := 0100e-2;
+let A_VAL := 0100e-2;
 
 let TAIL_SHR_CON := 045e-2;
 
-let EPS_INV := 030e-2;
-let EPS_INT := 050e-2;
-let EPS_CON := 050e-2;
-let EPS_OUT := 060e-2;
+let EPS_INV := 0490e-3;
+let EPS_INT := 0550e-3;
+let EPS_CON := 0999e-3;
+let EPS_OUT := 0500e-3;
 
-let SCALE_CON := 060e-2;
-let SCALE_INV := 098e-2;
-let SCALE_INT := 085e-2;
-let SCALE_OUT := 050e-2;
+let SCALE_CON := 100e-2;
+let SCALE_INV := 100e-2;
+let SCALE_INT := 100e-2;
+let SCALE_OUT := 100e-2;
 
 let EPS_LAB := 050e-2;
-let SCALE_LAB := 1200e-2;
+let SCALE_LAB := 0900e-2;
 update data;
 /*=============================================================================
 Solving the model
 =============================================================================*/
 param InstanceName symbolic;
 option solver knitro;
+#option solver conopt;
 option show_stats 1;
+param CH_GROWTH_OUT {Regions, Sectors, PathTimes} default 0;
 #-----------solve the model for a given point on a given path
 for {s in PathTimes}{
   display s, ctime();
+#-----------update kapital (CJ call this the simulation step)
+  fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
+  if s > PInf then
+  let ALPHA := ALPHA * ALPHA_0;
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
-  display BETA, A['PbSc'], SHR_CON['SEQ', 'PbSc'], SHR_LAB['SEQ', 'PbSc'],
+  display LSup, ALPHA, BETA, A['PbSc'],
+  SHR_CON['SEQ', 'PbSc'], SHR_LAB['SEQ', 'PbSc'],
   SHR_INV_CES['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
   display A_CON, A_INV, A_INT, A_VAL, A_LAB['SEQ'],
   EPS_INV, EPS_INT, EPS_CON, EPS_OUT, EPS_LAB,
   RHO_INV,  RHO_INT,  RHO_CON, RHO_OUT, RHO_LAB,
   SCALE_CON, SCALE_INV, SCALE_INT, SCALE_OUT, SCALE_LAB;
-#-----------update kapital (CJ call this the simulation step)
-  fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
 #-----------in this algorithm other variables automatically get warm start
   display E_output['SEQ', 'PbSc', LInf], con['SEQ', 'PbSc', LInf];
 #-----------set and solve the plan for start time s
@@ -646,6 +657,10 @@ for {s in PathTimes}{
 #-----------growth rate of capital as a parameter
   for {r in Regions, i in Sectors}{
     let GROWTH_KAP[r, i, s] := (KAP[r, i, s + 1] - KAP[r, i, s]) / KAP[r, i, s];
+    if s > PInf then 
+    let GROWTH_OUT[r, i, s] :=
+      (E_OUTPUT[r, i, s] - E_OUTPUT[r, i, s - 1]) / E_OUTPUT[r, i, s - 1];
+   
 #-----------Euler integrand for Cobb-Douglas production
     #let EULER_INTEGRAND[r, i, s] :=  DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
     #  + DUAL_MKT_CLR[i, s] * (
@@ -664,7 +679,7 @@ for {s in PathTimes}{
     let EULER_RATIO[r, i, s] 
         := BETA * EULER_INTEGRAND[r, i, s] / DUAL_KAP[r, i, s - 1];
   };
-  display GROWTH_KAP, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
+  display GROWTH_KAP, GROWTH_OUT, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
   display 
     min{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
     max{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
