@@ -83,7 +83,7 @@ param TAIL_SHR_CON 'tail consumption share (of output)' default 0.45 >= 0;
 param UInf 'infimum of interval for uniform dbn' default 0.4999 in [0, .5);
 param USup 'supremum of interval for uniform dbn' default 0.5001 in (.5, 1];
 param VInf 'infimum of interval for basic variables' default 1e-4;
-param VSup 'supremum of interval for basic variables' default 1e+4;
+param VSup 'supremum of interval for basic variables' default 1e+5;
 param OInf 'infimum of interval for observed/actual values' default 1e-7;
 param OSup 'supremum of interval for observed/actual values' default 1e+7;
 #-----------raw flow parameters (these would be replaced with normalised data)
@@ -543,15 +543,15 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 30;
+let LSup := 40;
 let PSup := 61;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 let ALPHA := 1;#271828182846e-11;
 let ALPHA_0 := 1;#271828182846e-11;
-let ALPHA := 271828182846e-11;
-let ALPHA_0 := 271828182846e-11;
+#let ALPHA := 271828182846e-11;
+#let ALPHA_0 := 271828182846e-11;
 let BETA := 950e-3;
 display A;
 for {i in Sectors}{
@@ -578,10 +578,10 @@ let EPS_OUT := 0400e-3;
 let SCALE_CON := 999e-3;
 let SCALE_INV := 999e-3;
 let SCALE_INT := 999e-3;
-let SCALE_OUT := 999e-3;
+let SCALE_OUT := 990e-3;
 
 let EPS_LAB := 050e-2;
-let SCALE_LAB := 0900e-2;
+let SCALE_LAB := 1200e-2;
 update data;
 /*=============================================================================
 Solving the model
@@ -599,7 +599,7 @@ for {s in PathTimes}{
   if s > PInf then
   let ALPHA := ALPHA * ALPHA_0;
   for {r in Regions, t in LookForwardClosure}{
-    #let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
+    let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
   }
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:

@@ -327,8 +327,8 @@ In particular the constant-elasticity-of-substitution (CES) aggregation
         \cdot \left( \mathbf{N}_{i,j, r, \node, t}\right)
         ^ {\,\rho_{j, r} ^ {\textup{inv}}}
       : i \in I\right\}
-    \right) ^ {1 / \rho_{j, r}^{\textup{inv}}}.
-%    \right) ^ {\kappa_{j, r}^{\textup{inv}} / \rho_{j, r}^{\textup{inv}}}.
+%    \right) ^ {1 / \rho_{j, r}^{\textup{inv}}}.
+    \right) ^ {\kappa_{j, r}^{\textup{inv}} / \rho_{j, r}^{\textup{inv}}}.
 \end{equation}
 
 \begin{remark*}[on CES aggregators]
@@ -347,12 +347,12 @@ In particular the constant-elasticity-of-substitution (CES) aggregation
   \end{equation}
   where $\circ$ denotes the Hadamard (component-wise) product.
   The functional form \cref{eq-ces-concise} will allow us to emphasize that our
-  corresponding aggregator $f^{\textup{lab}}$ for labour is homogenous across
-  time whereas $A_{t}^{\textup{lab}}$ grows exponentially when technological
-  progress is labour-augmenting.\footnote{
+  corresponding aggregator $f^{\textup{lab}}$ for labour in utility is
+  homogenous across time whereas $A_{t}^{\textup{lab}}$ decreases exponentially
+  when technological progress is labour-augmenting.\footnote{
     Under certainty, $f^{\textup{inv}}$ is also homogenous across nodes.
   }
-  In contrast, $A_{\node, t}^{\textup{inv}}$ evolves as agents learn.
+  In contrast, $A_{\node, t}^{\textup{lab}}$ evolves as agents learn.
 \end{remark*}
 The scalar $A_{j, r}^{\textup{inv}}$ is the productivity parameter that captures
 how efficient agents are at transforming other goods into new type-$(j,r)$
@@ -488,10 +488,10 @@ respectively:
 \paragraph{Constraints at each node: market clearing}
 %==============================================================================
 In our canonical model, we assume free trade between regions.
-Thus, there is a single market for each sector and markets clear for each
-$i, \node, t $ in $I \times \nodes \times T$.
-Market clearing holds the action vector $\mathbf{a}$ and state vector
-$\boldsymbol{\omega}$ are such that the constraint function
+That is, we have a single market that clears for each sector, node and time in
+$I \times \nodes \times T$.
+Formally, market clearing holds for action and state vectors $\mathbf{a}$
+and $\boldsymbol{\omega}$ such that the constraint function
 \begin{equation}\label{eq-market-clearing}
   G^{\textup{clear}}(\mathbf{a}, \boldsymbol{\omega}) =
   \sum_{r \,\in\, R} \left\{
