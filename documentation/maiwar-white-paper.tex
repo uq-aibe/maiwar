@@ -320,14 +320,15 @@ In particular the constant-elasticity-of-substitution (CES) aggregation
 %We assume that fixed capital formation and investment are related via a
 %standard constant elasticity of substitution (CES) function
 \begin{equation}\label{eq-ces-inv}
-  \textup{inv}_{j, r, \node, t} = A_{j, r, \node, t}^{\textup{inv}}
+  \textup{inv}_{j, r, \node, t} = A_{j, r}^{\textup{inv}}
     \cdot \left(\sum%_{i \, \in \, I}
       \left\{
       \acute \sigma_{i,j, r}^{\textup{inv}}
         \cdot \left( \mathbf{N}_{i,j, r, \node, t}\right)
         ^ {\,\rho_{j, r} ^ {\textup{inv}}}
       : i \in I\right\}
-    \right) ^ {\kappa_{j, r}^{\textup{inv}} / \rho_{j, r}^{\textup{inv}}}.
+    \right) ^ {1 / \rho_{j, r}^{\textup{inv}}}.
+%    \right) ^ {\kappa_{j, r}^{\textup{inv}} / \rho_{j, r}^{\textup{inv}}}.
 \end{equation}
 
 \begin{remark*}[on CES aggregators]
@@ -336,18 +337,19 @@ In particular the constant-elasticity-of-substitution (CES) aggregation
   Let $f_{j, r}^{\textup{inv}}$ denote the scalar-valued
   function mapping the fixed capital formation vector
   $ \mathbf{N}_{j, r, \node, t} \mapsto
-  \textup{inv}_{j, r, \node, t} / A_{j, r, \node, t}^{\textup{inv}}$
+  \textup{inv}_{j, r, \node, t} / A_{j, r}^{\textup{inv}}$
   and let $f^{\textup{inv}} = (f_{j, r}^{\textup{inv}}: j \in J, r \in R )$
   denote the corresponding vector-valued function that allows us to rewrite
   \eqref{eq-ces-inv} as
   \begin{equation}\label{eq-ces-concise}
-  \textup{inv}_{\node, t} = A_{\node, t}^{\textup{inv}}
+  \textup{inv}_{\node, t} = A^{\textup{inv}}
     \circ f^{\textup{inv}}(\mathbf{N}_{\node, t}),
   \end{equation}
   where $\circ$ denotes the Hadamard (component-wise) product.
-  Note that \eqref{eq-ces-concise} allows us to emphasize that in our canonical
-  setup $f^{\textup{inv}}$ (and thus the parameters on which it depends) is
-  homogenous across time.\footnote{
+  The functional form \cref{eq-ces-concise} will allow us to emphasize that our
+  corresponding aggregator $f^{\textup{lab}}$ for labour is homogenous across
+  time whereas $A_{t}^{\textup{lab}}$ grows exponentially when technological
+  progress is labour-augmenting.\footnote{
     Under certainty, $f^{\textup{inv}}$ is also homogenous across nodes.
   }
   In contrast, $A_{\node, t}^{\textup{inv}}$ evolves as agents learn.
@@ -428,7 +430,7 @@ aggregator $f^{\med}: \nnreal^{I \times J \times R} \rightarrow
 %}
 Thus,
 \begin{equation}\label{eq-ces-int}
-  \med_{\node, t} = A_{\node, t}^{\med}
+  \med_{\node, t} = A^{\med}
     \circ f^{\med}(
       \mathbf{M}_{\node, t}
       )
@@ -456,16 +458,16 @@ region.
 
 
 For every $r$ in $R$, $i$ in $I$, let
-$f_{i, r}^{\textup{out}}: \nnreal^{4} \rightarrow \nnreal$ be a standard
-CES function of capital, labour, the intermediate-input bundle and imports
+$f_{i, r}^{\textup{out}}: \nnreal^{3} \rightarrow \nnreal$ be a standard
+CES function of capital, labour and the intermediate-input bundle % and imports
 respectively:
 \begin{equation}
 	\textup{out}_{\node, t}
-    = A_{\node, t}^{\textup{out}} \circ f ^ \textup{out}(
+    = A^{\textup{out}} \circ f ^ \textup{out}(
         \mathbf{K}_{\node, t},
         \mathbf{L}_{\node, t},
         \med_{\node, t},
-        \mathbf{Y}_{\node, t}
+%        \mathbf{Y}_{\node, t}
         )
 \end{equation}
 %\begin{equation}
@@ -485,27 +487,26 @@ respectively:
 %==============================================================================
 \paragraph{Constraints at each node: market clearing}
 %==============================================================================
-In our canonical model, there is a single market for each sector.
-This implies free trade between regions.
-Markets then clear for each $i, \node, t $ in $I\times \nodes \times T$.
-For every $\node \in \nodes$ and $t \in T$, we require that
-the constraint function $G^{\textup{clear}}$ that maps the action-state pair
-$(\mathbf{a}, \boldsymbol{\omega})$
-to the following expression for total output minus total usage belongs to
-$\nnreal^{I \times \nodes \times T}$.
+In our canonical model, we assume free trade between regions.
+Thus, there is a single market for each sector and markets clear for each
+$i, \node, t $ in $I \times \nodes \times T$.
+Market clearing holds the action vector $\mathbf{a}$ and state vector
+$\boldsymbol{\omega}$ are such that the constraint function
 \begin{equation}\label{eq-market-clearing}
+  G^{\textup{clear}}(\mathbf{a}, \boldsymbol{\omega}) =
   \sum_{r \,\in\, R} \left\{
   \textup{out}_{r}
   - \mathbf{C}_{r}
   - \sum_{j \,\in\, J}
       \left\{\mathbf{N}_{j, r} + \mathbf{M}_{j, r}\right\}
-  - \mathbf{X}_{r}
+%  - \mathbf{X}_{r}
   - \textup{adj}_{r} \right\}
 \end{equation}
-The market clearing property $G^{\textup{clear}}(\mathbf{a},
-\boldsymbol{\omega})=0$ then follows by virtue of the fact that
-the utility function $u_{\node, t}$ is strictly increasing in the
-consumption of every good at every $(\node, t)$.
+is equal to zero in $\R^{I \times  \nodes \times T}$.
+%The market clearing property $G^{\textup{clear}}(\mathbf{a},
+%\boldsymbol{\omega})=0$ then follows by virtue of the fact that
+%the utility function $u_{\node, t}$ is strictly increasing in the
+%consumption of every good at every $(\node, t)$.
 %==============================================================================
 \paragraph{Reward and Terminal Value functions at each node}
 %==============================================================================

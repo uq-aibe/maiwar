@@ -161,7 +161,7 @@ param SHR_INT_OUT_CES 'importance of intermediates in production'
 param A 'productivity trend' {i in Sectors}
   default 1; #(1 - (1 - DELTA[i]) * BETA) / (SHR_KAP_OUT_CES[i] * BETA) >= 0;
 param A_LAB 'importance of disutility of labour (weight in utility function)' 
-  {r in Regions}
+  {Regions, LookForwardClosure}
     default -1;
   #(1 - SHR_KAP_OUT_CES[i]) * A[i] * (A[i] - DELTA[i]) ** (-1 / GAMMA[r]) >= 0;
 param A_CON 'importance of consumption in utility'
@@ -292,7 +292,7 @@ var int_sec_CES 'Const. Elast. Subst. intermediate aggregate (across sectors)'
 #-----------variety of labour aggregator functions 
 var lab_sec_CD 'Cobb-Douglas labour aggregate (across sectors)'
   {r in Regions, t in LookForward}
-  = prod{j in Sectors} A_LAB[r] * lab[r, j , t] ** SHR_LAB[r, j];
+  = prod{j in Sectors} A_LAB[r, t] * lab[r, j , t] ** SHR_LAB[r, j];
 var lab_sec_Q 'quadratic labour aggregate (across sectors)'
   {r in Regions, t in LookForward}
   = sum{j in Sectors} (lab[r, j , t] ** 2);
@@ -352,7 +352,7 @@ var utility_CES_caveF 'Const. Elast. Subst. and conc. Frisch instant. utility'
   {t in LookForward}
   = sum{r in Regions}
       REG_WGHT[r] * (
-        A_CON * con_sec_CES[r, t] + A_LAB[r] * lab_sec_caveF[r, t]
+        A_CON * con_sec_CES[r, t] + A_LAB[r, t] * lab_sec_caveF[r, t]
       );
 var utility_CES_bangF 'Const. Elast. Subst. and conc. Frisch instant. utility'
   {t in LookForward}
@@ -383,7 +383,7 @@ var tail_val_CD_F 'continuation value from time LSup + LInf onwards'
         (TAIL_SHR_CON * kap[r, i, LSup + LInf] ** (SHR_KAP_OUT[i] * SCALE_OUT))
           ** (SHR_CON[r, i] * SCALE_CON)
       )
-      - sum{i in Sectors} A_LAB[r] * 1 ** RHO_LAB / RHO_LAB
+      - sum{i in Sectors} A_LAB[r, LSup + LInf] * 1 ** RHO_LAB / RHO_LAB
     )) / (1 - BETA);
 var tail_val_CD_Q 'SumShr continuation value from time LSup + LInf onwards'
   = (sum{r in Regions}
@@ -411,7 +411,7 @@ var tail_val_CDutl_F_CESout
         + SHR_LAB_OUT_CES[i] * 1 ** RHO_OUT
       ) ** (RHO_OUT_HAT * SCALE_OUT) 
     )  ** (SHR_CON[r, i] * SCALE_CON)
-    - sum{i in Sectors} A_LAB[r] * 1 ** RHO_LAB / RHO_LAB
+    - sum{i in Sectors} A_LAB[r, LSup + LInf] * 1 ** RHO_LAB / RHO_LAB
   )) / (1 - BETA);
 var tail_val_CESutl_bangF_CESout
   'continuation value from time LSup + LInf onwards'
@@ -423,7 +423,7 @@ var tail_val_CESutl_bangF_CESout
     ) ** (RHO_OUT_HAT * SCALE_OUT)) ** RHO_CON
   ) ** (RHO_CON_HAT * SCALE_CON) 
     #- (sum{i in Sectors} 1) ** RHO_LAB / RHO_LAB
-    - A_LAB[r] * (sum{i in Sectors} 1) ** RHO_LAB
+    - A_LAB[r, LSup + LInf] * (sum{i in Sectors} 1) ** RHO_LAB
   )) / (1 - BETA);
 var tail_val_CESutl_caveF_CESout
   'continuation value from time LSup + LInf onwards'
@@ -434,7 +434,7 @@ var tail_val_CESutl_caveF_CESout
       + SHR_LAB_OUT_CES[i] * (1 * ALPHA * ALPHA_0 ** (LSup + LInf)) ** RHO_OUT
     ) ** (RHO_OUT_HAT * SCALE_OUT)) ** RHO_CON
   ) ** (RHO_CON_HAT * SCALE_CON) 
-    + A_LAB[r] * (
+    + A_LAB[r, LSup + LInf] * (
       sum{i in Sectors} SHR_LAB_CES[r, i] * 1 ** RHO_LAB
       ) ** (RHO_LAB_HAT * SCALE_LAB)
   )) / (1 - BETA);
@@ -543,41 +543,42 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 50;
-let PSup := 62;
+let LSup := 30;
+let PSup := 61;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
+let ALPHA := 1;#271828182846e-11;
+let ALPHA_0 := 1;#271828182846e-11;
 let ALPHA := 271828182846e-11;
 let ALPHA_0 := 271828182846e-11;
 let BETA := 950e-3;
 display A;
 for {i in Sectors}{
-  let A[i] := 012e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
+  let A[i] := 039e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
   let DELTA[i] := 05e-2;
-  let PHI_ADJ[i] := 010e-2;
+  let PHI_ADJ[i] := 000e-2;
   let SHR_KAP_OUT[i] := 33e-2;
   };
 for {r in Regions, i in Sectors}{
-  let A_LAB[r] := -100e-2;
   let KAP[r, i, PInf] := 1;
 };
-let A_CON := 9100e-2; #increase this to increase labour
-let A_INV := 0100e-2;
-let A_INT := 0100e-2;
-let A_VAL := 0100e-2;
+let A_CON := 09100e-2; #increase this to increase labour
+let A_INV := 0010e-2;
+let A_INT := 0010e-2;
+let A_VAL := 0001e-2;
 
 let TAIL_SHR_CON := 045e-2;
 
-let EPS_INV := 0490e-3;
-let EPS_INT := 0550e-3;
+let EPS_INV := 0200e-3;
+let EPS_INT := 0260e-3;
 let EPS_CON := 0999e-3;
-let EPS_OUT := 0500e-3;
+let EPS_OUT := 0400e-3;
 
-let SCALE_CON := 100e-2;
-let SCALE_INV := 100e-2;
-let SCALE_INT := 100e-2;
-let SCALE_OUT := 100e-2;
+let SCALE_CON := 999e-3;
+let SCALE_INV := 999e-3;
+let SCALE_INT := 999e-3;
+let SCALE_OUT := 999e-3;
 
 let EPS_LAB := 050e-2;
 let SCALE_LAB := 0900e-2;
@@ -597,12 +598,15 @@ for {s in PathTimes}{
   fix {r in Regions, j in Sectors} kap[r, j, LInf] := KAP[r, j, s];
   if s > PInf then
   let ALPHA := ALPHA * ALPHA_0;
+  for {r in Regions, t in LookForwardClosure}{
+    #let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
+  }
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
-  display LSup, ALPHA, BETA, A['PbSc'],
+  display LSup, ALPHA_0, ALPHA, BETA, A['PbSc'],
   SHR_CON['SEQ', 'PbSc'], SHR_LAB['SEQ', 'PbSc'],
   SHR_INV_CES['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
-  display A_CON, A_INV, A_INT, A_VAL, A_LAB['SEQ'],
+  display A_CON, A_INV, A_INT, A_VAL, A_LAB['SEQ', 0],
   EPS_INV, EPS_INT, EPS_CON, EPS_OUT, EPS_LAB,
   RHO_INV,  RHO_INT,  RHO_CON, RHO_OUT, RHO_LAB,
   SCALE_CON, SCALE_INV, SCALE_INT, SCALE_OUT, SCALE_LAB;
@@ -679,8 +683,7 @@ for {s in PathTimes}{
     let EULER_RATIO[r, i, s] 
         := BETA * EULER_INTEGRAND[r, i, s] / DUAL_KAP[r, i, s - 1];
   };
-  display GROWTH_KAP, GROWTH_OUT, DUAL_KAP, EULER_INTEGRAND, EULER_RATIO;
-  display 
+  display GROWTH_KAP, GROWTH_OUT, EULER_INTEGRAND, EULER_RATIO,
     min{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
     max{r in Regions, i in Sectors} E_OUTPUT[r, i, s],
     min{r in Regions, i in Sectors} CON[r, i, s],
@@ -698,11 +701,12 @@ for {s in PathTimes}{
     max{r in Regions, i in Sectors} KAP[r, i, s + 1],
     min{r in Regions, i in Sectors} GROWTH_KAP[r, i, s],
     max{r in Regions, i in Sectors} GROWTH_KAP[r, i, s],
-    min{r in Regions, i in Sectors} DUAL_KAP[r, i, s];
-  display utility, tail_val, pres_disc_val;
-  display (sum{r in Regions, i in Sectors} con[r, i, LInf])
-    / (sum{r in Regions, i in Sectors} E_output[r, i, LInf]);
-  display s, _ampl_elapsed_time, _total_solve_time, ctime();
+    min{r in Regions, i in Sectors} DUAL_KAP[r, i, s],
+    utility, tail_val, pres_disc_val,
+    (sum{r in Regions, i in Sectors} con[r, i, LInf])
+      / (sum{r in Regions, i in Sectors} E_output[r, i, LInf]),
+    KAP['SEQ', 'PbSc', s] / E_OUTPUT['SEQ', 'PbSc', s],
+    s, _ampl_elapsed_time, _total_solve_time, ctime();
 #  for {r in Regions, i in Sectors}{
 #  if s > PInf then display EULER_RATIO[r, i, s] - EULER_RATIO[r, i, s - 1];
 #  };
