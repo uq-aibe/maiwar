@@ -234,7 +234,7 @@ var int 'intermediate flows'
   {Regions, Sectors, Sectors, LookForward}
     in [VInf, VSup] default 1e-0;
 var lab 'labour flows' {Regions, Sectors, LookForward}
-  in [VInf, VSup] default 1e-0;
+  in [VInf, 66e-2] default 1e-0;
 #-----------kapital, the dynamic variable, is defined on LookForwardClosure
 var kap 'kapital stocks (dynamic: defined on LookForwardClosure)'
   {r in Regions, j in Sectors, LookForwardClosure}
@@ -543,19 +543,19 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 40;
+let LSup := 10;
 let PSup := 61;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 let ALPHA := 1;#271828182846e-11;
 let ALPHA_0 := 1;#271828182846e-11;
-#let ALPHA := 271828182846e-11;
-#let ALPHA_0 := 271828182846e-11;
+let ALPHA := 171828182846e-11;
+let ALPHA_0 := 171828182846e-11;
 let BETA := 950e-3;
 display A;
 for {i in Sectors}{
-  let A[i] := 039e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
+  let A[i] := 059e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
   let DELTA[i] := 05e-2;
   let PHI_ADJ[i] := 000e-2;
   let SHR_KAP_OUT[i] := 33e-2;
@@ -573,12 +573,12 @@ let TAIL_SHR_CON := 045e-2;
 let EPS_INV := 0200e-3;
 let EPS_INT := 0260e-3;
 let EPS_CON := 0999e-3;
-let EPS_OUT := 0400e-3;
+let EPS_OUT := 0300e-3;
 
 let SCALE_CON := 999e-3;
 let SCALE_INV := 999e-3;
 let SCALE_INT := 999e-3;
-let SCALE_OUT := 990e-3;
+let SCALE_OUT := 999e-3;
 
 let EPS_LAB := 050e-2;
 let SCALE_LAB := 1200e-2;
@@ -599,7 +599,7 @@ for {s in PathTimes}{
   if s > PInf then
   let ALPHA := ALPHA * ALPHA_0;
   for {r in Regions, t in LookForwardClosure}{
-    let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
+    #let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
   }
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:

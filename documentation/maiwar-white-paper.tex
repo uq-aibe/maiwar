@@ -196,12 +196,12 @@ throughout $T$.
   the agents' optimisation problem.
   The most interesting case is where $T$ is equal to the number of years it
   takes to approximately reach the steady state of the model.
-  This is the case where our approximation of the continuation
-  value \emph{locally around the steady-state equilibrium of the model} is most
-  natural.
-  What distinguishes MAIWAR from most other approaches is that \emph{only} the
-  continuation value is approximated in this way: the rest of the model, and in
-  particular policy over the near-to-medium term, is modelled in full.
+  %This is the case where our approximation of the continuation
+  %value \emph{locally around the steady-state equilibrium of the model} is most
+  %natural.
+  %What distinguishes MAIWAR from most other approaches is that \emph{only} the
+  %continuation value is approximated in this way: the rest of the model, and in
+  %particular policy over the near-to-medium term, is modelled in full.
 \end{example}
 
 %==============================================================================
@@ -292,11 +292,14 @@ each node $\node$ and time $t$.
 Since the depreciation rate $0 < \delta_{j} < 1$ may vary across sectors, we
 allow the following generalised forward difference operator $\Delta_j$ to vary
 across sectors:
-\[
+\begin{equation}\label{eq-diff-kap}
   \Delta_{j}(\mathbf{K}_{j, \node, t})
     = \mathbf{K}_{j, \node, t + 1} -
       (1 - \delta_j) \cdot \mathbf{K}_{j, \node, t}. 
-\]
+\end{equation}
+Note that \eqref{eq-diff-kap} allows us to implicitly model the component of
+capital (such as land) that does not change between periods and is not subject
+to depreciation.
 For each $j, \node $ and $t$, the agent(s) are constrained in their ability to
 modify the transition law for capital.
 Letting $\Delta$ denote the function with component functions
@@ -332,54 +335,51 @@ In particular the constant-elasticity-of-substitution (CES) aggregation
 \end{equation}
 
 \begin{remark*}[on CES aggregators]
-  CES functions are common in the present
-  model. 
+  CES functions are our default, flexible functional form.
   Let $f_{j, r}^{\textup{inv}}$ denote the scalar-valued
-  function mapping the fixed capital formation vector
+  function that maps the fixed capital formation vector
   $ \mathbf{N}_{j, r, \node, t} \mapsto
   \textup{inv}_{j, r, \node, t} / A_{j, r}^{\textup{inv}}$
   and let $f^{\textup{inv}} = (f_{j, r}^{\textup{inv}}: j \in J, r \in R )$
   denote the corresponding vector-valued function that allows us to rewrite
-  \eqref{eq-ces-inv} as
+  the family of relations \eqref{eq-ces-inv} more concisely as
   \begin{equation}\label{eq-ces-concise}
   \textup{inv}_{\node, t} = A^{\textup{inv}}
-    \circ f^{\textup{inv}}(\mathbf{N}_{\node, t}),
+    \ccirc f^{\textup{inv}}(\mathbf{N}_{\node, t}),
   \end{equation}
-  where $\circ$ denotes the Hadamard (component-wise) product.
-  The functional form \cref{eq-ces-concise} will allow us to emphasize that our
-  corresponding aggregator $f^{\textup{lab}}$ for labour in utility is
-  homogenous across time whereas $A_{t}^{\textup{lab}}$ decreases exponentially
-  when technological progress is labour-augmenting.\footnote{
-    Under certainty, $f^{\textup{inv}}$ is also homogenous across nodes.
-  }
-  In contrast, $A_{\node, t}^{\textup{lab}}$ evolves as agents learn.
+  where $\ccirc$ denotes the Hadamard (component-wise) product.
+  The reason for leaving the productivity parameter $A^{\textup{var}}$ out of
+  $f^{\textup{var}}$ is that, for some variables, we will allow
+  $A^{\textup{var}}$ to evolve over time whereas the aggregator
+  $f^{\textup{var}}$ is always homogenous across time.
+  We return to this point in our discussion of balanced growth paths.
 \end{remark*}
 The scalar $A_{j, r}^{\textup{inv}}$ is the productivity parameter that captures
 how efficient agents are at transforming other goods into new type-$(j,r)$
 capital.
-
-Next, the scalar
+Next, the modified share parameters
 \[
   \acute \sigma_{i,j, r}^{\textup{inv}}
   = \left( \sigma_{i,j, r}^{\textup{inv}} \right)
     ^ {1 / \varepsilon_{j, r}^{\textup{inv}}}
 \]
 %= (\hat{\sigma}_{i,j, r}^{\textup{inv}}) ^ {1 / \varepsilon_{j, r}^{\textup{inv}}}$
-and where $\sigma^{\textup{inv}}$ is the vector in
-$[0, 1]^{I \times J \times R}$ of normalised \emph{share} parameters with
-elements representing the importance of good $i$ in forming $(j, r)$'s new
-capital.
-We derive $\sigma_{j, r}^{\textup{inv}}$ by taking a column of fixed capital
-formation flows between sectors for region $r$ and normalising so that the
-column sum is one.
-In the language of input-output analysis, $\sigma_{r}^{\textup{inv}}$ is akin
-to the matrix of technical coefficients for region $r$, but for new capital
-formation instead of output.
-
-As usual,
-$\rho_{j, r}^{\textup{inv}} = 1 - 1 / \varepsilon_{j, r}^{\textup{inv}}$ is
-decreasing in the elasticity of substitution $\varepsilon_{j, r}^{\textup{inv}}$
-which lies in the range $ 0.1 $ to $0.9$.\footnote{
+belongs to the closed interval $[0, 1]$ where
+$\sigma^{\textup{inv}}$ in $[0, 1]^{I \times J \times R}$ is the standard,
+normalised vector of \emph{share} parameters with elements representing the
+importance of good $i$ in forming new capital of each region-sector pair
+$(j, r) \in J \times R$.\footnote{
+  We derive $\sigma_{j, r}^{\textup{inv}}$ by taking a column of fixed capital
+  formation flows between sectors for region $r$ and normalising so that the
+  column sum is one.
+  In the language of input-output analysis, $\sigma_{r}^{\textup{inv}}$ is akin
+  to the matrix of technical coefficients for region $r$, but for new capital
+  formation instead of output.
+}
+As usual, the elasticity enters the CES function via the parameter
+$\rho_{j, r}^{\textup{inv}} = 1 - 1 / \varepsilon_{j, r}^{\textup{inv}}$.
+It is decreasing in the elasticity of substitution
+$\varepsilon_{j, r}^{\textup{inv}}$ which lies between $0$ and $1$.\footnote{
   Recall that CES aggregator is Leontief when its elasticity
   parameter tends to zero and ``linear'' (\ie\ Cobb--Douglas) when its
   elasticity parameter tends to one.
@@ -431,7 +431,7 @@ aggregator $f^{\med}: \nnreal^{I \times J \times R} \rightarrow
 Thus,
 \begin{equation}\label{eq-ces-int}
   \med_{\node, t} = A^{\med}
-    \circ f^{\med}(
+    \ccirc f^{\med}(
       \mathbf{M}_{\node, t}
       )
 \end{equation}
@@ -457,19 +457,36 @@ region.
 %utility in any meaningful way \citep{Hosoe_et_al-CGE_textbook}.
 
 
-For every $r$ in $R$, $i$ in $I$, let
+For every $r$ in $R$, $j$ in $J$, let
 $f_{i, r}^{\textup{out}}: \nnreal^{3} \rightarrow \nnreal$ be a standard
 CES function of capital, labour and the intermediate-input bundle % and imports
 respectively:
-\begin{equation}
+\begin{align}
 	\textup{out}_{\node, t}
-    = A^{\textup{out}} \circ f ^ \textup{out}(
+    &= A^{\textup{out}} \ccirc f ^ \textup{out}(
         \mathbf{K}_{\node, t},
-        \mathbf{L}_{\node, t},
-        \med_{\node, t},
-%        \mathbf{Y}_{\node, t}
+        \lab_{\node, t},
+        \med_{\node, t}
         )
-\end{equation}
+%        \mathbf{Y}_{\node, t}
+\end{align}
+where $\lab_{\node, t} =
+  A_{\node, t}^{\textup{tek}} \ccirc \mathbf{L}_{\node, t}$ is labour
+$\mathbf{L}_{\node, t}$ augmented by the deterministic technological progress
+factor $A_{\node, t}^{\textup{tek}}$.\footnote{
+  Explicitly, on $J \times R \times \nodes \times T$, we have
+  \begin{align*}
+    \textup{out}_{j, r, \node, t} =
+        A_{j, r}^{\textup{out}} \cdot \left(
+        \acute{\sigma}_{1, j, r}^{\textup{out}} \cdot \mathbf{K}_{j, r, \node, t}
+          ^{\rho_{j, r}}
+        + \acute{\sigma}_{2, j, r}^{\textup{out}} \cdot \lab_{j, r, \node, t}
+          ^{\rho_{j, r}}
+        + \acute{\sigma}_{3, j, r}^{\textup{out}} \cdot \med_{j, r, \node, t}
+          ^{\rho_{j, r}}
+      \right) ^ {\kappa_{j, r} / \rho_{j, r}}
+  \end{align*}
+}
 %\begin{equation}
 %  f_{i, r, \node, t} ^ {\textup{out}} (x, y, z)
 %	  = \left(
@@ -520,37 +537,43 @@ u_{r, \node, t}: \nnreal^{I \times J} \rightarrow \R, \quad
  to be strictly concave in consumption and labour.
 To ensure 
 Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
-\begin{equation}
+\begin{align*}
   \textup{utl}_{r, \node, t}
-    = \beta^{t}
+%    &= \beta^{t}
 %%      \cdot \left(
 %%        \sum_{i \,\in\, J} \sigma_{i, r}^\textup{utl}
 %%          \cdot \mathbf{C}_{i, r, \node, t} ^ {\,\rho_{r}^\textup{utl}}
 %%        \right) ^ {\kappa_{r}^{\textup{utl}} /\rho_{r}^{\textup{utl}}}
+%      \cdot \left(
+%        A_{r}^{\con}
+%          \cdot f_{r}^{\con}(\mathbf{C}_{r, \node, t})
+%        + A_{r}^{\lab}
+%          \cdot f_{r}^{{\lab}}(\mathbf{L}_{r, \node, t})
+%      \right)\\
+    &= \beta^{t}
       \cdot \left(
-        A_{r}^\textup{con}
-          \cdot f_{r}^{\textup{con}}(\mathbf{C}_{i, r, \node, t}: i \in J)
-        + A_{r}^{\textup{lab}}
-          \cdot f_{r}^{{\textup{lab}}}(\mathbf{L}_{i, r, \node, t}: i \in J)
+        \con_{r, \node, t} + \lab_{r, \node, t}
       \right)
-\end{equation}
-where $0 < \beta < 1$ is the parameter that describes how agents discount
-the future.
-The utility weight $A_{r}^{{\textup{lab}}}$ is distinguished by the property that
+\end{align*}
+where $0 < \beta < 1$ is the one-period discount factor and $\con_{r, \node, t}
+  = A_{r}^{\con} \cdot f_{r}^{\con}(\mathbf{C}_{r, \node, t})$
+and $\lab_{r, \node, t}
+  = A_{r}^{\lab} \cdot f_{r}^{\lab}(\mathbf{L}_{r, \node, t})$.
+The utility weight $A_{r}^{{\lab}}$ is distinguished by the property that
 it is typically negative to reflect the disutility of labour.
 To ensure concavity of utility in its arguments, a feature of the sectoral
 aggregator for labour is that 
-$\rho_{r}^{{\textup{lab}}} = 1 + 1 / \varepsilon_{r}^{{\textup{lab}}}$.
+$\rho_{r}^{{\lab}} = 1 + 1 / \varepsilon_{r}^{{\lab}}$.
 Thus, unlike every other $\rho$ parameters of the model, it is always
-positive, greater than one, and decreasing in $\varepsilon_{r}^{\textup{lab}}$.
+positive, greater than one, and decreasing in $\varepsilon_{r}^{\lab}$.
 We recover the Atalay functional for the labour aggregate in utility by taking
-$\varepsilon_{r}^{\textup{lab}} = \infty$ and taking the scale parameter
-$\kappa_{r}^\textup{con} = 3$.
-In this case, the labour aggregator is perfect substitutes in labour across
+$\varepsilon_{r}^{\lab} = \infty$ (so that $\rho_{r}^{\lab} = 1$) and by taking
+the scale parameter $\kappa_{r}^{\con} = 3$.
+In this case, $\lab$ satisfies perfect substitutability across labour from
 different sectors.
-The condition for strict convexity of $f_{r}^{\textup{lab}}$
-is that $\kappa_{r}^{\textup{lab}} > \rho_{r}^{\textup{lab}}$.
-This, together with $0 <\kappa_{r}^{\textup{con}} < 1$, suffices for strict
+For strict convexity of $f_{r}^{\lab}$ take
+$\kappa_{r}^{\lab} > \rho_{r}^{\lab}$.
+This, together with $0 <\kappa_{r}^{\con} < 1$, suffices for strict
 concavity of $u_{r, \node, t}$.
 
 The weighted sum across regions (with weights determined by population) of
