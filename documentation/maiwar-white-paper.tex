@@ -548,7 +548,7 @@ Similar to both \citet{Atalay-Sectoral_shocks} and \citet{CJ}, we have
 %        A_{r}^{\con}
 %          \cdot f_{r}^{\con}(\mathbf{C}_{r, \node, t})
 %        + A_{r}^{\lab}
-%          \cdot f_{r}^{{\lab}}(\mathbf{L}_{r, \node, t})
+%          \cdot f_{r}^{\lab}(\mathbf{L}_{r, \node, t})
 %      \right)\\
     &= \beta^{t}
       \cdot \left(
@@ -559,13 +559,13 @@ where $0 < \beta < 1$ is the one-period discount factor and $\con_{r, \node, t}
   = A_{r}^{\con} \cdot f_{r}^{\con}(\mathbf{C}_{r, \node, t})$
 and $\lab_{r, \node, t}
   = A_{r}^{\lab} \cdot f_{r}^{\lab}(\mathbf{L}_{r, \node, t})$.
-The utility weight $A_{r}^{{\lab}}$ is distinguished by the property that
+The utility weight $A_{r}^{\lab}$ is distinguished by the property that
 it is typically negative to reflect the disutility of labour.
-To ensure concavity of utility in its arguments, a feature of the sectoral
-aggregator for labour is that 
-$\rho_{r}^{{\lab}} = 1 + 1 / \varepsilon_{r}^{{\lab}}$.
-Thus, unlike every other $\rho$ parameters of the model, it is always
-positive, greater than one, and decreasing in $\varepsilon_{r}^{\lab}$.
+To ensure concavity of utility in its arguments, 
+$\rho_{r}^{\lab} = 1 + 1 / \varepsilon_{r}^{\lab}$ for
+$\varepsilon_{r}^{\lab} > 0$.
+In contrast with every other $\rho$ parameter in the model, $\rho_{r}^{\lab}$ is
+always positive, greater than one, and decreasing in $\varepsilon_{r}^{\lab}$.
 We recover the Atalay functional for the labour aggregate in utility by taking
 $\varepsilon_{r}^{\lab} = \infty$ (so that $\rho_{r}^{\lab} = 1$) and by taking
 the scale parameter $\kappa_{r}^{\con} = 3$.
@@ -586,8 +586,7 @@ vector $\boldsymbol{\omega}_{\node, t}$.
 Together with the structure we have imposed on the transition laws and
 feasibility constraints, the social welfare Lagrangian $\mathfrak L_{\node}$ is
 strictly concave function of the control vector $\mathbf{a}_{\node}$ for every
-$\node$ in $\mc N$.
-\footnote{
+$\node$ in $\mc N$.\footnote{
 Recall that the Lagrangian is the sum of the objective and each of the
 constraints scaled by the \emph{dual} variables (also known as Lagrange
 multipliers).
