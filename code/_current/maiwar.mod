@@ -86,6 +86,7 @@ param VInf 'infimum of interval for basic variables' default 1e-4;
 param VSup 'supremum of interval for basic variables' default 1e+5;
 param OInf 'infimum of interval for observed/actual values' default 1e-7;
 param OSup 'supremum of interval for observed/actual values' default 1e+7;
+param LabSup 'supremum of interval for labour values' default 66e-2;
 #-----------raw flow parameters (these would be replaced with normalised data)
 param RAW_CON_FLW {Regions, Sectors} default Uniform(UInf, USup) >= 0;
 param RAW_LAB_FLW {Regions, Sectors} default Uniform(UInf, USup) >= 0;
@@ -103,6 +104,8 @@ param INV_SUM 'observed total investment' {Regions, Sectors, PathTimes}
 param INT_SUM 'observed total intermediate flows' {Regions, Sectors, PathTimes}
   default 1e+0; # in (OInf, OSup); 
 param LAB 'observed labour' {Regions, Sectors, PathTimes}
+  default 1e+0; # in (OInf, OSup);
+param LAB_EXT 'observed laborforce participation' {Regions, Sectors, PathTimes}
   default 1e+0; # in (OInf, OSup);
 param KAP 'observed kapital' {Regions, Sectors, PathTimesClosure}
   default 1e+0; # in (OInf, OSup);
@@ -124,6 +127,10 @@ param EULER_INTEGRAND 'Euler error integrand'
   {Regions, Sectors, PathTimesClosure} default 1; # in (-OSup, OSup);
 param EULER_RATIO 'Expected Euler ratio'
   {Regions, Sectors, PathTimes} default 1; # in (-1e+2, 1e+2);
+param NAIRE 'Non-accelerating rate of employment'
+  {Regions, Sectors, PathTimes} default 95e-2;
+param EXP_LAB_EXT 'Exponent of lab_ext_sec'
+  {Regions, Sectors, PathTimes} default 200e-2;
 /*=============================================================================
 Computed parameters
 =============================================================================*/
@@ -143,7 +150,6 @@ param RHO_OUT_HAT 'inverse of RHO_OUT', = 1 / RHO_OUT;
 param RHO_CON 'exponent of the CON ces aggregator'
   = 1 - 1 / EPS_CON; 
 param RHO_CON_HAT 'inverse of RHO_CON', = 1 / RHO_OUT;
-
 param SHR_KAPLAB_OUT 'combined importance of kapital and labour in output'
   {i in Sectors}, = SHR_KAP_OUT[i] + SHR_LAB_OUT[i];
 param SHR_INT_OUT 'share of intermediates in output' {i in Sectors}
@@ -163,6 +169,8 @@ param A 'productivity trend' {i in Sectors}
 param A_LAB 'importance of disutility of labour (weight in utility function)' 
   {Regions, LookForwardClosure}
     default -1;
+param A_LAB_EXT 'disutility weight for labourforce deviations in utility'
+  default -1;
   #(1 - SHR_KAP_OUT_CES[i]) * A[i] * (A[i] - DELTA[i]) ** (-1 / GAMMA[r]) >= 0;
 param A_CON 'importance of consumption in utility'
   default 1;
@@ -233,9 +241,18 @@ var inv 'investment flows'
 var int 'intermediate flows'
   {Regions, Sectors, Sectors, LookForward}
     in [VInf, VSup] default 1e-0;
-var lab 'labour flows' {Regions, Sectors, LookForward}
-  in [VInf, 66e-2] default 1e-0;
+/*-----------------------------------------------------------------------------
+#-----------labour split into time spent working and laborforce both normalised
+-----------------------------------------------------------------------------*/
+var lab 'labour hours' {Regions, Sectors, LookForward}
+  in [VInf, LabSup] default 33e-2;
+#-----------to do: add occupations as a set in the following
+var lab_ext 'active laborforce but can also be interpreted as effort'
+  {r in Regions, i in Sectors, t in LookForward}
+  in [0, 100e-2] default NAIRE[r, i, t];
+/*-----------------------------------------------------------------------------
 #-----------kapital, the dynamic variable, is defined on LookForwardClosure
+-----------------------------------------------------------------------------*/
 var kap 'kapital stocks (dynamic: defined on LookForwardClosure)'
   {r in Regions, j in Sectors, LookForwardClosure}
   in [VInf, VSup] default KAP[r, j, PInf]; 
@@ -304,6 +321,10 @@ var lab_sec_caveF 'Frisch labour aggregate (across sectors) concave level sets'
   {r in Regions, t in LookForward}
   = (sum{j in Sectors} SHR_LAB_CES[r, j] * lab[r, j , t] ** RHO_LAB)
     ** (RHO_LAB_HAT * SCALE_LAB);
+var lab_ext_sec 'labourforce aggregator'
+  {r in Regions, t in LookForward}
+  = sum{j in Sectors}
+    (NAIRE[r, j, t] - lab_ext[r, j, t]) ** EXP_LAB_EXT[r, j, t];
 #-----------variety of adjustment cost functions 
 var adj_cost_kap_Q 'quadratic adjustment costs for kapital'
   {r in Regions, i in Sectors, t in LookForward}
@@ -318,9 +339,12 @@ var E_output_CD 'Cobb-Douglas output transformation'
 var E_output_CES 'Constant Elasticity of Substitution output transformation'
   {r in Regions, i in Sectors, t in LookForward}
   = E_shk[r, i, t] * A[i] * (
-    SHR_KAP_OUT_CES[i] * kap[r, i, t] ** RHO_OUT
-    + SHR_LAB_OUT_CES[i] * (lab[r, i, t] * ALPHA * ALPHA_0 ** (t + 1)) ** RHO_OUT 
-    + SHR_INT_OUT_CES[i] * int_sec_CES[r, i, t] ** RHO_OUT
+    SHR_KAP_OUT_CES[i]
+      * (kap[r, i, t] * lab_ext[r, i, t]) ** RHO_OUT
+    + SHR_LAB_OUT_CES[i]
+      * (lab[r, i, t] * ALPHA * ALPHA_0 ** (t + 1)) ** RHO_OUT 
+    + SHR_INT_OUT_CES[i]
+      * (int_sec_CES[r, i, t] * lab_ext[r, i, t]) ** RHO_OUT
     ) ** (RHO_OUT_HAT * SCALE_OUT);
 var E_output_ATA 'Atalay output transformation'
   {r in Regions, i in Sectors, t in LookForward}
@@ -352,7 +376,9 @@ var utility_CES_caveF 'Const. Elast. Subst. and conc. Frisch instant. utility'
   {t in LookForward}
   = sum{r in Regions}
       REG_WGHT[r] * (
-        A_CON * con_sec_CES[r, t] + A_LAB[r, t] * lab_sec_caveF[r, t]
+        A_CON * con_sec_CES[r, t]
+        + A_LAB_EXT * lab_ext_sec[r, t]
+        + A_LAB[r, t] * lab_sec_caveF[r, t]
       );
 var utility_CES_bangF 'Const. Elast. Subst. and conc. Frisch instant. utility'
   {t in LookForward}
@@ -434,8 +460,9 @@ var tail_val_CESutl_caveF_CESout
       + SHR_LAB_OUT_CES[i] * (1 * ALPHA * ALPHA_0 ** (LSup + LInf)) ** RHO_OUT
     ) ** (RHO_OUT_HAT * SCALE_OUT)) ** RHO_CON
   ) ** (RHO_CON_HAT * SCALE_CON) 
+    + A_LAB_EXT * 0
     + A_LAB[r, LSup + LInf] * (
-      sum{i in Sectors} SHR_LAB_CES[r, i] * 1 ** RHO_LAB
+      sum{i in Sectors} SHR_LAB_CES[r, i] * 33e-2 ** RHO_LAB
       ) ** (RHO_LAB_HAT * SCALE_LAB)
   )) / (1 - BETA);
 /*=============================================================================
@@ -486,6 +513,10 @@ subject to market_clearing 'market clearing for each sector and time'
 The_data section
 =============================================================================*/
 data;
+#-----------1x20 model
+set Regions := SEQ;
+set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+#set Sectors := Agrc Frst;
 #-----------2x2 model
 #set Regions := SEQ RoQ;
 #set Sectors := Agrc Frst;
@@ -526,8 +557,8 @@ data;
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R;
 #-----------7x20
-set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
-set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
+#set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
+#set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 #-----------7x21
 #set Regions := CnQ FNQ Mck NrQ SEQ WBB RoA;
 #set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U Al;
@@ -543,45 +574,51 @@ set Sectors := A B C D E F G H I J K L M N PbSc P Q R T U;
 /*-----------------------------------------------------------------------------
 #-----------set the horizon and length of paths
 -----------------------------------------------------------------------------*/
-let LSup := 10;
+let LSup := 30;
 let PSup := 61;
 /*-----------------------------------------------------------------------------
 #-----------opportunity to tune the calibration factors (still part of data)
 -----------------------------------------------------------------------------*/
 let ALPHA := 1;#271828182846e-11;
 let ALPHA_0 := 1;#271828182846e-11;
-let ALPHA := 171828182846e-11;
-let ALPHA_0 := 171828182846e-11;
+let ALPHA := 271828182846e-11;
+let ALPHA_0 := 271828182846e-11;
 let BETA := 950e-3;
 display A;
 for {i in Sectors}{
-  let A[i] := 059e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
+  let A[i] := 089e-2; #* (card(Sectors) / 20) ** (1 - 20e-2);
   let DELTA[i] := 05e-2;
-  let PHI_ADJ[i] := 000e-2;
+  let PHI_ADJ[i] := 300e-2;
   let SHR_KAP_OUT[i] := 33e-2;
   };
 for {r in Regions, i in Sectors}{
-  let KAP[r, i, PInf] := 1;
+  let KAP[r, i, PInf] := 100;
 };
 let A_CON := 09100e-2; #increase this to increase labour
 let A_INV := 0010e-2;
 let A_INT := 0010e-2;
 let A_VAL := 0001e-2;
-
+let A_LAB_EXT := -015e-2;
 let TAIL_SHR_CON := 045e-2;
 
-let EPS_INV := 0200e-3;
+let EPS_INV := 0255e-3;
 let EPS_INT := 0260e-3;
 let EPS_CON := 0999e-3;
-let EPS_OUT := 0300e-3;
+let EPS_OUT := 0100e-3;
 
 let SCALE_CON := 999e-3;
 let SCALE_INV := 999e-3;
 let SCALE_INT := 999e-3;
-let SCALE_OUT := 999e-3;
+let SCALE_OUT := 999999e-6;
 
 let EPS_LAB := 050e-2;
 let SCALE_LAB := 1200e-2;
+for {r in Regions, j in Sectors, t in LookForward}{
+#  fix lab[r, j, t] := 33e-2;
+  let NAIRE[r, j, t] := 92e-2;
+  let EXP_LAB_EXT[r, j, t] := 2;
+};
+
 update data;
 /*=============================================================================
 Solving the model
@@ -601,9 +638,17 @@ for {s in PathTimes}{
   for {r in Regions, t in LookForwardClosure}{
     #let A_LAB[r, t] := - 271828182846e-11 ** - ((s + t) * SCALE_LAB);
   }
+  #if s = 5 then
+  #  unfix {r in Regions, j in Sectors, t in LookForward}
+  #    lab[r, j, t] := 31.4e-2;
+  if s >= 7 then
+    let A['A'] := 012e-2;
+  ;
 #  if s <= 6 then option solver knitro; else option solver conopt;
 #-----------display some parameter values:
-  display LSup, ALPHA_0, ALPHA, BETA, A['PbSc'],
+  display PHI_ADJ['A'], A_LAB_EXT,
+  NAIRE['SEQ', 'PbSc', 0], EXP_LAB_EXT['SEQ', 'A', 0],
+  LabSup, LSup, ALPHA_0, ALPHA, BETA, A['PbSc'],
   SHR_CON['SEQ', 'PbSc'], SHR_LAB['SEQ', 'PbSc'],
   SHR_INV_CES['SEQ', 'A', 'PbSc'], DELTA['PbSc'];
   display A_CON, A_INV, A_INT, A_VAL, A_LAB['SEQ', 0],
@@ -619,6 +664,7 @@ for {s in PathTimes}{
     & "x" & card(LookForward) & "x");
   #write ("b" & InstanceName);
 #-----------call the solver
+  display s;
   solve;
   #solution (InstanceName & ".sol");
   display ctime(), _ampl_elapsed_time, _total_solve_time,
@@ -637,6 +683,7 @@ for {s in PathTimes}{
     let INV_SUM[r, i, s] := sum{j in Sectors} inv[r, i, j, LInf];
     let INT_SUM[r, i, s] := sum{j in Sectors} int[r, i, j, LInf];
     let LAB[r, i, s] := lab[r, i, LInf];
+    let LAB_EXT[r, i, s] := lab_ext[r, i, LInf];
     let E_OUTPUT[r, i, s] := E_output[r, i, LInf];
     let ADJ_COST_KAP[r, i, s] := adj_cost_kap[r, i, LInf];
     let KAP[r, i, s + 1] := kap[r, i, LInf + 1];
@@ -674,8 +721,9 @@ for {s in PathTimes}{
 #-----------Euler integrand for CES production
     let EULER_INTEGRAND[r, i, s] := DUAL_KAP[r, i, s] * (1 - DELTA[i]) 
       + DUAL_MKT_CLR[i, s] * (
-        SCALE_OUT * SHR_KAP_OUT_CES[i] * A[i] ** (RHO_OUT/SCALE_OUT)
-          * E_OUTPUT[r, i, s]  ** (1 - RHO_OUT/SCALE_OUT)
+        SCALE_OUT * SHR_KAP_OUT_CES[i] * LAB_EXT[r, i, s] ** RHO_OUT
+          * A[i] ** (RHO_OUT / SCALE_OUT)
+          * E_OUTPUT[r, i, s]  ** (1 - RHO_OUT / SCALE_OUT)
           * KAP[r, i, s] **(RHO_OUT - 1)
         - PHI_ADJ[i] * (2 * GROWTH_KAP[r, i, s] + GROWTH_KAP[r, i, s] ** 2)
       );
@@ -697,6 +745,8 @@ for {s in PathTimes}{
     min{i in Sectors} DUAL_MKT_CLR[i, s],
     min{r in Regions, i in Sectors} LAB[r, i, s],
     max{r in Regions, i in Sectors} LAB[r, i, s],
+    min{r in Regions, i in Sectors} LAB_EXT[r, i, s],
+    max{r in Regions, i in Sectors} LAB_EXT[r, i, s],
     min{r in Regions, i in Sectors} KAP[r, i, s + 1],
     max{r in Regions, i in Sectors} KAP[r, i, s + 1],
     min{r in Regions, i in Sectors} GROWTH_KAP[r, i, s],
