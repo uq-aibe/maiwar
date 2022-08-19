@@ -224,7 +224,7 @@ param SHR_MED_CES "sectoral share of i in j's CES intermediate aggregator"
     #= RAW_MED_FLW[r, i, j] ** (1 / EPS_INV);
 param SHR_LAB_CES "sectoral share of i in the CES labour aggregator"
   {r in Regions, i in Sectors}
-    = SHR_LAB[r, i] ** (1 / EPS_LAB);
+    = SHR_LAB[r, i] ** (- 1 / EPS_LAB);
 /*-----------------------------------------------------------------------------
 uncertainty parameters
 -----------------------------------------------------------------------------*/
